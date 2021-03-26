@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "nornir_cli"
+version = "0.1.0"
+description = "Nornir CLI"
+license = "MIT"
+readme = "README.md"
+keywords = ["nornir", "click", "nornir cli", "nornir-plugin"] 
+repository = "https://github.com/timeforplanb123/nornir_cli"
+documentation = "https://timeforplanb123.github.io/nornir_cli/"
+authors = ["Pavel Shemetov <timeforplanb123@gmail.com>"]
+classifiers = [
+        "Programming Language :: Python :: 3.8",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^7.1.2"
+nornir = "3.1.0"
+nornir-utils = "0.1.2"
+nornir-netmiko = "0.1.1"
+netmiko = "3.3.3"
+nornir-scrapli = "2021.01.30"
+scrapli = "2021.01.30"
+scrapli-netconf = "2021.01.30"
+scrapli-community = "2021.01.30"
+nornir-napalm = "0.1.2"
+ttp = "^0.6.0"
+# initially, nornir_cli was created to work with NetBox inventory ^_-
+nornir-netbox = "^0.2.0"
+genie = "20.9"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^20.8b1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+nornir_cli = 'nornir_cli.nornir_cli:init_nornir_cli'

@@ -1,0 +1,21 @@
+dhcp enable
+dhcp snooping enable
+#
+{% for intf in host.untrusted %}
+interface {{ intf }}
+ dhcp snooping enable no-user-binding
+ Y
+ dhcp snooping check dhcp-chaddr enable
+{% endfor %}
+#
+{% for intf in host.trusted %}
+interface {{ intf }}
+ dhcp snooping enable no-user-binding
+ Y
+ dhcp snooping trusted
+{% endfor %}
+#
+q
+q
+save
+Y

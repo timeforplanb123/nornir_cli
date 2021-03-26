@@ -1,0 +1,29 @@
+# Distribution / packaging
+build/
+wheels/
+sdist/
+dist/
+
+# Service files
+config.yaml
+nornir.log
+.temp.pkl
+
+*.swp
+nornir_cli/__pycache__/
+nornir_cli/*.swp
+
+nornir_cli/**/__pycache__/
+nornir_cli/**/*.swp
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IPython
+profile_default/
+ipython_config.py

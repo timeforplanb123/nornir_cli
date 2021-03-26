@@ -1,0 +1,87 @@
+site_name: nornir_cli 
+nav:
+  - Home: index.md
+  - Workflow: workflow.md
+  - Useful: useful.md
+  - Examples: examples.md
+
+site_author: Pavel Shemetov
+site_description: >-
+        nornir_cli is CLI tool based on Nornir framework and Nornir Plugins
+# Repository
+repo_name: timeforplanb123/nornir_cli 
+repo_url: https://github.com/timeforplanb123/nornir_cli
+edit_uri: ""
+theme:
+  name: material
+
+  # 404 page
+  static_templates:
+    - 404.html
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  language: en
+  palette:
+    scheme: preference
+    primary: black
+    accent: green 
+  font:
+    text: Manrope
+    code: Fira Mono
+  # icon:
+  logo: 
+  favicon:
+  icon:
+      repo: fontawesome/brands/github-alt
+
+extra_css:
+  - stylesheets/extra.css
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/timeforplanb123
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/timeforplanb1
+#
+# Extensions
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: "#"
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde

@@ -1,0 +1,11 @@
+Value NAME (\S+)
+Value DESCRIPTION (.*)
+Value MAC_ADDRESS (\w+-\w+-\w+)
+Value MTU (\d+)
+
+Start
+  ^\S+ current state.* -> Continue.Record
+  ^${NAME} current state.*
+  ^Description:${DESCRIPTION}
+  ^.* Maximum Transmit Unit is ${MTU}
+  ^.* Hardware address is ${MAC_ADDRESS}
