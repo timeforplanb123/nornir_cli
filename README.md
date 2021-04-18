@@ -1,4 +1,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![PyPI](https://img.shields.io/pypi/v/nornir-cli.svg)](https://pypi.org/project/nornir-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
+[![Docs](https://img.shields.io/badge/docs-passing-green.svg)](https://timeforplanb123.github.io/nornir_cli/)
 
 nornir_cli
 ==========
@@ -17,7 +20,9 @@ nornir_cli
 
 * **Manage your custom nornir runbooks**
 
-    Add custom nornir runbook to the `nornir_cli` `custom` group and run it for any hosts directly from the CLI 
+    * Create and manage your own runbooks collections
+    * Add your custom nornir runbooks to runbooks collections and run it for any hosts directly from the CLI 
+    * Or use `nornir_cli` for inventory management only, and take the result in your nornir runbooks. By excluding getting and filtering the inventory in your runbooks, you will make them more versatile.
 
 * **Manage Inventory**
 
@@ -32,9 +37,17 @@ nornir_cli
 
     Initialize Nornir, filter Inventory and start Task/Tasks chains or runbook/runbooks chains in one command
 
+* **Json input. Json output**
+
+    Json strings are everywhere! Ok, only in commands options
+
 * **Custom Multi Commands with click**
 
     `nornir_cli` based on click Custom Multi Commands, so you can easily add your custom command by following some principles
+
+* **Simple CLI network orchestrator**
+
+    `nornir_cli` is a simple CLI orchestrator that you can use to interact with the SoT and manage your network
 
 ## Quick Start 
 
@@ -67,7 +80,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 0.1.0
+nornir_cli, version 0.2.0
 
 ```
 

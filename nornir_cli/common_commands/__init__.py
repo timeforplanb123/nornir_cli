@@ -8,6 +8,7 @@ from nornir_cli.common_commands.common import (
     _doc_generator,
     _validate_connection_options,
     custom,
+    _info,
 )
 
 # from nornir_cli.common_commands.cmd_show_hosts import common_options
@@ -22,4 +23,5 @@ __all__ = (
     "_doc_generator",
     "_validate_connection_options",
     "custom",
+    "_info",
 )

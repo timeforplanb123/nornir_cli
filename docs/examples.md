@@ -130,27 +130,27 @@ FAILED  : 0
 
 #### Custom Nornir runbooks
 
-[How to add a previously written Nornir runbook in `nornir_cli`](http://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-runbook)
+[How to add a previously written Nornir runbook in `nornir_cli`](http://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-nornir-runbook)
 
-[How to run custom runbook](https://timeforplanb123.github.io/nornir_cli/workflow/#runbooks)
+[How to run custom runbook](https://timeforplanb123.github.io/nornir_cli/workflow/#custom-runbooks)
 
 And here is an example of this runbook:
 === "Nornir runbook example:"
     ```python
-    # nornir_cli/custom_commands/cmd_dhcp_snooping.py
+    # nornir_cli/custom_commands/dhcp/md_dhcp_snooping.py
 
     import os
-    import click
     from nornir_netmiko import netmiko_send_command, netmiko_send_config
     from nornir.core.plugins.connections import ConnectionPluginRegister
     from nornir_jinja2.plugins.tasks import template_file
-    from nornir_cli.common_commands import custom
-    from nornir_cli.plugin_commands.cmd_common import _get_color
+    from nornir_cli.common_commands import custom, _info
 
 
-    @click.command("dhcp_snooping")
     @custom
     def cli(ctx):
+        """
+        Configure dhcp snooping
+        """
         def _get_trusted_untrusted(task):
             ConnectionPluginRegister.auto_register()
             # Get parameters in format:
@@ -195,27 +195,7 @@ And here is an example of this runbook:
 
         task = ctx.run(task=_get_trusted_untrusted, on_failed=True)
         # Show statistic
-        ch_sum = 0
-        for host in ctx.inventory.hosts:
-            f, ch = (task[host].failed, task[host].changed)
-            ch_sum += int(ch)
-            click.secho(
-                f"{host:<50}: ok={not f:<15} changed={ch:<15} failed={f:<15}",
-                fg=_get_color(f, ch),
-                bold=True,
-            )
-        print()
-        f_sum = len(ctx.data.failed_hosts)
-        ok_sum = len(ctx.inventory.hosts) - f_sum
-        for state, summary, color in zip(
-            ("OK", "CHANGED", "FAILED"), (ok_sum, ch_sum, f_sum), ("green", "yellow", "red")
-        ):
-            click.secho(
-                f"{state:<8}: {summary}",
-                fg=color,
-                bold=True,
-            )
-        print()
+        _info(ctx, task)
     ```
 === "jinja2 template:"
     ```jinja

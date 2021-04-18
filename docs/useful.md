@@ -31,29 +31,125 @@ common_commands  custom_commands  __init__.py  nornir_cli.py  plugin_commands  _
 
 ## Custom runbooks 
 
-#### How to add custom runbook
+#### How to add custom nornir runbook
 
 You can add a collection of your custom Nornir runbooks in `nornir_cli` and run them for any Hosts, managing the Inventory using `nornir_cli`, directly from the CLI.
 
-All custom Nornir runbooks stored in `custom_commands` directory (see [Click Multi Commands feature](https://timeforplanb123.github.io/nornir_cli/useful/#click-multi-commands-feature)). To add your Nornir runbook to `custom` group you need to:
+All custom Nornir runbooks stored in `custom_commands` directory (see [Click Multi Commands feature](https://timeforplanb123.github.io/nornir_cli/useful/#click-multi-commands-feature)). To create custom groups and add your Nornir runbook to these groups you need to:
 
-* wrap your runbook in a wrapper and run it inside that wrapper
+* take and wrap your runbook in a wrapper and run it inside that wrapper
     ```python
-    import click
     from nornir_cli.common_commands import custom
 
 
-    @click.command("your_command_name")
     @custom
     def cli(ctx):
+        """
+        runbook description
+        """
         def nornir_runbook(task):
-        ...
+        # code
+        # ...
     task = ctx.run(task=nornir_runbook)
     ```
 
-* name a file `cmd_something.py` (replace `something` on your own) and put it to `custom_commands` directory
+    `ctx` after decorating with `@custom` is an current `nornir.core.Nornir` object and `cli` is a new `click.command`
 
-See [example](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks) and [Examples](https://timeforplanb123/nornir_cli/examples/).
+* name a file with your runbook as `cmd_something.py` (replace `something` on your own). `something` between `cmd_` and `.py` will be command name
+
+* create directory tree in `custom_commands` direcotry and put your nornir runbooks there. Here the directories are new `nornir_cli` groups, and nornir runbooks are new commands. Easy-peasy. 
+
+    For example, i created two directories, `dhcp` and `mpls`, and put my runbooks there. Let's check `nornir_cli`:
+
+    === "directory tree:"
+        ```text
+        $ tree ~/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+        /home/user/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+        ├── dhcp
+        │   ├── cmd_dhcp_snooping.py
+        │   └── templates
+        │       ├── dhcp_snooping.j2
+        │       └── disp_int.template
+        ├── __init__.py
+        └── mpls
+            └── cmd_ldp_config.py
+
+        3 directories, 5 files
+        ```
+
+    === "nornir_cli:"
+        ```text
+        $ nornir_cli
+        Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
+
+          Nornir CLI
+
+          Orchestrate your Inventory and start Tasks and Runbooks
+
+        Options:
+          --version  Show the version and exit.
+          --help     Show this message and exit.
+
+        Commands:
+          dhcp
+          mpls
+          nornir-jinja2   nornir_jinja2 plugin
+          nornir-napalm   nornir_napalm plugin
+          nornir-netmiko  nornir_netmiko plugin
+          nornir-scrapli  nornir_scrapli plugin
+        ```
+
+    === "nornir_cli dhcp:"
+        ```text
+        $ nornir_cli dhcp
+        Usage: nornir_cli dhcp [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
+
+
+        Options:
+          --help  Show this message and exit.
+
+        Commands:
+          init            Initialize a Nornir
+          filter          Do simple or advanced filtering
+          show_inventory  Show current inventory
+          dhcp_snooping   Configure dhcp snooping
+        ```
+
+    === "nornir_cli mpls:"
+        ```text
+        $ nornir_cli mpls
+        Usage: nornir_cli mpls [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
+
+
+        Options:
+          --help  Show this message and exit.
+
+        Commands:
+          init            Initialize a Nornir
+          filter          Do simple or advanced filtering
+          show_inventory  Show current inventory
+          ldp_config      Configure ldp
+        ```
+
+**Runbook collections features:**
+
+* empty directories are not displayed as `nornir_cli` groups
+* the commands are displayed only in the latest directories in the directory tree. This is based on the `command chains` ability of `nornir_cli` and on the fact that it's impossible to build `command chains`  in parent and child groups. That is a fair constraint related with Click Multi Commands and Multi Commands Chaining
+* you may have noticed, that in the example above, there is a `templates` directory in the `dhcp` directory and it was not displayed. `templates` and `__pycache__` are included in the `custom_exceptions`list in `nornir_cli.py`. But you can use these names for the parent directories. 
+
+    If you want to add your exceptions without fixing `custom_exceptions` list, use the `NORNIR_CLI_GRP_EXCEPTIONS` environment variable:
+
+    ```text
+    # as instance, to add temp and tmp groups to custom_exceptions list
+    $ export NORNIR_CLI_GRP_EXCEPTIONS=temp,tmp
+    ```
+
+* if to add runbooks to `custom_commands` without `runbook collection`, they will be in `custom` group
+* all python modules, used in your runbook, must be installed in the virtual environment, otherwise the runbook will not be displayed as command in `nornir_cli`
+
+See [example](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks) and [Examples](https://timeforplanb123.github.io/nornir_cli/examples/).
 
 ## Click Complex Applications
 
@@ -145,6 +241,9 @@ Start working with `nornir_cli` by exporting the environment variables:
 export NORNIR_CLI_USERNAME=username
 export NORNIR_CLI_PASSWORD=password
 ```
+
+And with `NORNIR_CLI_GRP_EXCEPTIONS` environment variable you can exclude directoiries from being displayed in `Runbook collections` (see [here](https://timeforplanb123.github.io/nornir_cli/useful/#custom-runbooks))
+
 Or you can permanently declare environment variables using `.bash_profile` file:
 
 ```text
@@ -159,6 +258,66 @@ source .bash_profile
 
 And now you can do `init` command
 
+## What else can nornir_cli be useful
+
+#### Useful functions
+
+* `_info`
+
+    use `_info` to add statistic to your nornir runbook
+
+    ```python
+    from nornir_cli.common_commands import _info
+
+    # code
+    # ...
+
+    _info(nr, task)
+    # where is :nr: is nornir.core.Nornir object
+    # :task: is nornir.task.Task object
+    ```
+    The `_info` function show statistic in the following format:
+
+    ```text
+    dev_1                                             : ok=1               changed=0               failed=0
+    dev_2                                             : ok=1               changed=0               failed=0
+    dev_3                                             : ok=1               changed=0               failed=0
+
+    OK      : 3
+    CHANGED : 0
+    FAILED  : 0
+    ```
+
+* `_pickle_to_hidden_file`
+
+    If you don't want to use [`runbook collections`](http://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections) you can use `nornir_cli` for inventory management only.
+
+    You can get `nornir.core.Nornir` object with inventory, filter this inventory and save it using `nornir_cli`, and then use the result:
+
+    ```text
+    # get nornir.core.Nornir object, filter inventory and save it
+    $ nornir_cli init nornir-scrapli filter -s -a 'name__contains=dev'
+    ```
+
+    ```python
+    from nornir_cli.common_commands import _pickle_to_hidden_file
+
+    def cli(nr):
+        def task(task):
+        # code
+        # ...
+
+    if __name__ == "__main__":
+        # get current nornir.core.Nornir object from nornir_cli
+        nr = _pickle_to_hidden_file("temp.pkl", mode="rb", dump=False)
+        # run task with this object
+        cli(nr)
+    ```
+
+#### nornir_jinja2 plugin
+
+Why is the `nornir_jinja2` plugin here? And then, together with NetBox, this is a really useful thing. You can use NetBox as a variable source for jinja2 templates. Then `nornir_cli` can replace the tool for generating configs. It also motivates you to keep NetBox up-to-date as a Source of Truth. And we need such a motivation, based on the connectivity of different tools.
+
 ## How to craft xml from yang
 
 When using `scrapli_netconf` from `nornir_cli`, you may find it useful to be able to get xml from yang.
@@ -172,7 +331,7 @@ cd /to/directory/with/yang/models
 # use pyang tool
 # huawei is here as example only
 
-$ pyang -f jstree -o huawei.ifm.yang huawei-ifm.html
+$ pyang -f jstree -o huawei-ifm.html huawei-ifm.yang
 
 # open html in browser
 

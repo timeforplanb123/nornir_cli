@@ -6,7 +6,8 @@ from nornir_cli.common_commands import _doc_generator
 from nornir_cli import __version__
 
 
-CMD_FOLDERS = ["common_commands", "custom_commands"]
+# CMD_FOLDERS = ["common_commands", "custom_commands"]
+CMD_FOLDERS = ["common_commands"]
 
 PACKAGE_NAME = "nornir_cli"
 
@@ -30,14 +31,6 @@ PARAMETER_TYPES = {
     bool: click.BOOL,
 }
 
-# options callback
-# def callback(ctx, param, value):
-#     if value != param.get_default(ctx):
-#         ctx.obj["kwargs"].update(dict([[param.name, _json_loads([value])[0]]]))
-#         ctx.obj["parameters"].append({ctx.obj["original"]: ctx.obj["kwargs"]})
-#         ctx.obj["generator"] = (
-#             dict(list(item.items())) for item in ctx.obj["parameters"]
-#         )
 
 # get original function from original modules (check SETTINGS)
 def get_sources(plugin, l):
@@ -71,7 +64,7 @@ def _get_cli(path, cmd_name, cmd_folder):
 
 # mini factory for the production of classes for our plugins
 # https://click.palletsprojects.com/en/7.x/commands/?highlight=multi%20command#custom-multi-commands
-def class_factory(name, plugin, BaseClass=click.Group):
+def class_factory(name, plugin, cmd_path=[], BaseClass=click.Group):
     def list_commands(self, ctx):
         ctx.obj[plugin] = __import__(plugin, fromlist=["tasks"])
         return [
@@ -81,7 +74,7 @@ def class_factory(name, plugin, BaseClass=click.Group):
         ] + list(ctx.obj[plugin].tasks.__all__)
 
     def list_custom_commands(self, ctx):
-        cmd_folders = _get_cmd_folder(CMD_FOLDERS)
+        cmd_folders = _get_cmd_folder(CMD_FOLDERS + cmd_path)
         return [
             filename[4:-3]
             for filename in chain(*map(os.listdir, cmd_folders))
@@ -116,8 +109,12 @@ def class_factory(name, plugin, BaseClass=click.Group):
             return
 
     def get_custom_command(self, ctx, cmd_name):
+        # CMD_FOLDERS = CMD_FOLDERS + cmd_path
         try:
-            for abs_path, rel_path in zip(_get_cmd_folder(CMD_FOLDERS), CMD_FOLDERS):
+            for abs_path, rel_path in zip(
+                _get_cmd_folder(CMD_FOLDERS + cmd_path),
+                CMD_FOLDERS + [i.replace(os.sep, ".") for i in cmd_path],
+            ):
                 command = _get_cli(f"{PACKAGE_NAME}.{rel_path}", cmd_name, abs_path)
                 if command:
                     return command
@@ -138,9 +135,67 @@ def class_factory(name, plugin, BaseClass=click.Group):
 # dynamically create a class for plugin/group and inherit it
 def dec(param=None):
     def wrapper(f):
-        return init_nornir_cli.group(cls=scls, chain=True)(f)
+        def finder():
+            nonlocal gr
 
-    scls = class_factory("LazyClass", param)
+            nonlocal tree
+
+            nonlocal path
+
+            for p in tree:
+                if not [ex for ex in custom_exceptions if p[0].endswith(ex)] and not [
+                    p for p in p[1] if p not in custom_exceptions
+                ]:
+                    if [
+                        filename
+                        for filename in p[2]
+                        if filename.endswith(".py") and filename.startswith("cmd_")
+                    ]:
+
+                        cmd_path = p[0].split(path)[1]
+
+                        grps = cmd_path.split(os.sep)[1:]
+                        for grp in grps[:-1]:
+                            if grp in gr.commands:
+                                gr = gr.commands[grp]
+                                continue
+                            gr = gr.group(name=grp)(f)
+                        gr.group(
+                            name=grps[-1],
+                            cls=class_factory(
+                                "LazyClass", param, ["custom_commands" + cmd_path]
+                            ),
+                            chain=True,
+                        )(f)
+                        gr = init_nornir_cli
+                        finder()
+
+        if f.__name__ == "custom":
+            path = next(_get_cmd_folder(["custom_commands"]))
+            tree = os.walk(path)
+
+            root = next(tree)
+
+            gr = init_nornir_cli
+            if not [d for d in root[1] if d not in custom_exceptions]:
+                if [
+                    filename
+                    for filename in root[2]
+                    if filename.endswith(".py") and filename.startswith("cmd_")
+                ]:
+                    return gr.group(name=f.__name__, cls=scls, chain=True)(f)
+
+            return finder()
+
+        else:
+            init_nornir_cli.group(cls=scls, chain=True)(f)
+
+    grp_exceptions = os.environ.get("NORNIR_CLI_GRP_EXCEPTIONS")
+
+    custom_exceptions = ["__pycache__", "templates"]
+    if grp_exceptions:
+        custom_exceptions += grp_exceptions.split(",")
+    scls = class_factory("LazyClass", param, ["custom_commands"])
     return wrapper
 
 
@@ -195,9 +250,6 @@ def decorator(plugin, ctx):
                 default=default_value,
                 show_default=True,
                 required=False if default_value else True,
-                # expose_value=False,
-                # callback=callback,
-                # is_eager=True,
                 type=PARAMETER_TYPES.setdefault(type(v.default), click.STRING),
             )(cmd)
             # last original functions with arguments
@@ -261,9 +313,16 @@ def nornir_napalm():
     pass
 
 
+@dec("nornir_jinja2.plugins")
+def nornir_jinja2():
+    """
+    nornir_jinja2 plugin
+    """
+    pass
+
+
 @dec()
 def custom():
     """
-    custom nornir runbooks
     """
     pass

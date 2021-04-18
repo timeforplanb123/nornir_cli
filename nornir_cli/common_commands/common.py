@@ -11,6 +11,7 @@ from nornir.core.inventory import ConnectionOptions
 
 # custom decorator to get the current Nornir object and put it to ctx parameter
 def custom(f):
+    @click.command(help=f.__doc__)
     @click.pass_context
     def wrapper(ctx, *args, **kwargs):
         try:
@@ -152,3 +153,38 @@ SHOW_INVENTORY_OPTIONS = [
         help="Number of elements you want to show",
     ),
 ]
+
+
+def _get_color(f, ch):
+    if f:
+        color = "red"
+    elif ch:
+        color = "yellow"
+    else:
+        color = "green"
+    return color
+
+
+# function showing statistic
+def _info(ctx, task):
+    ch_sum = 0
+    for host in ctx.inventory.hosts:
+        f, ch = (task[host].failed, task[host].changed)
+        ch_sum += int(ch)
+        click.secho(
+            f"{host:<50}: ok={not f:<15} changed={ch:<15} failed={f:<15}",
+            fg=_get_color(f, ch),
+            bold=True,
+        )
+    print()
+    f_sum = len(ctx.data.failed_hosts)
+    ok_sum = len(ctx.inventory.hosts) - f_sum
+    for state, summary, color in zip(
+        ("OK", "CHANGED", "FAILED"), (ok_sum, ch_sum, f_sum), ("green", "yellow", "red")
+    ):
+        click.secho(
+            f"{state:<8}: {summary}",
+            fg=color,
+            bold=True,
+        )
+    print()
