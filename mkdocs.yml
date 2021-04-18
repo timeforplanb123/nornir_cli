@@ -24,10 +24,29 @@ theme:
   search_index_only: true
 
   language: en
+  features:
+    - navigation.top
+    - navigation.instant
+
   palette:
-    scheme: preference
-    primary: black
-    accent: green 
+
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: slate
+      primary: black 
+      accent: green
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: default
+      primary: black
+      accent: green
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
   font:
     text: Manrope
     code: Fira Mono
@@ -37,9 +56,6 @@ theme:
   icon:
       repo: fontawesome/brands/github-alt
 
-extra_css:
-  - stylesheets/extra.css
-
 # Customization
 extra:
   social:
@@ -47,7 +63,7 @@ extra:
       link: https://github.com/timeforplanb123
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/timeforplanb1
-#
+
 # Extensions
 markdown_extensions:
   - markdown.extensions.admonition

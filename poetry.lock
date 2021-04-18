@@ -470,6 +470,18 @@ typing_extensions = ">=3.7,<4.0"
 docs = ["jupyter (>=1,<2)", "nbsphinx (>=0.5,<0.6)", "pygments (>=2,<3)", "sphinx (>=1,<2)", "sphinx-issues (>=1.2,<2.0)", "sphinx_rtd_theme (>=0.4,<0.5)", "sphinxcontrib-napoleon (>=0.7,<0.8)"]
 
 [[package]]
+name = "nornir-jinja2"
+version = "0.1.2"
+description = "Jinja2 plugins for nornir"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[package.dependencies]
+jinja2 = ">=2.11.2,<3.0.0"
+nornir = ">=3,<4"
+
+[[package]]
 name = "nornir-napalm"
 version = "0.1.2"
 description = "NAPALM's plugins for nornir"
@@ -1048,7 +1060,7 @@ pyyaml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "3c3d7a8f969ad56acd814d4d7b8808a296806259912fd559ebb7aa15182f99cd"
+content-hash = "34dd68affcc65a33658358681dabc848e581fad06530a85ed178637a29d08be3"
 
 [metadata.files]
 appdirs = [
@@ -1329,6 +1341,10 @@ netmiko = [
 nornir = [
     {file = "nornir-3.1.0-py3-none-any.whl", hash = "sha256:0eed0ca73122ce8f4b90a560ada79d81174845a8a5320972292417eb19efa587"},
     {file = "nornir-3.1.0.tar.gz", hash = "sha256:f96b0e2b8983045eef5345de5a6e61198ed2658a0e42049e4bd9a127b2bae034"},
+]
+nornir-jinja2 = [
+    {file = "nornir_jinja2-0.1.2-py3-none-any.whl", hash = "sha256:9a1c9e8ef2b3d72966f68e415a77c10b0ef5f4d7dbc730acd0bc78d57d4ba716"},
+    {file = "nornir_jinja2-0.1.2.tar.gz", hash = "sha256:83520fa59076bfebe17cbacf54de6040eb7daefe564d2dd7563c13785140fa93"},
 ]
 nornir-napalm = [
     {file = "nornir_napalm-0.1.2-py3-none-any.whl", hash = "sha256:313986bbb16eeaf3a80daf61f6a97e93ecebc47d0c586a2eb856ea91edc2cc1d"},

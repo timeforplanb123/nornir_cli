@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom.
 
-For version `0.1.0`, only Connection plugins are available:
+For version `0.2.0`, only Connection plugins and `nornir_jinja2` are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
@@ -38,7 +38,7 @@ Options:
   --help     Show this message and exit.
 
 Commands:
-  custom          custom nornir runbooks
+  nornir_jinja2   nornir_jinja2 plugin
   nornir-napalm   nornir_napalm plugin
   nornir-netmiko  nornir_netmiko plugin
   nornir-scrapli  nornir_scrapli plugin
@@ -196,11 +196,13 @@ $ nornir_cli nornir-scrapli show_inventory -i hosts -h -g --count 6
 # groups list
 []
 ```
-`-cou` or `--counts` shows hosts/groups list and/or hosts/groups/defaults inventory.
+`-cou` or `--count` shows hosts/groups list and/or hosts/groups/defaults inventory.
 
 - `--count -100` - last 100 items
 
 - `--count 100` - first 100 items
+
+- `--count 0` - all items (default value)
 
 And you can invoke `show_inventory` command from `init` or `filter` commands with `-i / --inventory`, `-h / --hosts`, `-g / --groups` options.
 
@@ -215,7 +217,7 @@ And you can invoke `show_inventory` command from `init` or `filter` commands wit
 
 Ok, now we have filtered inventory and let's start some Task based on Nornir Plugins:
 
-At first, let's check all available Tasks/commands for Connection plugins, as instance:
+At first, let's check all available Tasks/commands for current list of nornir plugins:
 
 === "norir-netmiko:"
     ```text
@@ -308,6 +310,27 @@ At first, let's check all available Tasks/commands for Connection plugins, as in
                         the result
 
       napalm_validate   Gather information with napalm and validate it
+    ```
+=== "nornir-jinja2:"
+    ```text
+    $ nornir_cli nornir-jinja2
+    Usage: nornir_cli nornir-jinja2 [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                                [ARGS]...]...
+
+      nornir_jinja2 plugin
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      init             Initialize a Nornir
+      filter           Do simple or advanced filtering
+      show_inventory   Show current inventory
+      template_file    Renders contants of a file with jinja2. All the host data
+                       is available in the template
+
+      template_string  Renders a string with jinja2. All the host data is
+                       available in the template
     ```
 
 And start `netmiko_send_command`, for example:
@@ -439,20 +462,55 @@ FAILED  : 0
 
 **Again, i repeat that each argument can be passed to the Task as a json string. This can be seen from the example above.**
 
-#### Runbooks
+#### Runbook collections
 
-You can add a collection of your Nornir runbooks to a custom group and run them for any hosts from CLI. This is convinient.
+You can create and manage a collection of your nornir runbooks using `nornir_cli`. 
 
-[**How to add your custom Nornir runbook in `nornir_cli`**](https://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-runbook)
+Create any directory trees in the `custom_commands` directory and put your nornir runbooks there, following the simple rules. Then run them for any hosts from CLI, managing your inventory with `nornir_cli`. This is very similar to [`Ansible Roles`](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html){target="_blank"}.
 
-For example, I have [Nornir runbook called `"dhcp_snooping"`](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks). Let's run it on all access switches from our NetBox Inventory:
+For example, I have [Nornir runbook called `"cmd_dhcp_snooping.py"`](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks), and I want to add it to a `dhcp` group in `nornir_cli`. 
+Then, our directory tree:
 
-=== "our custom runbook:"
+```text
+$ tree ~/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+/home/user/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+├── dhcp
+│   ├── cmd_dhcp_snooping.py
+│   └── templates
+│       ├── dhcp_snooping.j2
+│       └── disp_int.template
+└── __init__.py
+
+2 directories, 4 files
+```
+
+And our `nornir_cli` structure:
+
+=== "nornir_cli:"
     ```text
-    $ nornir_cli custom --help
-    Usage: nornir_cli custom [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+    $ nornir_cli
+    Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
 
-      custom nornir runbooks
+      Nornir CLI
+
+      Orchestrate your Inventory and start Tasks and Runbooks
+
+    Options:
+      --version  Show the version and exit.
+      --help     Show this message and exit.
+
+    Commands:
+      dhcp
+      nornir-jinja2   nornir_jinja2 plugin
+      nornir-napalm   nornir_napalm plugin
+      nornir-netmiko  nornir_netmiko plugin
+      nornir-scrapli  nornir_scrapli plugin
+    ```
+=== "nornir_cli dhcp:"
+    ```text
+    $ nornir_cli dhcp
+    Usage: nornir_cli dhcp [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
 
     Options:
       --help  Show this message and exit.
@@ -461,11 +519,14 @@ For example, I have [Nornir runbook called `"dhcp_snooping"`](https://timeforpla
       init            Initialize a Nornir
       filter          Do simple or advanced filtering
       show_inventory  Show current inventory
-      dhcp_snooping   
+      dhcp_snooping   Configure dhcp snooping
     ```
+
+Ok, let's run our `dhcp_snooping` command on all access switches from our NetBox Inventory:
+
 === "get access switches:"
     ```text
-    $ nornir_cli nornir-netmiko init filter --hosts -a 'data__device_type__model__contains=S2320-28TP-EI-DC & name__contains=access'
+    $ nornir_cli dhcp init filter --hosts -s -a 'data__device_type__model__contains=S2320-28TP-EI-DC & name__contains=access'
     Are you sure you want to output all on stdout? [y/N]: y
     [
         "access_1"
@@ -473,10 +534,12 @@ For example, I have [Nornir runbook called `"dhcp_snooping"`](https://timeforpla
     ```
 === "run dhcp_snooping:"
     ```text
-    $ nornir_cli custom dhcp_snooping
+    $ nornir_cli dhcp dhcp_snooping
     access_1            : ok=1               changed=1               failed=0
 
     OK      : 1
     CHANGED : 1
     FAILED  : 0
     ```
+
+More detailed - [**How to add your custom Nornir runbook in `nornir_cli`**](https://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-nornir-runbook)

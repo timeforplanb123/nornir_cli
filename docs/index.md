@@ -4,7 +4,9 @@
 
 * **Manage your custom nornir runbooks**
 
-    Add custom nornir runbook to the `nornir_cli` `custom` group and run it for any hosts directly from the CLI 
+    * Create and manage your own runbooks collections
+    * Add your custom nornir runbooks to runbooks collections and run it for any hosts directly from the CLI 
+    * Or use `nornir_cli` for inventory management only, and take the result in your nornir runbooks. By excluding getting and filtering the inventory in your runbooks, you will make them more versatile.
 
 * **Manage Inventory**
 
@@ -20,9 +22,17 @@
 
     Initialize Nornir, filter Inventory and start Task/Tasks chains or runbook/runbooks chains in one command
 
+* **Json input. Json output**
+
+    Json strings are everywhere! Ok, only in command options
+
 * **Custom Multi Commands with click**
 
     `nornir_cli` based on click Custom Multi Commands, so you can easily add your custom command by following some principles
+
+* **Simple CLI network orchestrator**
+
+    `nornir_cli` is a simple CLI orchestrator that you can use to interact with the SoT and manage your network
 
 ## Quick Start 
 
@@ -55,7 +65,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 0.1.0
+nornir_cli, version 0.2.0
 ```
 
 #### Simple Example
