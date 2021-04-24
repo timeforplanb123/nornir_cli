@@ -1,0 +1,1218 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="nornir_cli is CLI tool based on Nornir framework and Nornir Plugins">
+      
+      
+      
+        <meta name="author" content="Pavel Shemetov">
+      
+      
+      <link rel="icon" href="..">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+    
+    
+      
+        <title>Workflow - nornir_cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope:300,400,400i,700%7CFira+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Manrope";--md-code-font-family:"Fira Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#initializing-nornir" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="nornir_cli" class="md-header__button md-logo" aria-label="nornir_cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            nornir_cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Workflow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="green" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/timeforplanb123/nornir_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timeforplanb123/nornir_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="nornir_cli" class="md-nav__button md-logo" aria-label="nornir_cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    nornir_cli
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/timeforplanb123/nornir_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timeforplanb123/nornir_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Workflow
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Workflow
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initializing-nornir" class="md-nav__link">
+    Initializing Nornir
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializing Nornir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-configuration-file" class="md-nav__link">
+    With configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-a-configuration-file" class="md-nav__link">
+    Without a configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#both-ways" class="md-nav__link">
+    Both ways
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inventory" class="md-nav__link">
+    Inventory
+  </a>
+  
+    <nav class="md-nav" aria-label="Inventory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    Filtering
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-inventory" class="md-nav__link">
+    Show inventory
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-and-runbooks" class="md-nav__link">
+    Tasks and runbooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Tasks and runbooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-tasks" class="md-nav__link">
+    Single tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-about-netconf" class="md-nav__link">
+    What about netconf?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-chains" class="md-nav__link">
+    Commands chains
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runbook-collections" class="md-nav__link">
+    Runbook collections
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../useful/" class="md-nav__link">
+        Useful
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initializing-nornir" class="md-nav__link">
+    Initializing Nornir
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializing Nornir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-configuration-file" class="md-nav__link">
+    With configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-a-configuration-file" class="md-nav__link">
+    Without a configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#both-ways" class="md-nav__link">
+    Both ways
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inventory" class="md-nav__link">
+    Inventory
+  </a>
+  
+    <nav class="md-nav" aria-label="Inventory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    Filtering
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-inventory" class="md-nav__link">
+    Show inventory
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-and-runbooks" class="md-nav__link">
+    Tasks and runbooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Tasks and runbooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-tasks" class="md-nav__link">
+    Single tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-about-netconf" class="md-nav__link">
+    What about netconf?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-chains" class="md-nav__link">
+    Commands chains
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runbook-collections" class="md-nav__link">
+    Runbook collections
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Workflow</h1>
+                
+                <p><strong><code>nornir_cli</code></strong> has a workflow that is familiar to the nornir user. There is:</p>
+<ul>
+<li><a href="https://timeforplanb123.github.io/nornir_cli/workflow/#initializing-nornir">Initializing Nornir</a></li>
+<li><a href="https://timeforplanb123.github.io/nornir_cli/workflow/#inventory">Inventory</a></li>
+<li><a href="https://timeforplanb123.github.io/nornir_cli/workflow/#tasks-and-runbooks">Tasks and runbooks</a></li>
+</ul>
+<p>You can run a workflow as a single command or you can split it into parts </p>
+<h2 id="initializing-nornir">Initializing Nornir<a class="headerlink" href="#initializing-nornir" title="Permanent link">#</a></h2>
+<p>You can initialize nornir with a configuration file, with code or with a combination of both.</p>
+<h4 id="with-configuration-file">With configuration file<a class="headerlink" href="#with-configuration-file" title="Permanent link">#</a></h4>
+<p>Let's start with a configuration file. It is a typical Nornir configuration file.</p>
+<p>By default, <code>nornir_cli</code> uses <code>config.yaml</code> in your current working directory. But you can specify path to your own configuration file with option <code>--config_file</code> or <code>-c</code>:
+<div class="highlight"><pre><span></span><code># with default config.yaml in current working directory
+$ nornir_cli nornir-netmiko init
+
+# with path to config_file
+$ nornir_cli nornir-netmiko init -c ~/config.yaml
+</code></pre></div>
+Why is <code>nornir-netmiko</code> here? <code>nornir_cli</code> runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom.</p>
+<p>For version <code>0.3.0</code>, the following Nornir plugins are available:
+<div class="highlight"><pre><span></span><code>$ nornir_cli --help
+Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
+
+  Nornir CLI
+
+  Orchestrate your Inventory and start Tasks and Runbooks
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  nornir-f5       nornir_f5 plugin
+  nornir-jinja2   nornir_jinja2 plugin
+  nornir-napalm   nornir_napalm plugin
+  nornir-netmiko  nornir_netmiko plugin
+  nornir-pyez     nornir_pyez plugin
+  nornir-scrapli  nornir_scrapli plugin
+</code></pre></div></p>
+<h4 id="without-a-configuration-file">Without a configuration file<a class="headerlink" href="#without-a-configuration-file" title="Permanent link">#</a></h4>
+<p>You can initialize nornir programmatically without a configuration file.</p>
+<p><code>-f</code> or <code>--from_dict</code> option waits json string:
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko init -c &quot;&quot; -f &#39;inventory={&quot;plugin&quot;:&quot;NetBoxInventory2&quot;, \
+&quot;options&quot;: {&quot;nb_url&quot;: &quot;http://your_netbox_domain&quot;, &quot;nb_token&quot;: &quot;your_netbox_token&quot;, \
+&quot;ssl_verify&quot;: false}} runner={&quot;plugin&quot;: &quot;threaded&quot;, &quot;options&quot;: {&quot;num_workers&quot;: 50}} \
+logging={&quot;enabled&quot;:true, &quot;level&quot;: &quot;DEBUG&quot;, &quot;to_console&quot;: true}&#39;
+</code></pre></div></p>
+<p>Or with a combination of both methods:</p>
+<h4 id="both-ways">Both ways<a class="headerlink" href="#both-ways" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko init -f &#39;runner={&quot;plugin&quot;: &quot;threaded&quot;, &quot;options&quot;: {&quot;num_workers&quot;: 50}}&#39;
+</code></pre></div>
+<h2 id="inventory">Inventory<a class="headerlink" href="#inventory" title="Permanent link">#</a></h2>
+<p><code>nornir_cli</code> follows <code>Nornir</code> <a href="https://nornir.readthedocs.io/en/latest/tutorial/inventory.html#Filtering-the-inventory" target="_blank">filtering interface</a>.</p>
+<p><code>init</code> returns <a href="https://github.com/nornir-automation/nornir/blob/e4f6b8c6258ae2dcfb286098b30652c7a31ecf30/nornir/core/__init__.py#L18" target="_blank">nornir.core.Nornir</a> object, which saved to <code>temp.pkl</code> file for future reference. Now, let's filter inventory:</p>
+<h4 id="filtering">Filtering<a class="headerlink" href="#filtering" title="Permanent link">#</a></h4>
+<div class="tabbed-set" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">config.yaml:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># we will use NetBox Inventory</span>
+<span class="nt">inventory</span><span class="p">:</span>
+<span class="nt">plugin</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">NetBoxInventory2</span>
+<span class="nt">options</span><span class="p">:</span>
+  <span class="nt">nb_url</span><span class="p">:</span> <span class="s">&quot;http://your_nebox_domain&quot;</span>
+  <span class="nt">nb_token</span><span class="p">:</span> <span class="s">&quot;your_netbox_token&quot;</span>
+  <span class="nt">ssl_verify</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">simple filtering:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code># At first, let&#39;s do the init command with Nornir NetBox plugin
+# -u / --username and -p / --password  will assign a username and password in Defaults
+# -co / --connection_options will assign options for Scrapli framework
+# huawei is here just as an example
+$ nornir_cli nornir-scrapli init -u username -p password -co &#39;{&quot;scrapli&quot;: {&quot;platform&quot;: &quot;huawei_vrp&quot;, &quot;extras&quot;:{&quot;ssh_config_file&quot;: true}}}&#39;
+
+# let&#39;s filter something
+$ nornir_cli nornir-scrapli filter --hosts name=dev_1
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_1&quot;
+]
+</code></pre></div>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">simple filtering with json string:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code># huawei is here just as an example
+$ nornir_cli nornir-scrapli filter --count 1 --inventory=hosts --hosts &#39;primary_ip={&quot;address&quot;: &quot;10.1.0.1/32&quot;, &quot;family&quot;: 4, &quot;id&quot;: 13, &quot;url&quot;: &quot;http://your_netbox_domain/api/ipam/ip-addresses/13/&quot;} name=dev_1&#39;
+{
+    &quot;dev_1&quot;: {
+        &quot;name&quot;: &quot;dev_1&quot;,
+        &quot;connection_options&quot;: {},
+        &quot;groups&quot;: [],
+        &quot;data&quot;: {
+            &quot;id&quot;: 13,
+            &quot;name&quot;: &quot;dev_1&quot;,
+            &quot;display_name&quot;: &quot;dev_1&quot;,
+            &quot;device_type&quot;: {
+
+        ...
+
+        &quot;hostname&quot;: &quot;10.1.0.1&quot;,
+        &quot;port&quot;: null,
+        &quot;username&quot;: &quot;username&quot;,
+        &quot;password&quot;: &quot;password&quot;,
+        &quot;platform&quot;: &quot;huawei&quot;
+    }
+}
+[
+    &quot;dev_1&quot;
+]
+</code></pre></div>
+</div>
+<input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><label for="__tabbed_1_4">advanced filtering:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code># -a / --advanced option enables advanced filtering
+$ nornir_cli nornir-scrapli filter --hosts -a &#39;name__contains=dev_1 device_role__name__contains=spine&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_1&quot;
+]
+
+# the same with &amp;
+$ nornir_cli nornir-scrapli filter --hosts -a &#39;name__contains=dev_1 &amp; device_role__name__contains=spine&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_1&quot;
+]
+
+# or |
+$ nornir_cli nornir-scrapli filter --hosts -a &#39;name__contains=dev_1 | name__contains=dev_2&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_1&quot;
+    &quot;dev_2&quot;
+]
+
+# another example
+$ nornir_cli nornir-netmiko filter --hosts --count 3 -a &#39;data__device_type__model__contains=S2320-28TP-EI-DC &amp; name__contains=dev_ | data__device_type__model__contains=S2320-28TP-EI-DC &amp; name__contains=access&#39;
+[
+    &quot;dev_1&quot;
+    &quot;dev_2&quot;
+    &quot;access_1&quot;
+]
+</code></pre></div>
+</div>
+</div>
+<p><strong>IMPORTANT:</strong> if you want to save the Inventory state after filtering for future references, please use <code>--save</code> or <code>-s</code> option.</p>
+<h4 id="show-inventory">Show inventory<a class="headerlink" href="#show-inventory" title="Permanent link">#</a></h4>
+<p>As you may have already noticed, it's possible to view the current inventory state with show_inventory command:
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-scrapli show_inventory -i hosts -h -g --count 6
+# hosts inventory
+{
+    &quot;dev_1&quot;: {
+        &quot;name&quot;: &quot;dev_1&quot;,
+        &quot;connection_options&quot;: {},
+        &quot;groups&quot;: [],
+        &quot;data&quot;: {
+            &quot;id&quot;: 13,
+            &quot;name&quot;: &quot;dev_1&quot;,
+            &quot;display_name&quot;: &quot;dev_1&quot;,
+            &quot;device_type&quot;: {
+
+        ...
+
+        &quot;hostname&quot;: &quot;10.1.0.1&quot;,
+        &quot;port&quot;: null,
+        &quot;username&quot;: &quot;username&quot;,
+        &quot;password&quot;: &quot;password&quot;,
+        &quot;platform&quot;: &quot;huawei&quot;
+    }
+}
+        ...  # there is 6 Hosts Inventory in json format
+# hosts list
+[
+    &quot;dev_1&quot;
+    &quot;dev_2&quot;
+    &quot;dev_3&quot;
+    &quot;dev_4&quot;
+    &quot;dev_5&quot;
+    &quot;access_1&quot;
+]
+# groups list
+[]
+</code></pre></div>
+<code>-cou</code> or <code>--count</code> shows hosts/groups list and/or hosts/groups/defaults inventory.</p>
+<ul>
+<li>
+<p><code>--count -100</code> - last 100 items</p>
+</li>
+<li>
+<p><code>--count 100</code> - first 100 items</p>
+</li>
+<li>
+<p><code>--count 0</code> - all items (default value)</p>
+</li>
+</ul>
+<p>And you can invoke <code>show_inventory</code> command from <code>init</code> or <code>filter</code> commands with <code>-i / --inventory</code>, <code>-h / --hosts</code>, <code>-g / --groups</code> options.</p>
+<h2 id="tasks-and-runbooks">Tasks and runbooks<a class="headerlink" href="#tasks-and-runbooks" title="Permanent link">#</a></h2>
+<p><strong>I must say that each argument can be passed to the Task as a json string. It's important.</strong></p>
+<h4 id="single-tasks">Single tasks<a class="headerlink" href="#single-tasks" title="Permanent link">#</a></h4>
+<p>Ok, now we have filtered inventory and let's start some Task based on Nornir Plugins:</p>
+<p>At first, let's check all available Tasks/commands for current list of nornir plugins:</p>
+<div class="tabbed-set" data-tabs="2:6"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">norir-netmiko:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko --help
+Usage: nornir_cli nornir-netmiko [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                                 [ARGS]...]...
+
+  nornir_netmiko plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init                   Initialize a Nornir
+  filter                 Do simple or advanced filtering
+  show_inventory         Show current inventory
+  netmiko_commit         Execute Netmiko commit method
+  netmiko_file_transfer  Execute Netmiko file_transfer method
+  netmiko_save_config    Execute Netmiko save_config method
+  netmiko_send_command   Execute Netmiko send_command method (or
+                         send_command_timing)
+
+  netmiko_send_config    Execute Netmiko send_config_set method (or
+                         send_config_from_file)
+</code></pre></div>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">nornir-scrapli:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-scrapli --help
+Usage: nornir_cli nornir-scrapli [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                             [ARGS]...]...
+
+  nornir_scrapli plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init                     Initialize a Nornir
+  filter                   Do simple or advanced filtering
+  show_inventory           Show current inventory
+  get_prompt               Get current prompt from device using scrapli
+  netconf_capabilities     Retrieve the device config with scrapli_netconf
+  netconf_commit           Commit the device config with scrapli_netconf
+  netconf_delete_config    Send a &quot;delete-config&quot; rcp to the device with
+                           scrapli_netconf
+
+  netconf_discard          Discard the device config with scrapli_netconf
+  netconf_edit_config      Edit config from the device with scrapli_netconf
+  netconf_get              Get from the device with scrapli_netconf
+  netconf_get_config       Get config from the device with scrapli_netconf
+  netconf_lock             Lock the device with scrapli_netconf
+  netconf_rpc              Send a &quot;bare&quot; rcp to the device with
+                           scrapli_netconf
+
+  netconf_unlock           Unlock the device with scrapli_netconf
+  netconf_validate         Send a &quot;validate&quot; rcp to the device with
+                           scrapli_netconf
+
+  send_command             Send a single command to device using scrapli
+  send_commands            Send a list of commands to device using scrapli
+  send_commands_from_file  Send a list of commands from a file to device using
+                           scrapli
+
+  send_config              Send a config to device using scrapli
+  send_configs             Send configs to device using scrapli
+  send_configs_from_file   Send configs from a file to device using scrapli
+  send_interactive         Send inputs in an interactive fashion using
+                           scrapli; usually used to handle prompts
+</code></pre></div>
+</div>
+<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">nornir-napalm:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-napalm --help
+Usage: nornir_cli nornir-napalm [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                            [ARGS]...]...
+
+  nornir_napalm plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init              Initialize a Nornir
+  filter            Do simple or advanced filtering
+  show_inventory    Show current inventory
+  napalm_cli        Run commands on remote devices using napalm
+  napalm_configure  Loads configuration into a network devices using napalm
+  napalm_get        Gather information from network devices using napalm
+  napalm_ping       Executes ping on the device and returns a dictionary with
+                    the result
+
+  napalm_validate   Gather information with napalm and validate it
+</code></pre></div>
+</div>
+<input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><label for="__tabbed_2_4">nornir-jinja2:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-jinja2
+Usage: nornir_cli nornir-jinja2 [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                            [ARGS]...]...
+
+  nornir_jinja2 plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init             Initialize a Nornir
+  filter           Do simple or advanced filtering
+  show_inventory   Show current inventory
+  template_file    Renders contants of a file with jinja2. All the host data
+                   is available in the template
+
+  template_string  Renders a string with jinja2. All the host data is
+                   available in the template
+</code></pre></div>
+</div>
+<input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><label for="__tabbed_2_5">nornir-pyez:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-pyez
+Usage: nornir_cli nornir-pyez [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                              [ARGS]...]...
+
+  nornir_pyez plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init               Initialize a Nornir
+  filter             Do simple or advanced filtering
+  show_inventory     Show current inventory
+  pyez_facts
+  pyez_config
+  pyez_get_config
+  pyez_diff
+  pyez_commit
+  pyez_int_terse
+  pyez_route_info
+  pyez_rpc
+  pyez_sec_ike
+  pyez_sec_ipsec
+  pyez_sec_nat_dest
+  pyez_sec_nat_src
+  pyez_sec_policy
+  pyez_sec_zones
+</code></pre></div>
+</div>
+<input id="__tabbed_2_6" name="__tabbed_2" type="radio" /><label for="__tabbed_2_6">nornir-f5:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-f5
+Usage: nornir_cli nornir-f5 [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                            [ARGS]...]...
+
+  nornir_f5 plugin
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init                            Initialize a Nornir
+  filter                          Do simple or advanced filtering
+  show_inventory                  Show current inventory
+  atc                             Task to deploy declaratives on F5 devices
+  atc_info                        Task to verify if ATC service is available
+                                  and collect service info
+
+  bigip_cm_config_sync            Task to synchronize the configuration
+                                  between devices
+
+  bigip_cm_failover_status        Task to get the failover status of the
+                                  device
+
+  bigip_cm_sync_status            Task to get the synchronization status of
+                                  the device
+
+  bigip_shared_file_transfer_uploads
+                                  Upload a file to a BIG-IP system using the
+                                  iControl REST API
+
+  bigip_shared_iapp_lx_package    Task to manage Javascript LX packages on a
+                                  BIG-IP
+
+  bigip_sys_version               Gets the system version of the BIG-IP
+  bigip_util_unix_ls              Task to list information about the FILEs
+  bigip_util_unix_rm              Task to delete a file from a BIG-IP system
+</code></pre></div>
+</div>
+</div>
+<p>And start <code>netmiko_send_command</code>, for example:</p>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko netmiko_send_command --command_string &quot;display clock&quot;
+netmiko_send_command************************************************************
+* dev_1 ** changed : False ********************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-19 12:57:11+03:00
+Friday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+<p>Before, we added connection options for scrapli in <code>init</code> command.
+Let's check out some command:</p>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-scrapli send_command --command &quot;display clock&quot;
+send_command********************************************************************
+* dev_1 ** changed : False ********************
+vvvv send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-19 13:18:53+03:00
+Friday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+<h4 id="what-about-netconf">What about netconf?<a class="headerlink" href="#what-about-netconf" title="Permanent link">#</a></h4>
+<p><a href="https://timeforplanb123.github.io/nornir_cli/useful/#how-to-craft-xml-from-yang">Here is easy way to get xml tree from yang</a></p>
+<p><code>dev_3</code>, as instance, understands netconf. Get <code>nornir.core.Nornir</code> object for <code>dev_3</code> and run some netconf command with Scrapli:
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-scrapli init -u username -p password -co &#39;{&quot;scrapli&quot;: {&quot;platform&quot;: &quot;huawei_vrp&quot;, &quot;extras&quot;:{&quot;ssh_config_file&quot;: true}}}&#39; filter --hosts -s &#39;name=dev_3&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_3&quot;
+]
+
+$ nornir_cli nornir-scrapli netconf_get --filter_=&#39;&lt;ifm xmlns=&quot;http://www.huawei.com/netconf/vrp/huawei-ifm&quot;&gt;&lt;interfaces&gt;&lt;interface&gt;&lt;ifName/&gt;&lt;/interface&gt;&lt;/interfaces&gt;&lt;/ifm&gt;&#39; --filter_type subtree
+
+...
+netconf_get*********************************************************************
+* dev_3 ** changed : False ************************************************
+vvvv netconf_get ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+&lt;rpc-reply xmlns=&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot; message-id=&quot;101&quot;&gt;
+  &lt;data&gt;
+    &lt;ifm xmlns=&quot;http://www.huawei.com/netconf/vrp/huawei-ifm&quot;&gt;
+      &lt;interfaces&gt;
+        &lt;interface&gt;
+          &lt;ifIndex&gt;1&lt;/ifIndex&gt;
+          &lt;ifName&gt;Virtual-Template0&lt;/ifName&gt;
+        &lt;/interface&gt;
+
+        ...
+
+        &lt;interface&gt;
+          &lt;ifIndex&gt;717&lt;/ifIndex&gt;
+          &lt;ifName&gt;GigabitEthernet4/1/1.514&lt;/ifName&gt;
+        &lt;/interface&gt;
+      &lt;/interfaces&gt;
+    &lt;/ifm&gt;
+  &lt;/data&gt;
+&lt;/rpc-reply&gt;
+
+^^^^ END netconf_get ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_3                                        : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div></p>
+<h4 id="commands-chains">Commands chains<a class="headerlink" href="#commands-chains" title="Permanent link">#</a></h4>
+<p>And, of course, you can run any commands chains, even those scary ones:</p>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-scrapli init -u username -p password \
+-co &#39;{&quot;scrapli&quot;: {&quot;platform&quot;: &quot;huawei_vrp&quot;, &quot;extras&quot;:{&quot;ssh_config_file&quot;: true}}}&#39; \
+filter --hosts -s &#39;name=dev_1&#39; send_command --command &quot;display clock&quot; \
+send_interactive --interact_events &#39;[[&quot;save&quot;, &quot;Are you sure to continue?[Y/N]&quot;, false], \
+[&quot;Y&quot;, &quot;Save the configuration successfully.&quot;, true]]&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;dev_1&quot;
+]
+
+send_command********************************************************************
+* dev_1 ** changed : False ********************
+vvvv send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-19 14:12:38+03:00
+Friday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+
+send_interactive****************************************************************
+* dev_1 ** changed : True *********************
+vvvv send_interactive ** changed : True vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+^^^^ END send_interactive ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=1               failed=0
+
+OK      : 1
+CHANGED : 1
+FAILED  : 0
+</code></pre></div>
+<p><strong>Again, i repeat that each argument can be passed to the Task as a json string. This can be seen from the example above.</strong></p>
+<h4 id="runbook-collections">Runbook collections<a class="headerlink" href="#runbook-collections" title="Permanent link">#</a></h4>
+<p>You can create and manage a collection of your nornir runbooks using <code>nornir_cli</code>. </p>
+<p>Create any directory trees in the <code>custom_commands</code> directory and put your nornir runbooks there, following the simple rules. Then run them for any hosts from CLI, managing your inventory with <code>nornir_cli</code>. This is very similar to <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html" target="_blank"><code>Ansible Roles</code></a>.</p>
+<p>For example, I have <a href="https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks">Nornir runbook called <code>"cmd_dhcp_snooping.py"</code></a>, and I want to add it to a <code>dhcp</code> group in <code>nornir_cli</code>. 
+Then, our directory tree:</p>
+<div class="highlight"><pre><span></span><code>$ tree ~/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+/home/user/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+├── dhcp
+│   ├── cmd_dhcp_snooping.py
+│   └── templates
+│       ├── dhcp_snooping.j2
+│       └── disp_int.template
+└── __init__.py
+
+2 directories, 4 files
+</code></pre></div>
+<p>And our <code>nornir_cli</code> structure:</p>
+<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">nornir_cli:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli
+Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
+
+  Nornir CLI
+
+  Orchestrate your Inventory and start Tasks and Runbooks
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  dhcp
+  nornir-jinja2   nornir_jinja2 plugin
+  nornir-napalm   nornir_napalm plugin
+  nornir-netmiko  nornir_netmiko plugin
+  nornir-scrapli  nornir_scrapli plugin
+</code></pre></div>
+</div>
+<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">nornir_cli dhcp:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli dhcp
+Usage: nornir_cli dhcp [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  init            Initialize a Nornir
+  filter          Do simple or advanced filtering
+  show_inventory  Show current inventory
+  dhcp_snooping   Configure dhcp snooping
+</code></pre></div>
+</div>
+</div>
+<p>Ok, let's run our <code>dhcp_snooping</code> command on all access switches from our NetBox Inventory:</p>
+<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">get access switches:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli dhcp init filter --hosts -s -a &#39;data__device_type__model__contains=S2320-28TP-EI-DC &amp; name__contains=access&#39;
+Are you sure you want to output all on stdout? [y/N]: y
+[
+    &quot;access_1&quot;
+]
+</code></pre></div>
+</div>
+<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">run dhcp_snooping:</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ nornir_cli dhcp dhcp_snooping
+access_1            : ok=1               changed=1               failed=0
+
+OK      : 1
+CHANGED : 1
+FAILED  : 0
+</code></pre></div>
+</div>
+</div>
+<p>More detailed - <a href="https://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-nornir-runbook"><strong>How to add your custom Nornir runbook in <code>nornir_cli</code></strong></a></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href=".." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../useful/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Useful
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/timeforplanb123" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/timeforplanb1" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>
