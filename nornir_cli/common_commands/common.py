@@ -104,7 +104,7 @@ def _get_lists(s):
 def _doc_generator(s):
     regex = (
         r".*kwargs: (?P<kwargs>.*)"
-        r"|.*task: (?P<task>.*)"
+        r"|.*task(?P<task>.*)"
         r"|(?P<returns>.*Returns.*)"
         r"|(?P<colon>^\S+:.*)"
         r"|(?P<dash>.* – .*)"

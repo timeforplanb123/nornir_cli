@@ -6,7 +6,6 @@ from nornir_cli.common_commands import _doc_generator
 from nornir_cli import __version__
 
 
-# CMD_FOLDERS = ["common_commands", "custom_commands"]
 CMD_FOLDERS = ["common_commands"]
 
 PACKAGE_NAME = "nornir_cli"
@@ -109,7 +108,6 @@ def class_factory(name, plugin, cmd_path=[], BaseClass=click.Group):
             return
 
     def get_custom_command(self, ctx, cmd_name):
-        # CMD_FOLDERS = CMD_FOLDERS + cmd_path
         try:
             for abs_path, rel_path in zip(
                 _get_cmd_folder(CMD_FOLDERS + cmd_path),
@@ -190,32 +188,40 @@ def dec(param=None):
         else:
             init_nornir_cli.group(cls=scls, chain=True)(f)
 
-    grp_exceptions = os.environ.get("NORNIR_CLI_GRP_EXCEPTIONS")
-
     custom_exceptions = ["__pycache__", "templates"]
+
+    grp_exceptions = os.environ.get("NORNIR_CLI_GRP_EXCEPTIONS")
     if grp_exceptions:
         custom_exceptions += grp_exceptions.split(",")
+
     scls = class_factory("LazyClass", param, ["custom_commands"])
+
     return wrapper
 
 
-#
+# command decorator
 def decorator(plugin, ctx):
     def wrapper(f):
         # methods with a large and complex __doc__ :(
         method_exceptions = ("send_interactive",)
+        if obj_or.__doc__:
 
-        short_help = obj_or.__doc__.split("\n")[1].strip(", ., :")
+            doc = [title for title in obj_or.__doc__.split("\n")[:2] if title]
 
-        f.__doc__ = "\n".join(list(_doc_generator(obj_or.__doc__)))
+            short_help = doc[0].strip(", ., :")
 
-        if obj_or.__name__ in method_exceptions:
-            f.__doc__ = f"{short_help}\n" + "\n".join(
-                list(
-                    _doc_generator(obj_or.__doc__[obj_or.__doc__.find("    Args:") : :])
+            f.__doc__ = "\n".join(list(_doc_generator(obj_or.__doc__)))
+
+            if obj_or.__name__ in method_exceptions:
+                f.__doc__ = f"{short_help}\n" + "\n".join(
+                    list(
+                        _doc_generator(
+                            obj_or.__doc__[obj_or.__doc__.find("    Args:") : :]
+                        )
+                    )
                 )
-            )
-
+        else:
+            short_help = ""
         cmd = click.command(name=obj_or.__name__, short_help=short_help)(f)
 
         click.option(
@@ -242,6 +248,7 @@ def decorator(plugin, ctx):
             for key, value in p.items()
             if key not in ["self", "task", "args", "kwargs"]
         }
+
         # dynamically generate options
         for k, v in all_dict.items():
             default_value = str(v.default) if not isinstance(v.default, type) else None
@@ -249,17 +256,21 @@ def decorator(plugin, ctx):
                 "--" + k,
                 default=default_value,
                 show_default=True,
-                required=False if default_value else True,
+                required=False if default_value or default_value == "" else True,
                 type=PARAMETER_TYPES.setdefault(type(v.default), click.STRING),
             )(cmd)
+
             # last original functions with arguments
             ctx.obj["queue_parameters"][obj_or].update({k: v.default})
+
         # list of dictionaries with original function (key) and set of arguments (value)
         ctx.obj["queue_functions"].append(ctx.obj["queue_parameters"])
+
         # ctx.obj["queue_functions"] in the form of a generator expression
         ctx.obj["queue_functions_generator"] = (
             func_param for func_param in ctx.obj["queue_functions"]
         )
+
         return cmd
 
     # get original function from Nornir plugin
@@ -321,8 +332,22 @@ def nornir_jinja2():
     pass
 
 
+@dec("nornir_pyez.plugins")
+def nornir_pyez():
+    """
+    nornir_pyez plugin
+    """
+    pass
+
+
+@dec("nornir_f5.plugins")
+def nornir_f5():
+    """
+    nornir_f5 plugin
+    """
+    pass
+
+
 @dec()
 def custom():
-    """
-    """
     pass

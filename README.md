@@ -20,8 +20,8 @@ nornir_cli
 
 * **Manage your custom nornir runbooks**
 
-    * Create and manage your own runbooks collections
-    * Add your custom nornir runbooks to runbooks collections and run it for any hosts directly from the CLI 
+    * Create and manage your own runbook collections
+    * Add your custom nornir runbooks to runbook collections and run it for any hosts directly from the CLI 
     * Or use `nornir_cli` for inventory management only, and take the result in your nornir runbooks. By excluding getting and filtering the inventory in your runbooks, you will make them more versatile.
 
 * **Manage Inventory**
@@ -39,7 +39,7 @@ nornir_cli
 
 * **Json input. Json output**
 
-    Json strings are everywhere! Ok, only in commands options
+    Json strings are everywhere! Ok, only in command options
 
 * **Custom Multi Commands with click**
 
@@ -80,7 +80,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 0.2.0
+nornir_cli, version 0.3.0
 
 ```
 

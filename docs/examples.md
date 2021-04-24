@@ -199,7 +199,7 @@ And here is an example of this runbook:
     ```
 === "jinja2 template:"
     ```jinja
-    # nornir_cli/custom_commands/templates/dhcp_snooping.j2
+    # nornir_cli/custom_commands/dhcp/templates/dhcp_snooping.j2
 
     dhcp enable
     dhcp snooping enable
@@ -225,7 +225,7 @@ And here is an example of this runbook:
     ```
 === "textfsm template:"
     ```text
-    # nornir_cli/custom_commands/templates/disp_int.template
+    # nornir_cli/custom_commands/dhcp/templates/disp_int.template
 
     Value NAME (\S+)
     Value DESCRIPTION (.*)
