@@ -93,9 +93,11 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
         Commands:
           dhcp
           mpls
+          nornir-f5       nornir_f5 plugin
           nornir-jinja2   nornir_jinja2 plugin
           nornir-napalm   nornir_napalm plugin
           nornir-netmiko  nornir_netmiko plugin
+          nornir-pyez     nornir_pyez plugin
           nornir-scrapli  nornir_scrapli plugin
         ```
 

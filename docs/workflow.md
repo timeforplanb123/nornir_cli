@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom.
 
-For version `0.2.0`, only Connection plugins and `nornir_jinja2` are available:
+For version `0.3.0`, the following Nornir plugins are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
@@ -38,9 +38,11 @@ Options:
   --help     Show this message and exit.
 
 Commands:
-  nornir_jinja2   nornir_jinja2 plugin
+  nornir-f5       nornir_f5 plugin
+  nornir-jinja2   nornir_jinja2 plugin
   nornir-napalm   nornir_napalm plugin
   nornir-netmiko  nornir_netmiko plugin
+  nornir-pyez     nornir_pyez plugin
   nornir-scrapli  nornir_scrapli plugin
 ```
 #### Without a configuration file
@@ -331,6 +333,75 @@ At first, let's check all available Tasks/commands for current list of nornir pl
 
       template_string  Renders a string with jinja2. All the host data is
                        available in the template
+    ```
+=== "nornir-pyez:"
+    ```text
+    $ nornir_cli nornir-pyez
+    Usage: nornir_cli nornir-pyez [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                                  [ARGS]...]...
+
+      nornir_pyez plugin
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      init               Initialize a Nornir
+      filter             Do simple or advanced filtering
+      show_inventory     Show current inventory
+      pyez_facts
+      pyez_config
+      pyez_get_config
+      pyez_diff
+      pyez_commit
+      pyez_int_terse
+      pyez_route_info
+      pyez_rpc
+      pyez_sec_ike
+      pyez_sec_ipsec
+      pyez_sec_nat_dest
+      pyez_sec_nat_src
+      pyez_sec_policy
+      pyez_sec_zones
+    ```
+=== "nornir-f5:"
+    ```text
+    $ nornir_cli nornir-f5
+    Usage: nornir_cli nornir-f5 [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                                [ARGS]...]...
+
+      nornir_f5 plugin
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      init                            Initialize a Nornir
+      filter                          Do simple or advanced filtering
+      show_inventory                  Show current inventory
+      atc                             Task to deploy declaratives on F5 devices
+      atc_info                        Task to verify if ATC service is available
+                                      and collect service info
+
+      bigip_cm_config_sync            Task to synchronize the configuration
+                                      between devices
+
+      bigip_cm_failover_status        Task to get the failover status of the
+                                      device
+
+      bigip_cm_sync_status            Task to get the synchronization status of
+                                      the device
+
+      bigip_shared_file_transfer_uploads
+                                      Upload a file to a BIG-IP system using the
+                                      iControl REST API
+
+      bigip_shared_iapp_lx_package    Task to manage Javascript LX packages on a
+                                      BIG-IP
+
+      bigip_sys_version               Gets the system version of the BIG-IP
+      bigip_util_unix_ls              Task to list information about the FILEs
+      bigip_util_unix_rm              Task to delete a file from a BIG-IP system
     ```
 
 And start `netmiko_send_command`, for example:

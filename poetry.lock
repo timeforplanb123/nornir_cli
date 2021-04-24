@@ -470,6 +470,21 @@ typing_extensions = ">=3.7,<4.0"
 docs = ["jupyter (>=1,<2)", "nbsphinx (>=0.5,<0.6)", "pygments (>=2,<3)", "sphinx (>=1,<2)", "sphinx-issues (>=1.2,<2.0)", "sphinx_rtd_theme (>=0.4,<0.5)", "sphinxcontrib-napoleon (>=0.7,<0.8)"]
 
 [[package]]
+name = "nornir-f5"
+version = "0.5.0"
+description = "F5 plugins for Nornir"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[package.dependencies]
+nornir = ">=3.0.0,<4.0.0"
+packaging = ">=20.9,<21.0"
+requests = ">=2.25.1,<3.0.0"
+requests-toolbelt = ">=0.9.1,<0.10.0"
+urllib3 = ">=1.26.3,<2.0.0"
+
+[[package]]
 name = "nornir-jinja2"
 version = "0.1.2"
 description = "Jinja2 plugins for nornir"
@@ -515,6 +530,20 @@ python-versions = ">=3.6,<4.0"
 
 [package.dependencies]
 netmiko = ">=3.1.0,<4.0.0"
+
+[[package]]
+name = "nornir-pyez"
+version = "0.0.10"
+description = "PyEZs library and plugins for Nornir"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+junos-eznc = ">=2.5.4"
+nornir = ">=3.0.0,<4.0.0"
+nornir-utils = ">=0.1.0"
+xmltodict = ">=0.12.0"
 
 [[package]]
 name = "nornir-scrapli"
@@ -566,7 +595,7 @@ dev = ["pytest", "pyyaml", "black", "yamllint", "ruamel.yaml"]
 name = "packaging"
 version = "20.9"
 description = "Core utilities for Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -808,6 +837,17 @@ urllib3 = ">=1.21.1,<1.27"
 [package.extras]
 security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
+
+[[package]]
+name = "requests-toolbelt"
+version = "0.9.1"
+description = "A utility belt for advanced users of python-requests"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = ">=2.0.1,<3.0.0"
 
 [[package]]
 name = "ruamel.yaml"
@@ -1060,7 +1100,7 @@ pyyaml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "34dd68affcc65a33658358681dabc848e581fad06530a85ed178637a29d08be3"
+content-hash = "78fcaa63cd9f98f19cd4577a871e3262e969adc4af2debfea2aaa0f1046fd4aa"
 
 [metadata.files]
 appdirs = [
@@ -1342,6 +1382,10 @@ nornir = [
     {file = "nornir-3.1.0-py3-none-any.whl", hash = "sha256:0eed0ca73122ce8f4b90a560ada79d81174845a8a5320972292417eb19efa587"},
     {file = "nornir-3.1.0.tar.gz", hash = "sha256:f96b0e2b8983045eef5345de5a6e61198ed2658a0e42049e4bd9a127b2bae034"},
 ]
+nornir-f5 = [
+    {file = "nornir_f5-0.5.0-py3-none-any.whl", hash = "sha256:dcb1db192801d0f7df0e7cfffb573942686eaf5e698fc8e18e7c4ef64d639c07"},
+    {file = "nornir_f5-0.5.0.tar.gz", hash = "sha256:0bbae2fd6877c571e0eddea0f8d1165dcf41e93b9792bc7f9739dde4105c636f"},
+]
 nornir-jinja2 = [
     {file = "nornir_jinja2-0.1.2-py3-none-any.whl", hash = "sha256:9a1c9e8ef2b3d72966f68e415a77c10b0ef5f4d7dbc730acd0bc78d57d4ba716"},
     {file = "nornir_jinja2-0.1.2.tar.gz", hash = "sha256:83520fa59076bfebe17cbacf54de6040eb7daefe564d2dd7563c13785140fa93"},
@@ -1357,6 +1401,10 @@ nornir-netbox = [
 nornir-netmiko = [
     {file = "nornir_netmiko-0.1.1-py3-none-any.whl", hash = "sha256:c6eadb81f6f3b2f0c27bae151cc62673303f9d085ec3c773ecdc98f20ef30f91"},
     {file = "nornir_netmiko-0.1.1.tar.gz", hash = "sha256:fc41ded40923d23c6155b92c6749170629b4cc2649c340d24bff9f49315836c6"},
+]
+nornir-pyez = [
+    {file = "nornir_pyez-0.0.10-py3-none-any.whl", hash = "sha256:5b1b93aea1982f266e4a0d832a29d6c4fa769efcfa98d97434f73a7d895088ca"},
+    {file = "nornir_pyez-0.0.10.tar.gz", hash = "sha256:7fd7e7a4210d5d9a9b1922b53b60e0f589561669aec946c89b623da2e0aa18f4"},
 ]
 nornir-scrapli = [
     {file = "nornir_scrapli-2021.1.30-py3-none-any.whl", hash = "sha256:2a9079781ec6e000f62a0ddae1432b35d76da583c543158e8057be75b8ed6e45"},
@@ -1587,6 +1635,10 @@ regex = [
 requests = [
     {file = "requests-2.25.1-py2.py3-none-any.whl", hash = "sha256:c210084e36a42ae6b9219e00e48287def368a26d03a048ddad7bfee44f75871e"},
     {file = "requests-2.25.1.tar.gz", hash = "sha256:27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804"},
+]
+requests-toolbelt = [
+    {file = "requests-toolbelt-0.9.1.tar.gz", hash = "sha256:968089d4584ad4ad7c171454f0a5c6dac23971e9472521ea3b6d49d610aa6fc0"},
+    {file = "requests_toolbelt-0.9.1-py2.py3-none-any.whl", hash = "sha256:380606e1d10dc85c3bd47bf5a6095f815ec007be7a8b69c878507068df059e6f"},
 ]
 "ruamel.yaml" = [
     {file = "ruamel.yaml-0.16.13-py2.py3-none-any.whl", hash = "sha256:64b06e7873eb8e1125525ecef7345447d786368cadca92a7cd9b59eae62e95a3"},

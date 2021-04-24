@@ -6,16 +6,6 @@ from nornir_cli.common_commands import _pickle_to_hidden_file, _json_loads, _inf
 from tqdm import tqdm
 
 
-# def _get_color(f, ch):
-#    if f:
-#        color = "red"
-#    elif ch:
-#        color = "yellow"
-#    else:
-#        color = "green"
-#    return color
-
-
 def multiple_progress_bar(task, method, pg_bar, **kwargs):
     task.run(task=method, **kwargs)
     if pg_bar:
@@ -75,24 +65,3 @@ def cli(ctx, pg_bar, show_result, *args, **kwargs):
 
     # show statistic
     _info(nr, task)
-    # ch_sum = 0
-    # for host in nr.inventory.hosts:
-    #    f, ch = (task[host].failed, task[host].changed)
-    #    ch_sum += int(ch)
-    #    click.secho(
-    #        f"{host:<50}: ok={not f:<15} changed={ch:<15} failed={f:<15}",
-    #        fg=_get_color(f, ch),
-    #        bold=True,
-    #    )
-    # print()
-    # f_sum = len(nr.data.failed_hosts)
-    # ok_sum = len(nr.inventory.hosts) - f_sum
-    # for state, summary, color in zip(
-    #    ("OK", "CHANGED", "FAILED"), (ok_sum, ch_sum, f_sum), ("green", "yellow", "red")
-    # ):
-    #    click.secho(
-    #        f"{state:<8}: {summary}",
-    #        fg=color,
-    #        bold=True,
-    #    )
-    # print()
