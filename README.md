@@ -18,36 +18,45 @@ nornir_cli
 
 ## Features 
 
+* **Simple CLI network orchestrator**
+
+    `nornir_cli` is a simple CLI orchestrator, that you can use to interact with the SoT and manage your network
+
+* **Workflow**
+
+    `nornir_cli` workflow is `Nornir` workflow, but from CLI
+
 * **Manage your custom nornir runbooks**
 
-    * Create and manage your own runbook collections
-    * Add your custom nornir runbooks to runbook collections and run it for any hosts directly from the CLI 
+    * Create and manage your own nornir runbook collections: 
+        * Add your custom nornir runbooks as custom commands in `nornir_cli` with `runbook collections` feature
+        * Pass any python objects between custom commands 
+        * Run custom commands for any hosts directly from the CLI
     * Or use `nornir_cli` for inventory management only, and take the result in your nornir runbooks. By excluding getting and filtering the inventory in your runbooks, you will make them more versatile.
 
 * **Manage Inventory**
 
-    Get Inventory, filter Inventory, output Inventory and save Inventory state from the CLI.
+    Get Inventory, filter Inventory, output Inventory and save Inventory state from the CLI for any inventory plugin.
     This is really useful for large, structured Inventory - for example, <a href="https://github.com/netbox-community/netbox" target="_blank">NetBox</a> with <a href="https://github.com/wvandeun/nornir_netbox" target="_blank">nornir_netbox plugin</a>.
+
+    You can use <a href="https://github.com/wvandeun/nornir_netbox" target="_blank">nornir_netbox</a> or SimpleInventory, by default. Another inventory plugin needs to be installed from <a href="https://nornir.tech/nornir/plugins/" target="_blank">here</a> with `pip`. 
 
 * **Run Nornir Plugins**
 
-    Run Tasks based on Nornir Plugins from the CLI, check result and statistic
+    `nornir_cli` already has commands, based on Nornir Plugins. Run them from the CLI, check result and statistic
 
 * **Build a chain of `nornir_cli` commands**
 
-    Initialize Nornir, filter Inventory and start Task/Tasks chains or runbook/runbooks chains in one command
+    Initialize Nornir, filter Inventory and run any command/command chains as one command
 
 * **Json input. Json output**
 
-    Json strings are everywhere! Ok, only in command options
+    Json strings are everywhere! Ok, only in command options and arguments
 
 * **Custom Multi Commands with click**
 
     `nornir_cli` based on click Custom Multi Commands, so you can easily add your custom command by following some principles
 
-* **Simple CLI network orchestrator**
-
-    `nornir_cli` is a simple CLI orchestrator that you can use to interact with the SoT and manage your network
 
 ## Quick Start 
 
@@ -80,7 +89,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 0.3.0
+nornir_cli, version 1.0.0
 
 ```
 

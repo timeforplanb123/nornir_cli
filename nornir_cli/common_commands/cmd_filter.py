@@ -1,16 +1,15 @@
+from itertools import takewhile, dropwhile
 import click
 from nornir.core.filter import F
-from itertools import takewhile, dropwhile
 from nornir_cli.common_commands import (
     cmd_show_inventory,
     common_options,
     _pickle_to_hidden_file,
     _json_loads,
     _get_lists,
-)
-from nornir_cli.common_commands.common import (
     SHOW_INVENTORY_OPTIONS,
 )
+
 
 ERROR_MESSAGE = (
     "Filter optiions. There should be something like...\n\n"

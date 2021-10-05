@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nornir_cli"
-version = "0.3.0"
+version = "1.0.0"
 description = "Nornir CLI"
 license = "MIT"
 readme = "README.md"
@@ -13,24 +13,29 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-click = "7.1.2"
-nornir = "3.1.0"
+python = ">=3.8,<3.10"
+click = "8.0.1"
+nornir = "3.1.1"
 nornir-utils = "0.1.2"
-nornir-jinja2 = "0.1.2"
-nornir-netmiko = "0.1.1"
+nornir-jinja2 = "0.2.0"
+nornir-netmiko = "0.1.2"
 netmiko = "3.4.0"
-nornir-scrapli = "2021.01.30"
-scrapli = "2021.01.30"
-scrapli-netconf = "2021.01.30"
-scrapli-community = "2021.01.30"
+nornir-scrapli = "2021.07.30"
+scrapli = "2021.07.30"
+scrapli-netconf = "2021.07.30"
+scrapli-community = "2021.07.30"
 nornir-napalm = "0.1.2"
 ttp = "^0.6.0"
 # initially, nornir_cli was created to work with NetBox inventory ^_-
 nornir-netbox = "^0.2.0"
-genie = "20.9"
+genie = "^20.9"
 nornir-pyez = "0.0.10"
 nornir-f5 = "0.5.0"
+nornir-routeros = "0.2.0"
+nornir-paramiko = "0.1.0"
+nornir-http = "0.1.1"
+nornir-pyxl = "1.0.1"
+nornir-netconf = "0.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

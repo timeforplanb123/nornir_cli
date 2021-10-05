@@ -1,24 +1,60 @@
-import click
-import pickle
-import functools
-import platform
-import json
 import os
-from itertools import takewhile, dropwhile
 import re
+import json
+import pickle
+import platform
+import functools
+import click
+from itertools import takewhile, dropwhile
+from dataclasses import dataclass
+from nornir.core import Nornir
+from nornir.core.task import Result
 from nornir.core.inventory import ConnectionOptions
 
 
-# custom decorator to get the current Nornir object and put it to ctx parameter
+# custom decorator to get the current Nornir and Result objects and put them to ctx
+# parameter. After decorating, ctx.nornir = Nornir object and ctx.result = Result
+# object. These objects can be modified.
+# ctx.nornir object can contain Nornir object only
 def custom(f):
     @click.command(help=f.__doc__)
     @click.pass_context
     def wrapper(ctx, *args, **kwargs):
-        try:
-            ctx = ctx.obj["nornir"]
-        except KeyError:
-            ctx = _pickle_to_hidden_file("temp.pkl", mode="rb", dump=False)
-        return f(ctx, *args, **kwargs)
+        @dataclass
+        class CustomContext:
+            nornir: Nornir
+            result: Result
+
+            def __getattr__(self, name):
+                try:
+                    return ctx.obj[name]
+                except KeyError:
+                    raise click.ClickException(f"The {name} attribute doesn't exist")
+
+            def __setattr__(self, name, value):
+                if name == "nornir":
+                    if not isinstance(value, Nornir):
+                        raise click.ClickException(
+                            f"{name} attribute can be an object of the <class 'nornir.core.Nornir'> only, not a {type(value)}"
+                        )
+                ctx.obj[name] = self.__dict__[name] = value
+
+        d = {
+            "nornir": _pickle_to_hidden_file("temp.pkl", mode="rb", dump=False),
+            "result": "",
+        }
+
+        l = []
+
+        for key, value in d.items():
+            try:
+                l.append(ctx.obj[key])
+            except KeyError:
+                l.append(value)
+
+        ct = CustomContext(*l)
+
+        return f(ct, *args, **kwargs)
 
     return wrapper
 
@@ -48,11 +84,17 @@ def _pickle_to_hidden_file(file_name, mode="wb", obj=None, dump=True):
 
 
 # load json or not json object
-def _json_loads(ls):
+def _json_loads(ls, parameter=None, typ=None, parameter_types=None):
     l = []
     for i in ls:
         try:
-            l.append(json.loads(i))
+            i = json.loads(i)
+            if parameter and typ and parameter_types:
+                if not isinstance(i, typ):
+                    raise click.BadParameter(
+                        f"{parameter} should only be a {parameter_types}"
+                    )
+            l.append(i)
         except (json.JSONDecodeError, TypeError):
             if i == "None":
                 i = None
@@ -105,7 +147,7 @@ def _doc_generator(s):
     regex = (
         r".*kwargs: (?P<kwargs>.*)"
         r"|.*task(?P<task>.*)"
-        r"|(?P<returns>.*Returns.*)"
+        r"|(?P<returns>.*Returns.*|.*Examples.*)"
         r"|(?P<colon>^\S+:.*)"
         r"|(?P<dash>.* – .*)"
     )
@@ -113,7 +155,7 @@ def _doc_generator(s):
         match = re.search(regex, line.lstrip())
         if match:
             if match.lastgroup == "returns":
-                yield f"    Returns: nornir result(optional), statistic, progress bar(optional)"
+                yield f"\n\n    Returns: nornir Result attributes(optional), statistic, progress bar(optional)"
                 break
             elif match.lastgroup == "task":
                 continue
@@ -123,36 +165,6 @@ def _doc_generator(s):
                 yield f"\n{line}"
         else:
             yield line.strip()
-
-
-# common options
-CONNECTION_OPTIONS = [
-    click.option(
-        "-co",
-        "--connection_options",
-        callback=_validate_connection_options,
-        help="Specify any connection parameters (json string)",
-    ),
-]
-
-# common options
-SHOW_INVENTORY_OPTIONS = [
-    click.option(
-        "-i",
-        "--inventory",
-        type=click.Choice(["hosts", "groups", "defaults"]),
-        help="Show hosts, groups or defaults inventory",
-    ),
-    click.option("-h", "--hosts", is_flag=True, help="Show hosts list"),
-    click.option("-g", "--groups", is_flag=True, help="Show groups list"),
-    click.option(
-        "-cou",
-        "--count",
-        type=click.INT,
-        default=0,
-        help="Number of elements you want to show",
-    ),
-]
 
 
 def _get_color(f, ch):
@@ -166,10 +178,10 @@ def _get_color(f, ch):
 
 
 # function showing statistic
-def _info(ctx, task):
+def print_stat(ctx, result):
     ch_sum = 0
     for host in ctx.inventory.hosts:
-        f, ch = (task[host].failed, task[host].changed)
+        f, ch = (result[host].failed, result[host].changed)
         ch_sum += int(ch)
         click.secho(
             f"{host:<50}: ok={not f:<15} changed={ch:<15} failed={f:<15}",
@@ -188,3 +200,10 @@ def _info(ctx, task):
             bold=True,
         )
     print()
+
+
+# function draws a task progress bar
+def multiple_progress_bar(task, method, pg_bar, **kwargs):
+    task.run(task=method, **kwargs)
+    if pg_bar:
+        pg_bar.update()

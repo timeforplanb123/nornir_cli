@@ -1,19 +1,17 @@
 import click
-from nornir_utils.plugins.functions import print_result
-import logging
 from nornir.core.plugins.connections import ConnectionPluginRegister
-from nornir_cli.common_commands import _pickle_to_hidden_file, _json_loads, _info
+from nornir_cli.common_commands import (
+    _pickle_to_hidden_file,
+    _json_loads,
+    print_stat as ps,
+    print_result as pr,
+    multiple_progress_bar,
+)
 from tqdm import tqdm
 
 
-def multiple_progress_bar(task, method, pg_bar, **kwargs):
-    task.run(task=method, **kwargs)
-    if pg_bar:
-        pg_bar.update()
-
-
 @click.pass_context
-def cli(ctx, pg_bar, show_result, *args, **kwargs):
+def cli(ctx, pg_bar, print_result, print_stat, *args, **kwargs):
     ConnectionPluginRegister.auto_register()
 
     # 'None' = None
@@ -45,7 +43,7 @@ def cli(ctx, pg_bar, show_result, *args, **kwargs):
             total=len(nr.inventory.hosts),
             desc="processing: ",
         ) as pb:
-            task = nr.run(
+            result = nr.run(
                 task=multiple_progress_bar,
                 method=function,
                 pg_bar=pb,
@@ -53,15 +51,18 @@ def cli(ctx, pg_bar, show_result, *args, **kwargs):
             )
         print()
     else:
-        task = nr.run(
+        result = nr.run(
             task=function,
             **parameters,
         )
 
-    # show_result option
-    if show_result:
-        print_result(task, severity_level=logging.DEBUG)
+    ctx.obj["result"] = result
+
+    # print_result option
+    if print_result:
+        pr(result)
         print()
 
-    # show statistic
-    _info(nr, task)
+    # print statistic
+    if print_stat:
+        ps(nr, result)

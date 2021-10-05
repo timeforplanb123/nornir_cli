@@ -2,9 +2,16 @@ import os
 import click
 import inspect
 from itertools import chain
-from nornir_cli.common_commands import _doc_generator
+from nornir_cli.common_commands import (
+    _doc_generator,
+    common_options,
+    PLUGIN_OPTIONS,
+)
 from nornir_cli import __version__
+from httpx import Timeout
 
+
+COMMAND_EXCEPTIONS = {"nornir_pyxl.plugins": ["pyxl_data_map"]}
 
 CMD_FOLDERS = ["common_commands"]
 
@@ -20,6 +27,19 @@ SETTINGS = {
         "BaseConnection": "netmiko",
         "file_transfer": "netmiko",
     },
+    "nornir_http": {
+        "request": "httpx",
+    },
+}
+
+NO__ALL__ = {
+    "nornir_routeros.plugins": [
+        "routeros_command",
+        "routeros_config_item",
+        "routeros_get",
+    ],
+    "nornir_paramiko.plugins": ["paramiko_command", "paramiko_sftp"],
+    "nornir_http": ["http_method"],
 }
 
 PARAMETER_TYPES = {
@@ -62,23 +82,39 @@ def _get_cli(path, cmd_name, cmd_folder):
 
 
 # mini factory for the production of classes for our plugins
-# https://click.palletsprojects.com/en/7.x/commands/?highlight=multi%20command#custom-multi-commands
+# https://click.palletsprojects.com/en/8.0.x/commands/#custom-multi-commands
 def class_factory(name, plugin, cmd_path=[], BaseClass=click.Group):
     def list_commands(self, ctx):
         ctx.obj[plugin] = __import__(plugin, fromlist=["tasks"])
-        return [
-            filename[4:-3]
-            for filename in os.listdir(next(_get_cmd_folder(["common_commands"])))
-            if filename.endswith(".py") and filename.startswith("cmd_")
-        ] + list(ctx.obj[plugin].tasks.__all__)
+        try:
+            plugin_command_list = list(ctx.obj[plugin].tasks.__all__)
+        except AttributeError:
+            plugin_command_list = NO__ALL__[plugin]
+
+        # exclude commands that are not implemented in nornir_cli
+        if plugin in COMMAND_EXCEPTIONS:
+            plugin_command_list = [
+                i for i in plugin_command_list if i not in COMMAND_EXCEPTIONS[plugin]
+            ]
+
+        return sorted(
+            [
+                filename[4:-3]
+                for filename in os.listdir(next(_get_cmd_folder(["common_commands"])))
+                if filename.endswith(".py") and filename.startswith("cmd_")
+            ]
+            + plugin_command_list
+        )
 
     def list_custom_commands(self, ctx):
         cmd_folders = _get_cmd_folder(CMD_FOLDERS + cmd_path)
-        return [
-            filename[4:-3]
-            for filename in chain(*map(os.listdir, cmd_folders))
-            if filename.endswith(".py") and filename.startswith("cmd_")
-        ]
+        return sorted(
+            [
+                filename[4:-3]
+                for filename in chain(*map(os.listdir, cmd_folders))
+                if filename.endswith(".py") and filename.startswith("cmd_")
+            ]
+        )
 
     def get_command(self, ctx, cmd_name):
         ctx.obj["kwargs"] = {}
@@ -224,16 +260,7 @@ def decorator(plugin, ctx):
             short_help = ""
         cmd = click.command(name=obj_or.__name__, short_help=short_help)(f)
 
-        click.option(
-            "--pg_bar",
-            is_flag=True,
-            show_default=True,
-        )(cmd)
-        click.option(
-            "--show_result/--no_show_result",
-            default=True,
-            show_default=True,
-        )(cmd)
+        common_options(PLUGIN_OPTIONS)(cmd)
 
         # get original function from the main module
         original_function = get_sources(plugin, obj_or.__name__)
@@ -251,13 +278,24 @@ def decorator(plugin, ctx):
 
         # dynamically generate options
         for k, v in all_dict.items():
-            default_value = str(v.default) if not isinstance(v.default, type) else None
+            default_value = (
+                getattr(v.default, type_exceptions[type(v.default)])
+                if isinstance(v.default, tuple(type_exceptions))
+                else v.default
+            )
+
+            typ = type(default_value)
+
+            default_value = (
+                str(default_value) if not isinstance(default_value, type) else None
+            )
+
             click.option(
                 "--" + k,
                 default=default_value,
                 show_default=True,
                 required=False if default_value or default_value == "" else True,
-                type=PARAMETER_TYPES.setdefault(type(v.default), click.STRING),
+                type=PARAMETER_TYPES.setdefault(typ, click.STRING),
             )(cmd)
 
             # last original functions with arguments
@@ -272,6 +310,12 @@ def decorator(plugin, ctx):
         )
 
         return cmd
+
+    # if option type is non-default class
+    # class Timeout = <class 'httpx.Timeout'>
+    type_exceptions = {
+        Timeout: "read",
+    }
 
     # get original function from Nornir plugin
     obj_or = ctx.obj["original"]
@@ -344,6 +388,46 @@ def nornir_pyez():
 def nornir_f5():
     """
     nornir_f5 plugin
+    """
+    pass
+
+
+@dec("nornir_routeros.plugins")
+def nornir_routeros():
+    """
+    nornir_routeros plugin
+    """
+    pass
+
+
+@dec("nornir_paramiko.plugins")
+def nornir_paramiko():
+    """
+    nornir_paramiko plugin
+    """
+    pass
+
+
+@dec("nornir_http")
+def nornir_http():
+    """
+    nornir_http plugin
+    """
+    pass
+
+
+@dec("nornir_pyxl.plugins")
+def nornir_pyxl():
+    """
+    nornir_pyxl plugin
+    """
+    pass
+
+
+@dec("nornir_netconf.plugins")
+def nornir_netconf():
+    """
+    nornir_netconf plugin
     """
     pass
 

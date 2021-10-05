@@ -1,4 +1,21 @@
 [[package]]
+name = "anyio"
+version = "3.3.2"
+description = "High level compatibility layer for multiple asynchronous event loop implementations"
+category = "main"
+optional = false
+python-versions = ">=3.6.2"
+
+[package.dependencies]
+idna = ">=2.8"
+sniffio = ">=1.1"
+
+[package.extras]
+doc = ["sphinx-rtd-theme", "sphinx-autodoc-typehints (>=1.2.0)"]
+test = ["coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "pytest (>=6.0)", "pytest-mock (>=3.6.1)", "trustme", "uvloop (<0.15)", "mock (>=4)", "uvloop (>=0.15)"]
+trio = ["trio (>=0.16)"]
+
+[[package]]
 name = "appdirs"
 version = "1.4.4"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -108,11 +125,14 @@ passlib = "*"
 
 [[package]]
 name = "click"
-version = "7.1.2"
+version = "8.0.1"
 description = "Composable command line interface toolkit"
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.6"
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "colorama"
@@ -168,6 +188,14 @@ curio = ["curio (>=1.2)", "sniffio (>=1.1)"]
 trio = ["trio (>=0.14.0)", "sniffio (>=1.1)"]
 
 [[package]]
+name = "et-xmlfile"
+version = "1.1.0"
+description = "An implementation of lxml.xmlfile for the standard library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "future"
 version = "0.18.2"
 description = "Clean single-source support for Python 3 and 2"
@@ -177,7 +205,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "genie"
-version = "20.9"
+version = "20.12.2"
 description = "Genie: THE standard pyATS Library System"
 category = "main"
 optional = false
@@ -185,13 +213,13 @@ python-versions = ">=3.5"
 
 [package.dependencies]
 dill = "*"
-"genie.libs.clean" = ">=20.9.0,<20.10.0"
-"genie.libs.conf" = ">=20.9.0,<20.10.0"
-"genie.libs.filetransferutils" = ">=20.9.0,<20.10.0"
-"genie.libs.health" = ">=20.9.0,<20.10.0"
-"genie.libs.ops" = ">=20.9.0,<20.10.0"
-"genie.libs.parser" = ">=20.9.0,<20.10.0"
-"genie.libs.sdk" = ">=20.9.0,<20.10.0"
+"genie.libs.clean" = ">=20.12.0,<20.13.0"
+"genie.libs.conf" = ">=20.12.0,<20.13.0"
+"genie.libs.filetransferutils" = ">=20.12.0,<20.13.0"
+"genie.libs.health" = ">=20.12.0,<20.13.0"
+"genie.libs.ops" = ">=20.12.0,<20.13.0"
+"genie.libs.parser" = ">=20.12.0,<20.13.0"
+"genie.libs.sdk" = ">=20.12.0,<20.13.0"
 jsonpickle = "*"
 netaddr = "*"
 PrettyTable = "*"
@@ -199,12 +227,12 @@ tqdm = "*"
 
 [package.extras]
 dev = ["coverage", "restview", "sphinx", "sphinx-rtd-theme"]
-full = ["genie.libs.conf", "genie.libs.clean", "genie.libs.health", "genie.libs.filetransferutils", "genie.libs.ops", "genie.libs.parser", "genie.libs.sdk", "pyats.robot (>=20.9.0,<20.10.0)", "genie.libs.robot (>=20.9.0,<20.10.0)", "genie.telemetry (>=20.9.0,<20.10.0)", "genie.trafficgen (>=20.9.0,<20.10.0)"]
-robot = ["pyats.robot (>=20.9.0,<20.10.0)", "genie.libs.robot (>=20.9.0,<20.10.0)"]
+full = ["genie.libs.conf", "genie.libs.clean", "genie.libs.health", "genie.libs.filetransferutils", "genie.libs.ops", "genie.libs.parser", "genie.libs.sdk", "pyats.robot (>=20.12.0,<20.13.0)", "genie.libs.robot (>=20.12.0,<20.13.0)", "genie.telemetry (>=20.12.0,<20.13.0)", "genie.trafficgen (>=20.12.0,<20.13.0)"]
+robot = ["pyats.robot (>=20.12.0,<20.13.0)", "genie.libs.robot (>=20.12.0,<20.13.0)"]
 
 [[package]]
 name = "genie.libs.clean"
-version = "20.9.1"
+version = "20.12.2"
 description = "Genie Library for device clean support"
 category = "main"
 optional = false
@@ -219,7 +247,7 @@ dev = ["coverage", "paramiko", "restview", "sphinx", "sphinx-rtd-theme", "sphinx
 
 [[package]]
 name = "genie.libs.conf"
-version = "20.9"
+version = "20.12"
 description = "Genie libs Conf: Libraries to configures topology through Python object attributes"
 category = "main"
 optional = false
@@ -230,13 +258,15 @@ dev = ["coverage", "restview", "sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "genie.libs.filetransferutils"
-version = "20.9"
+version = "20.12.1"
 description = "Genie libs FileTransferUtils: Genie FileTransferUtils Libraries"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
+pyftpdlib = "*"
+tftpy = "*"
 unicon = "*"
 
 [package.extras]
@@ -244,7 +274,7 @@ dev = ["coverage", "restview", "sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "genie.libs.health"
-version = "20.9"
+version = "20.12"
 description = "pyATS Health Check for monitoring device health status"
 category = "main"
 optional = false
@@ -258,7 +288,7 @@ dev = ["coverage", "paramiko", "restview", "sphinx", "sphinx-rtd-theme", "sphinx
 
 [[package]]
 name = "genie.libs.ops"
-version = "20.9"
+version = "20.12"
 description = "Genie libs Ops: Libraries to retrieve operational state of the topology"
 category = "main"
 optional = false
@@ -269,7 +299,7 @@ dev = ["coverage", "restview", "sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "genie.libs.parser"
-version = "20.9"
+version = "20.12"
 description = "Genie libs Parser: Genie Parser Libraries"
 category = "main"
 optional = false
@@ -283,7 +313,7 @@ dev = ["coverage", "restview", "sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "genie.libs.sdk"
-version = "20.9.1"
+version = "20.12"
 description = "Genie libs sdk: Libraries containing all Triggers and Verifications"
 category = "main"
 optional = false
@@ -294,6 +324,48 @@ python-versions = "*"
 
 [package.extras]
 dev = ["coverage", "restview", "sphinx", "sphinxcontrib-napoleon", "sphinx-rtd-theme", "xmltodict"]
+
+[[package]]
+name = "h11"
+version = "0.12.0"
+description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "httpcore"
+version = "0.13.7"
+description = "A minimal low-level HTTP client."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+anyio = ">=3.0.0,<4.0.0"
+h11 = ">=0.11,<0.13"
+sniffio = ">=1.0.0,<2.0.0"
+
+[package.extras]
+http2 = ["h2 (>=3,<5)"]
+
+[[package]]
+name = "httpx"
+version = "0.18.2"
+description = "The next generation HTTP client."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+certifi = "*"
+httpcore = ">=0.13.3,<0.14.0"
+rfc3986 = {version = ">=1.3,<2", extras = ["idna2008"]}
+sniffio = "*"
+
+[package.extras]
+brotli = ["brotlicffi (>=1.0.0,<2.0.0)"]
+http2 = ["h2 (>=3.0.0,<4.0.0)"]
 
 [[package]]
 name = "idna"
@@ -416,7 +488,7 @@ textfsm = "*"
 
 [[package]]
 name = "ncclient"
-version = "0.6.10"
+version = "0.6.12"
 description = "Python library for NETCONF clients"
 category = "main"
 optional = false
@@ -437,7 +509,7 @@ python-versions = "*"
 
 [[package]]
 name = "netmiko"
-version = "3.3.3"
+version = "3.4.0"
 description = "Multi-vendor library to simplify Paramiko SSH connections to network devices"
 category = "main"
 optional = false
@@ -455,7 +527,7 @@ test = ["pyyaml (>=5.1.2)", "pytest (>=5.1.2)"]
 
 [[package]]
 name = "nornir"
-version = "3.1.0"
+version = "3.1.1"
 description = "Pluggable multi-threaded framework with inventory management to help operate collections of devices"
 category = "main"
 optional = false
@@ -485,15 +557,27 @@ requests-toolbelt = ">=0.9.1,<0.10.0"
 urllib3 = ">=1.26.3,<2.0.0"
 
 [[package]]
+name = "nornir-http"
+version = "0.1.1"
+description = "http plugins for nornir"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+httpx = ">=0.18.1,<0.19.0"
+nornir = ">=3,<4"
+
+[[package]]
 name = "nornir-jinja2"
-version = "0.1.2"
+version = "0.2.0"
 description = "Jinja2 plugins for nornir"
 category = "main"
 optional = false
 python-versions = ">=3.6,<4.0"
 
 [package.dependencies]
-jinja2 = ">=2.11.2,<3.0.0"
+jinja2 = ">=2.11.2,<4"
 nornir = ">=3,<4"
 
 [[package]]
@@ -521,15 +605,41 @@ nornir = ">=3,<4"
 requests = ">=2.23.0,<3.0.0"
 
 [[package]]
+name = "nornir-netconf"
+version = "0.1.0"
+description = "Netconf plugin for nornir using ncclient"
+category = "main"
+optional = false
+python-versions = ">=3.6.1,<3.10"
+
+[package.dependencies]
+ncclient = ">=0.6.12,<0.7.0"
+nornir = ">=3.1.1,<4.0.0"
+xmltodict = ">=0.12.0,<0.13.0"
+
+[[package]]
 name = "nornir-netmiko"
-version = "0.1.1"
-description = "Netmiko's plugins for nornir"
+version = "0.1.2"
+description = "Netmiko's plugins for Nornir"
+category = "main"
+optional = false
+python-versions = ">=3.6.2,<4.0.0"
+
+[package.dependencies]
+netmiko = ">=3.4.0,<4.0.0"
+
+[[package]]
+name = "nornir-paramiko"
+version = "0.1.0"
+description = ""
 category = "main"
 optional = false
 python-versions = ">=3.6,<4.0"
 
 [package.dependencies]
-netmiko = ">=3.1.0,<4.0.0"
+nornir = ">=3.0.0,<4.0.0"
+paramiko = ">=2.7,<3.0"
+scp = ">=0.13.3,<0.14.0"
 
 [[package]]
 name = "nornir-pyez"
@@ -546,23 +656,49 @@ nornir-utils = ">=0.1.0"
 xmltodict = ">=0.12.0"
 
 [[package]]
+name = "nornir-pyxl"
+version = "1.0.1"
+description = "OpenPyxl plugin for Nornir"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+nornir = ">=3.0.0,<4.0.0"
+openpyxl = ">=3.0.5,<4.0.0"
+
+[[package]]
+name = "nornir-routeros"
+version = "0.2.0"
+description = "RouterOS API plugins for nornir"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[package.dependencies]
+Jinja2 = ">=2.11.2,<3.0.0"
+RouterOS-api = ">=0.17.0,<0.18.0"
+
+[[package]]
 name = "nornir-scrapli"
-version = "2021.1.30"
-description = "scrapli Nornir plugin"
+version = "2021.7.30"
+description = "Scrapli's plugin for Nornir"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-nornir = ">=3.0.0,<4.0.0"
+nornir = ">3.0.0,<4.0.0"
 nornir-utils = ">=0.1.0"
-ntc-templates = ">=1.1.0,<2.0.0"
-scrapli = ">=2021.01.30"
+ntc-templates = ">=1.1.0,<3.0.0"
+scrapli = ">=2021.07.30"
+scrapli-cfg = ">=2021.07.30"
 scrapli-community = ">=2021.01.30"
 scrapli-netconf = ">=2021.01.30"
 textfsm = ">=1.1.0,<2.0.0"
 
 [package.extras]
+full = ["genie (>=20.2)", "pyats (>=20.2)"]
 genie = ["genie (>=20.2)", "pyats (>=20.2)"]
 
 [[package]]
@@ -590,6 +726,17 @@ textfsm = ">=1.1.0"
 
 [package.extras]
 dev = ["pytest", "pyyaml", "black", "yamllint", "ruamel.yaml"]
+
+[[package]]
+name = "openpyxl"
+version = "3.0.9"
+description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+et-xmlfile = "*"
 
 [[package]]
 name = "packaging"
@@ -724,6 +871,17 @@ dev = ["check-manifest", "pep8", "pyflakes", "twine"]
 test = ["coverage", "mock"]
 
 [[package]]
+name = "pyftpdlib"
+version = "1.5.6"
+description = "Very fast asynchronous FTP server library"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+ssl = ["pyopenssl"]
+
+[[package]]
 name = "pynacl"
 version = "1.4.0"
 description = "Python binding to the Networking and Cryptography (NaCl) library"
@@ -850,6 +1008,31 @@ python-versions = "*"
 requests = ">=2.0.1,<3.0.0"
 
 [[package]]
+name = "rfc3986"
+version = "1.5.0"
+description = "Validating URI References per RFC 3986"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+idna = {version = "*", optional = true, markers = "extra == \"idna2008\""}
+
+[package.extras]
+idna2008 = ["idna"]
+
+[[package]]
+name = "routeros-api"
+version = "0.17.0"
+description = "Python API to RouterBoard devices produced by MikroTik."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "ruamel.yaml"
 version = "0.16.13"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
@@ -885,7 +1068,7 @@ paramiko = "*"
 
 [[package]]
 name = "scrapli"
-version = "2021.1.30"
+version = "2021.7.30"
 description = "Fast, flexible, sync/async, Python 3.6+ screen scraping client specifically for network devices"
 category = "main"
 optional = false
@@ -893,42 +1076,59 @@ python-versions = ">=3.6"
 
 [package.extras]
 asyncssh = ["asyncssh (>=2.2.1,<3.0.0)"]
-community = ["scrapli-community (>=2021.01.30a1)"]
-full = ["textfsm (>=1.1.0,<2.0.0)", "ntc-templates (>=1.1.0,<2.0.0)", "ttp (>=0.5.0,<1.0.0)", "paramiko (>=2.6.0,<3.0.0)", "ssh2-python (>=0.23.0,<1.0.0)", "asyncssh (>=2.2.1,<3.0.0)", "scrapli-community (>=2021.01.30a1)", "genie (>=20.2)", "pyats (>=20.2)"]
+community = ["scrapli-community (>=2021.01.30)"]
+full = ["ntc-templates (>=1.1.0,<3.0.0)", "textfsm (>=1.1.0,<2.0.0)", "ttp (>=0.5.0,<1.0.0)", "paramiko (>=2.6.0,<3.0.0)", "asyncssh (>=2.2.1,<3.0.0)", "scrapli-community (>=2021.01.30)", "ssh2-python (>=0.23.0,<1.0.0)", "genie (>=20.2)", "pyats (>=20.2)"]
 genie = ["genie (>=20.2)", "pyats (>=20.2)"]
 paramiko = ["paramiko (>=2.6.0,<3.0.0)"]
 ssh2 = ["ssh2-python (>=0.23.0,<1.0.0)"]
-textfsm = ["textfsm (>=1.1.0,<2.0.0)", "ntc-templates (>=1.1.0,<2.0.0)"]
+textfsm = ["ntc-templates (>=1.1.0,<3.0.0)", "textfsm (>=1.1.0,<2.0.0)"]
 ttp = ["ttp (>=0.5.0,<1.0.0)"]
 
 [[package]]
-name = "scrapli-community"
-version = "2021.1.30"
-description = ""
+name = "scrapli-cfg"
+version = "2021.7.30"
+description = "Network device configuration management with scrapli"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-scrapli = ">=2021.01.30"
+scrapli = ">=2021.07.30a3"
+
+[package.extras]
+asyncssh = ["asyncssh (>=2.2.1,<3.0.0)"]
+full = ["paramiko (>=2.6.0,<3.0.0)", "ssh2-python (>=0.23.0,<1.0.0)", "asyncssh (>=2.2.1,<3.0.0)"]
+paramiko = ["paramiko (>=2.6.0,<3.0.0)"]
+ssh2 = ["ssh2-python (>=0.23.0,<1.0.0)"]
+
+[[package]]
+name = "scrapli-community"
+version = "2021.7.30"
+description = "Easily add support for 'non-core' platforms to scrapli"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+scrapli = ">=2021.07.30a1"
 
 [[package]]
 name = "scrapli-netconf"
-version = "2021.1.30"
-description = "Netconf driver built on scrapli"
+version = "2021.7.30"
+description = "Fast, flexible, sync/async, Python 3.6+ NETCONF client built on scrapli"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
 lxml = ">=4.5.1,<5.0.0"
-scrapli = ">=2021.01.30"
+scrapli = ">=2021.07.30"
 
 [package.extras]
-asyncssh = ["scrapli[asyncssh] (>=2021.01.30)"]
-full = ["scrapli[paramiko] (>=2021.01.30)", "scrapli[ssh2] (>=2021.01.30)", "scrapli[asyncssh] (>=2021.01.30)"]
-paramiko = ["scrapli[paramiko] (>=2021.01.30)"]
-ssh2 = ["scrapli[ssh2] (>=2021.01.30)"]
+asyncssh = ["asyncssh (>=2.2.1,<3.0.0)"]
+full = ["paramiko (>=2.6.0,<3.0.0)", "asyncssh (>=2.2.1,<3.0.0)", "ssh2-python (>=0.23.0,<1.0.0)"]
+paramiko = ["paramiko (>=2.6.0,<3.0.0)"]
+ssh2 = ["ssh2-python (>=0.23.0,<1.0.0)"]
 
 [[package]]
 name = "six"
@@ -937,6 +1137,14 @@ description = "Python 2 and 3 compatibility utilities"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+
+[[package]]
+name = "sniffio"
+version = "1.2.0"
+description = "Sniff out which async library your code is running under"
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "tenacity"
@@ -963,6 +1171,14 @@ python-versions = "*"
 [package.dependencies]
 future = "*"
 six = "*"
+
+[[package]]
+name = "tftpy"
+version = "0.8.1"
+description = "Python TFTP library"
+category = "main"
+optional = false
+python-versions = ">=2.7"
 
 [[package]]
 name = "toml"
@@ -1099,10 +1315,14 @@ pyyaml = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "78fcaa63cd9f98f19cd4577a871e3262e969adc4af2debfea2aaa0f1046fd4aa"
+python-versions = ">=3.8,<3.10"
+content-hash = "184fd0d25e14ad4965b0d81f26d46c3740dd0d81345c2e66bd7b1596365a5a12"
 
 [metadata.files]
+anyio = [
+    {file = "anyio-3.3.2-py3-none-any.whl", hash = "sha256:c32da314c510b34a862f5afeaf8a446ffed2c2fde21583e654bd71ecfb5b744b"},
+    {file = "anyio-3.3.2.tar.gz", hash = "sha256:0b993a2ef6c1dc456815c2b5ca2819f382f20af98087cc2090a4afed3a501436"},
+]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
     {file = "appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41"},
@@ -1148,24 +1368,36 @@ cffi = [
     {file = "cffi-1.14.5-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:48e1c69bbacfc3d932221851b39d49e81567a4d4aac3b21258d9c24578280058"},
     {file = "cffi-1.14.5-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:69e395c24fc60aad6bb4fa7e583698ea6cc684648e1ffb7fe85e3c1ca131a7d5"},
     {file = "cffi-1.14.5-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:9e93e79c2551ff263400e1e4be085a1210e12073a31c2011dbbda14bda0c6132"},
+    {file = "cffi-1.14.5-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:24ec4ff2c5c0c8f9c6b87d5bb53555bf267e1e6f70e52e5a9740d32861d36b6f"},
+    {file = "cffi-1.14.5-cp36-cp36m-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:3c3f39fa737542161d8b0d680df2ec249334cd70a8f420f71c9304bd83c3cbed"},
+    {file = "cffi-1.14.5-cp36-cp36m-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:681d07b0d1e3c462dd15585ef5e33cb021321588bebd910124ef4f4fb71aef55"},
     {file = "cffi-1.14.5-cp36-cp36m-win32.whl", hash = "sha256:58e3f59d583d413809d60779492342801d6e82fefb89c86a38e040c16883be53"},
     {file = "cffi-1.14.5-cp36-cp36m-win_amd64.whl", hash = "sha256:005a36f41773e148deac64b08f233873a4d0c18b053d37da83f6af4d9087b813"},
     {file = "cffi-1.14.5-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:2894f2df484ff56d717bead0a5c2abb6b9d2bf26d6960c4604d5c48bbc30ee73"},
     {file = "cffi-1.14.5-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:0857f0ae312d855239a55c81ef453ee8fd24136eaba8e87a2eceba644c0d4c06"},
     {file = "cffi-1.14.5-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:cd2868886d547469123fadc46eac7ea5253ea7fcb139f12e1dfc2bbd406427d1"},
     {file = "cffi-1.14.5-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:35f27e6eb43380fa080dccf676dece30bef72e4a67617ffda586641cd4508d49"},
+    {file = "cffi-1.14.5-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:06d7cd1abac2ffd92e65c0609661866709b4b2d82dd15f611e602b9b188b0b69"},
+    {file = "cffi-1.14.5-cp37-cp37m-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:0f861a89e0043afec2a51fd177a567005847973be86f709bbb044d7f42fc4e05"},
+    {file = "cffi-1.14.5-cp37-cp37m-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:cc5a8e069b9ebfa22e26d0e6b97d6f9781302fe7f4f2b8776c3e1daea35f1adc"},
     {file = "cffi-1.14.5-cp37-cp37m-win32.whl", hash = "sha256:9ff227395193126d82e60319a673a037d5de84633f11279e336f9c0f189ecc62"},
     {file = "cffi-1.14.5-cp37-cp37m-win_amd64.whl", hash = "sha256:9cf8022fb8d07a97c178b02327b284521c7708d7c71a9c9c355c178ac4bbd3d4"},
     {file = "cffi-1.14.5-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:8b198cec6c72df5289c05b05b8b0969819783f9418e0409865dac47288d2a053"},
     {file = "cffi-1.14.5-cp38-cp38-manylinux1_i686.whl", hash = "sha256:ad17025d226ee5beec591b52800c11680fca3df50b8b29fe51d882576e039ee0"},
     {file = "cffi-1.14.5-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:6c97d7350133666fbb5cf4abdc1178c812cb205dc6f41d174a7b0f18fb93337e"},
     {file = "cffi-1.14.5-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:8ae6299f6c68de06f136f1f9e69458eae58f1dacf10af5c17353eae03aa0d827"},
+    {file = "cffi-1.14.5-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:04c468b622ed31d408fea2346bec5bbffba2cc44226302a0de1ade9f5ea3d373"},
+    {file = "cffi-1.14.5-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:06db6321b7a68b2bd6df96d08a5adadc1fa0e8f419226e25b2a5fbf6ccc7350f"},
+    {file = "cffi-1.14.5-cp38-cp38-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:293e7ea41280cb28c6fcaaa0b1aa1f533b8ce060b9e701d78511e1e6c4a1de76"},
     {file = "cffi-1.14.5-cp38-cp38-win32.whl", hash = "sha256:b85eb46a81787c50650f2392b9b4ef23e1f126313b9e0e9013b35c15e4288e2e"},
     {file = "cffi-1.14.5-cp38-cp38-win_amd64.whl", hash = "sha256:1f436816fc868b098b0d63b8920de7d208c90a67212546d02f84fe78a9c26396"},
     {file = "cffi-1.14.5-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:1071534bbbf8cbb31b498d5d9db0f274f2f7a865adca4ae429e147ba40f73dea"},
     {file = "cffi-1.14.5-cp39-cp39-manylinux1_i686.whl", hash = "sha256:9de2e279153a443c656f2defd67769e6d1e4163952b3c622dcea5b08a6405322"},
     {file = "cffi-1.14.5-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:6e4714cc64f474e4d6e37cfff31a814b509a35cb17de4fb1999907575684479c"},
     {file = "cffi-1.14.5-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:158d0d15119b4b7ff6b926536763dc0714313aa59e320ddf787502c70c4d4bee"},
+    {file = "cffi-1.14.5-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1bf1ac1984eaa7675ca8d5745a8cb87ef7abecb5592178406e55858d411eadc0"},
+    {file = "cffi-1.14.5-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:df5052c5d867c1ea0b311fb7c3cd28b19df469c056f7fdcfe88c7473aa63e333"},
+    {file = "cffi-1.14.5-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:24a570cd11895b60829e941f2613a4f79df1a27344cbbb82164ef2e0116f09c7"},
     {file = "cffi-1.14.5-cp39-cp39-win32.whl", hash = "sha256:afb29c1ba2e5a3736f1c301d9d0abe3ec8b86957d04ddfa9d7a6a42b9367e396"},
     {file = "cffi-1.14.5-cp39-cp39-win_amd64.whl", hash = "sha256:f2d45f97ab6bb54753eab54fffe75aaf3de4ff2341c9daee1987ee1837636f1d"},
     {file = "cffi-1.14.5.tar.gz", hash = "sha256:fd78e5fee591709f32ef6edb9a015b4aa1a5022598e36227500c8f4e02328d9c"},
@@ -1179,8 +1411,8 @@ ciscoconfparse = [
     {file = "ciscoconfparse-1.5.30.tar.gz", hash = "sha256:e3c9ad5ff7563c6d3b4542d2826f4b07feb0e46ea5c698886ab8c4d55cc28815"},
 ]
 click = [
-    {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
-    {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
+    {file = "click-8.0.1-py3-none-any.whl", hash = "sha256:fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"},
+    {file = "click-8.0.1.tar.gz", hash = "sha256:8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a"},
 ]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
@@ -1208,43 +1440,59 @@ dnspython = [
     {file = "dnspython-2.1.0-py3-none-any.whl", hash = "sha256:95d12f6ef0317118d2a1a6fc49aac65ffec7eb8087474158f42f26a639135216"},
     {file = "dnspython-2.1.0.zip", hash = "sha256:e4a87f0b573201a0f3727fa18a516b055fd1107e0e5477cded4a2de497df1dd4"},
 ]
+et-xmlfile = [
+    {file = "et_xmlfile-1.1.0-py3-none-any.whl", hash = "sha256:a2ba85d1d6a74ef63837eed693bcb89c3f752169b0e3e7ae5b16ca5e1b3deada"},
+    {file = "et_xmlfile-1.1.0.tar.gz", hash = "sha256:8eb9e2bc2f8c97e37a2dc85a09ecdcdec9d8a396530a6d5a33b30b9a92da0c5c"},
+]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
 genie = [
-    {file = "genie-20.9-cp35-cp35m-macosx_10_10_x86_64.whl", hash = "sha256:1232bf36926992bb1cccd3a0aaaa87615d4fc417da25a64011063e44b9750fc3"},
-    {file = "genie-20.9-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:7cf6d23d1725c0657c390089a63843100a24688ad13aa7a91023fa3ad7b78da7"},
-    {file = "genie-20.9-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:a8dbb824250284fdbe24ecf2de9c9818b577f9097d317655c4e603c8fb09bfd3"},
-    {file = "genie-20.9-cp36-cp36m-macosx_10_10_x86_64.whl", hash = "sha256:b6ba067bfdc052f546085c30ae924dc40e2a4980274edc695973875b87a48f08"},
-    {file = "genie-20.9-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:c3c2724e06fa3e866cdef6168b46a977d5453f2d7cca43f276684611ee014215"},
-    {file = "genie-20.9-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:848fec1bafa91c80e44f26281167d65baff9019ae0d899fbc6c413990abd0b29"},
-    {file = "genie-20.9-cp37-cp37m-macosx_10_10_x86_64.whl", hash = "sha256:9e46d90882972aa8e736fdb4a0c2afe75948f817ac30d162549f7098a5a3ded0"},
-    {file = "genie-20.9-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:2eb259aafa5bb2c55de52b7a2fb59f355e93d3b75d641a02e43ad73556ec5b39"},
-    {file = "genie-20.9-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:e4bc7ef827d6e27316c58aff2d3ca5edbc09ddf685d6da8efd14b403ec350958"},
-    {file = "genie-20.9-cp38-cp38-macosx_10_10_x86_64.whl", hash = "sha256:393c344d8959e8d030e4cbbacfbf3154971f8681fca9efb1451ef68f38da870f"},
-    {file = "genie-20.9-cp38-cp38-manylinux1_i686.whl", hash = "sha256:4a63b8e1e0be69bc1d6191b01787f7ea0446d30a9e032b3ccb5952e54da072d8"},
-    {file = "genie-20.9-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:134ca4bd8f0345cd7a6028c8eb795a113cccfb79b7ef3662c1612875cfe57f17"},
+    {file = "genie-20.12.2-cp35-cp35m-macosx_10_10_x86_64.whl", hash = "sha256:362c2a8ffb638e9ab9a275e5b436054dc5a46d0954649fe5f03db9e995876421"},
+    {file = "genie-20.12.2-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:19760dece7db725203825962065432ef814cb044f85d5975c9b0e75e4f488dfb"},
+    {file = "genie-20.12.2-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:170e7d375cb3665c4c4c2a2dab0d421bfe57e6a5997f7ddd7bcd4ec9028e04c6"},
+    {file = "genie-20.12.2-cp36-cp36m-macosx_10_10_x86_64.whl", hash = "sha256:75b59383116270a776524a2285129906a5cdeac4b400a25a2c5078656fa9a082"},
+    {file = "genie-20.12.2-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:36342c050f9e6cf67788816d224641250660c4096fe2a4bc7207f420de758ef3"},
+    {file = "genie-20.12.2-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:c88082039602c689ad8604dbb85262acdee9d1fd9a131e185456ad13860dd99d"},
+    {file = "genie-20.12.2-cp37-cp37m-macosx_10_10_x86_64.whl", hash = "sha256:c030456f3f3053fc73a398aeff23383a57ace086a73603393be0e6ba38af391f"},
+    {file = "genie-20.12.2-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:039937d79ec9779196d7420202e2d51b059cce60d1d896ed2f8d7e157550bedb"},
+    {file = "genie-20.12.2-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:2ce5f66aa2739756ad8277a9ecc7872a2717d1fd7cee8401018a26f037cb2636"},
+    {file = "genie-20.12.2-cp38-cp38-macosx_10_10_x86_64.whl", hash = "sha256:c7167b0bb192587064365b0ebf31d163eaa45b51204a9d4b3c87bb3cf809f543"},
+    {file = "genie-20.12.2-cp38-cp38-manylinux1_i686.whl", hash = "sha256:b9b91821013501056b66d9437e55d9e7c3c258c9f7670ca3f46255722b035e99"},
+    {file = "genie-20.12.2-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:440d38c6bb278c8d3b8caf9256ec4c2906b003f579b715f333066808d3bdd188"},
 ]
 "genie.libs.clean" = [
-    {file = "genie.libs.clean-20.9.1-py3-none-any.whl", hash = "sha256:162ebbb891381bcaa280fdd2fbf7885f55fd74c71030b2c9a5e0d6957067e7d3"},
+    {file = "genie.libs.clean-20.12.2-py3-none-any.whl", hash = "sha256:2da611170d825045df0877700fce3c2e19182e4409133b2f18d1ab6aea240f52"},
 ]
 "genie.libs.conf" = [
-    {file = "genie.libs.conf-20.9-py3-none-any.whl", hash = "sha256:558de4afa0585f23e1613d3c6902e3d234d415df0eee156765cf1f82c925b51e"},
+    {file = "genie.libs.conf-20.12-py3-none-any.whl", hash = "sha256:7dc02609fcc450401bc366519ed446018f3f5f992e79f2c05a12d1ed27251986"},
 ]
 "genie.libs.filetransferutils" = [
-    {file = "genie.libs.filetransferutils-20.9-py3-none-any.whl", hash = "sha256:72360be7839a8d07aa05f0719ab52adb654c5a316514cec806f4af8d6ab38ecc"},
+    {file = "genie.libs.filetransferutils-20.12.1-py3-none-any.whl", hash = "sha256:5fee12be9ebc0a2982eaa1e86f68d70c2edae9096ac5b36c83048d653b776aba"},
 ]
 "genie.libs.health" = [
-    {file = "genie.libs.health-20.9-py3-none-any.whl", hash = "sha256:7829bec3316e73183682ba6f1504c143545c817338fb9ee8c10a88a2430195eb"},
+    {file = "genie.libs.health-20.12-py3-none-any.whl", hash = "sha256:ceb82f4ce6a50d9d5d2c6a9f3b9f3034765bfaeb927d3130bf21798922afb295"},
 ]
 "genie.libs.ops" = [
-    {file = "genie.libs.ops-20.9-py3-none-any.whl", hash = "sha256:ff114e0cc393d72bbb86ff9a10f46e642f15adc7e061a716b6be511fb35b7fb2"},
+    {file = "genie.libs.ops-20.12-py3-none-any.whl", hash = "sha256:110fafcd25d544ba76f13fed5db9151ba2af42dc3a1060f6516cc33a9d375256"},
 ]
 "genie.libs.parser" = [
-    {file = "genie.libs.parser-20.9-py3-none-any.whl", hash = "sha256:9af6d84bd6915e3935b34d842e99d8a061b63d740b952127f8ba47a9c9c25a8c"},
+    {file = "genie.libs.parser-20.12-py3-none-any.whl", hash = "sha256:bf0b2053c609d1587fd567de82961af5fafe5fe27fdb2937e8d0869e6ac46f74"},
 ]
 "genie.libs.sdk" = [
-    {file = "genie.libs.sdk-20.9.1-py3-none-any.whl", hash = "sha256:ebfe2211b8788c85937808f381c1b71a0cf80852210b26cee40287622ace2930"},
+    {file = "genie.libs.sdk-20.12-py3-none-any.whl", hash = "sha256:39f53bbbae4aabb68a9d493fda9bea025603c108ffc5a5c8265c67a00aaa4c72"},
+]
+h11 = [
+    {file = "h11-0.12.0-py3-none-any.whl", hash = "sha256:36a3cb8c0a032f56e2da7084577878a035d3b61d104230d4bd49c0c6b555a9c6"},
+    {file = "h11-0.12.0.tar.gz", hash = "sha256:47222cb6067e4a307d535814917cd98fd0a57b6788ce715755fa2b6c28b56042"},
+]
+httpcore = [
+    {file = "httpcore-0.13.7-py3-none-any.whl", hash = "sha256:369aa481b014cf046f7067fddd67d00560f2f00426e79569d99cb11245134af0"},
+    {file = "httpcore-0.13.7.tar.gz", hash = "sha256:036f960468759e633574d7c121afba48af6419615d36ab8ede979f1ad6276fa3"},
+]
+httpx = [
+    {file = "httpx-0.18.2-py3-none-any.whl", hash = "sha256:979afafecb7d22a1d10340bafb403cf2cb75aff214426ff206521fc79d26408c"},
+    {file = "httpx-0.18.2.tar.gz", hash = "sha256:9f99c15d33642d38bce8405df088c1c4cfd940284b4290cacbfb02e64f4877c6"},
 ]
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
@@ -1368,27 +1616,31 @@ napalm = [
     {file = "napalm-3.2.0.tar.gz", hash = "sha256:6e69a505f5d4a678c42f048d13153afabf10b7fec72868e3bfb53ff4089206fc"},
 ]
 ncclient = [
-    {file = "ncclient-0.6.10.tar.gz", hash = "sha256:67b1eba5a6c7c6075746d8c33d4e8f4ded17604034c1fcd1c78996ef52bf66ff"},
+    {file = "ncclient-0.6.12.tar.gz", hash = "sha256:37c8a9f9a44f0346144119ab17ae6559e44b5a991f4c34ea3765c678079e4beb"},
 ]
 netaddr = [
     {file = "netaddr-0.8.0-py2.py3-none-any.whl", hash = "sha256:9666d0232c32d2656e5e5f8d735f58fd6c7457ce52fc21c98d45f2af78f990ac"},
     {file = "netaddr-0.8.0.tar.gz", hash = "sha256:d6cc57c7a07b1d9d2e917aa8b36ae8ce61c35ba3fcd1b83ca31c5a0ee2b5a243"},
 ]
 netmiko = [
-    {file = "netmiko-3.3.3-py3-none-any.whl", hash = "sha256:be165b81930aa779a2a34f4437af9f9807553030d2e3ef8da002314fb6b1366d"},
-    {file = "netmiko-3.3.3.tar.gz", hash = "sha256:ead6ea70b46307cce03d121d4da96fd862f76619474d6e962d1019560bb4c5a1"},
+    {file = "netmiko-3.4.0-py3-none-any.whl", hash = "sha256:b66f25717db3609878f83c85604349dd40a0ab494d8eafd817dcde8388131136"},
+    {file = "netmiko-3.4.0.tar.gz", hash = "sha256:acadb9dd97864ee848e2032f1f0e301c7b31e7a4153757d98f5c8ba1b9614993"},
 ]
 nornir = [
-    {file = "nornir-3.1.0-py3-none-any.whl", hash = "sha256:0eed0ca73122ce8f4b90a560ada79d81174845a8a5320972292417eb19efa587"},
-    {file = "nornir-3.1.0.tar.gz", hash = "sha256:f96b0e2b8983045eef5345de5a6e61198ed2658a0e42049e4bd9a127b2bae034"},
+    {file = "nornir-3.1.1-py3-none-any.whl", hash = "sha256:217199f923c810f4a54dec8d440eb08682c8a4ea4746325bd3067dca2e32cf9f"},
+    {file = "nornir-3.1.1.tar.gz", hash = "sha256:6abf8ca245aab8e36b5770ec94fdb456b6bf53696c6d68f2ee0882898630a392"},
 ]
 nornir-f5 = [
     {file = "nornir_f5-0.5.0-py3-none-any.whl", hash = "sha256:dcb1db192801d0f7df0e7cfffb573942686eaf5e698fc8e18e7c4ef64d639c07"},
     {file = "nornir_f5-0.5.0.tar.gz", hash = "sha256:0bbae2fd6877c571e0eddea0f8d1165dcf41e93b9792bc7f9739dde4105c636f"},
 ]
+nornir-http = [
+    {file = "nornir_http-0.1.1-py3-none-any.whl", hash = "sha256:c4d2e98faa8120e1244ebcb68994d70a308fbbb29327a62a434d57e01cdf90d3"},
+    {file = "nornir_http-0.1.1.tar.gz", hash = "sha256:b3eff7a8d8fbb131c0eaf027649c040e5349d7a740750f42afc92bb7be1cbb6e"},
+]
 nornir-jinja2 = [
-    {file = "nornir_jinja2-0.1.2-py3-none-any.whl", hash = "sha256:9a1c9e8ef2b3d72966f68e415a77c10b0ef5f4d7dbc730acd0bc78d57d4ba716"},
-    {file = "nornir_jinja2-0.1.2.tar.gz", hash = "sha256:83520fa59076bfebe17cbacf54de6040eb7daefe564d2dd7563c13785140fa93"},
+    {file = "nornir_jinja2-0.2.0-py3-none-any.whl", hash = "sha256:0c446bec7a8492923d4eb9ca00fb327603b41bc35d5f0112843c048737b506b1"},
+    {file = "nornir_jinja2-0.2.0.tar.gz", hash = "sha256:9ee5e725fe5543dcba4ec8b976804e9e88ecd356ea3b62bad97578cea0de1f75"},
 ]
 nornir-napalm = [
     {file = "nornir_napalm-0.1.2-py3-none-any.whl", hash = "sha256:313986bbb16eeaf3a80daf61f6a97e93ecebc47d0c586a2eb856ea91edc2cc1d"},
@@ -1398,17 +1650,33 @@ nornir-netbox = [
     {file = "nornir_netbox-0.2.1-py3-none-any.whl", hash = "sha256:b635afa6ffd5871d220338848f44b1ac3c6cdeab57f41798ca85f731d257e81a"},
     {file = "nornir_netbox-0.2.1.tar.gz", hash = "sha256:53e1c15b66fc5c91c0a698e9fa95c08c76e60dc8a9389c3142a3ac035dbbd02c"},
 ]
+nornir-netconf = [
+    {file = "nornir_netconf-0.1.0-py3-none-any.whl", hash = "sha256:db99cc0479a690100a2b770ac8ae3ef0c28129d98bfe47c658336d51dcb12965"},
+    {file = "nornir_netconf-0.1.0.tar.gz", hash = "sha256:9e765bac931105d444e02e1a895d8c49ceb48975bb2bd8eea3fb6216ee0a61a2"},
+]
 nornir-netmiko = [
-    {file = "nornir_netmiko-0.1.1-py3-none-any.whl", hash = "sha256:c6eadb81f6f3b2f0c27bae151cc62673303f9d085ec3c773ecdc98f20ef30f91"},
-    {file = "nornir_netmiko-0.1.1.tar.gz", hash = "sha256:fc41ded40923d23c6155b92c6749170629b4cc2649c340d24bff9f49315836c6"},
+    {file = "nornir_netmiko-0.1.2-py3-none-any.whl", hash = "sha256:adb575a2eb729f5ed3ab16c79624c80ee29cce26681ac312a40b031c7c02ed7f"},
+    {file = "nornir_netmiko-0.1.2.tar.gz", hash = "sha256:19688c6d0f964ffce623d732f3cc1dfa8f944611278209f9be103aacaeb454b5"},
+]
+nornir-paramiko = [
+    {file = "nornir_paramiko-0.1.0-py3-none-any.whl", hash = "sha256:5f7b870c5f201be6b63e54739dcd5b9d2ea59467f8be46a6e972863b504c018a"},
+    {file = "nornir_paramiko-0.1.0.tar.gz", hash = "sha256:7d1d39435365edbb6a0a389261bf662bccc1a2bd04924e5f6c67058f8e194eb1"},
 ]
 nornir-pyez = [
     {file = "nornir_pyez-0.0.10-py3-none-any.whl", hash = "sha256:5b1b93aea1982f266e4a0d832a29d6c4fa769efcfa98d97434f73a7d895088ca"},
     {file = "nornir_pyez-0.0.10.tar.gz", hash = "sha256:7fd7e7a4210d5d9a9b1922b53b60e0f589561669aec946c89b623da2e0aa18f4"},
 ]
+nornir-pyxl = [
+    {file = "nornir_pyxl-1.0.1-py3-none-any.whl", hash = "sha256:9801f831c6239c1fca4b4bdc0c42daa6645d5c60871b78d27639a2ec55ae6ca2"},
+    {file = "nornir_pyxl-1.0.1.tar.gz", hash = "sha256:221e475251cea54febff998caf0f4e43a0f95340f536cc99d8783cf0b98517cf"},
+]
+nornir-routeros = [
+    {file = "nornir_routeros-0.2.0-py3-none-any.whl", hash = "sha256:8d331c0d108828ca59e8da2b3025ee47cf37c547f8c01660ff49c7da8d10c1b8"},
+    {file = "nornir_routeros-0.2.0.tar.gz", hash = "sha256:76bdc55048a6b283d87c4f225e2635e06a3a35968c62dc85b7752472b3370dee"},
+]
 nornir-scrapli = [
-    {file = "nornir_scrapli-2021.1.30-py3-none-any.whl", hash = "sha256:2a9079781ec6e000f62a0ddae1432b35d76da583c543158e8057be75b8ed6e45"},
-    {file = "nornir_scrapli-2021.1.30.tar.gz", hash = "sha256:8130e153c8e51ff6bafa50ac8d9f2fce232bf281448ea99f669bdd0b3f13b6ec"},
+    {file = "nornir_scrapli-2021.7.30-py3-none-any.whl", hash = "sha256:22cf231631cb113a1b841093e618ae4a029a90a19f5c651b96c0734f2e8d97ba"},
+    {file = "nornir_scrapli-2021.7.30.tar.gz", hash = "sha256:b46e17f42fa90a447d87cd00aa5d437bc8d1a118621805842cad9a0d08ee2504"},
 ]
 nornir-utils = [
     {file = "nornir_utils-0.1.2-py3-none-any.whl", hash = "sha256:98915e781d4135e424fe1d4617dc231ada9a7c732c8e51e408f53fd3d37a13b0"},
@@ -1417,6 +1685,10 @@ nornir-utils = [
 ntc-templates = [
     {file = "ntc_templates-1.7.0-py3-none-any.whl", hash = "sha256:08ffeafd02a1d3e42f4f12f910f0b4c64b93783d76ece186c9a63389403a450b"},
     {file = "ntc_templates-1.7.0.tar.gz", hash = "sha256:4e098f83b35624751f4f6aaa4eed9eefd50a742f3d009c86f4bb22843a6a72fc"},
+]
+openpyxl = [
+    {file = "openpyxl-3.0.9-py2.py3-none-any.whl", hash = "sha256:8f3b11bd896a95468a4ab162fc4fcd260d46157155d1f8bfaabb99d88cfcf79f"},
+    {file = "openpyxl-3.0.9.tar.gz", hash = "sha256:40f568b9829bf9e446acfffce30250ac1fa39035124d55fc024025c41481c90f"},
 ]
 packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},
@@ -1504,6 +1776,9 @@ pycryptodomex = [
 pyeapi = [
     {file = "pyeapi-0.8.4.tar.gz", hash = "sha256:c33ad1eadd8ebac75f63488df9412081ce0b024c9e1da12a37196a5c60427c54"},
 ]
+pyftpdlib = [
+    {file = "pyftpdlib-1.5.6.tar.gz", hash = "sha256:fda655d81f29af52885ca2f8a2704134baed540f16d66a0b26e8fdfafd12db5e"},
+]
 pynacl = [
     {file = "PyNaCl-1.4.0-cp27-cp27m-macosx_10_10_x86_64.whl", hash = "sha256:ea6841bc3a76fa4942ce00f3bda7d436fda21e2d91602b9e21b7ca9ecab8f3ff"},
     {file = "PyNaCl-1.4.0-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:d452a6746f0a7e11121e64625109bc4468fc3100452817001dbe018bb8b08514"},
@@ -1573,18 +1848,26 @@ pyyaml = [
     {file = "PyYAML-5.4.1-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:bb4191dfc9306777bc594117aee052446b3fa88737cd13b7188d0e7aa8162185"},
     {file = "PyYAML-5.4.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:6c78645d400265a062508ae399b60b8c167bf003db364ecb26dcab2bda048253"},
     {file = "PyYAML-5.4.1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:4e0583d24c881e14342eaf4ec5fbc97f934b999a6828693a99157fde912540cc"},
+    {file = "PyYAML-5.4.1-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:72a01f726a9c7851ca9bfad6fd09ca4e090a023c00945ea05ba1638c09dc3347"},
+    {file = "PyYAML-5.4.1-cp36-cp36m-manylinux2014_s390x.whl", hash = "sha256:895f61ef02e8fed38159bb70f7e100e00f471eae2bc838cd0f4ebb21e28f8541"},
     {file = "PyYAML-5.4.1-cp36-cp36m-win32.whl", hash = "sha256:3bd0e463264cf257d1ffd2e40223b197271046d09dadf73a0fe82b9c1fc385a5"},
     {file = "PyYAML-5.4.1-cp36-cp36m-win_amd64.whl", hash = "sha256:e4fac90784481d221a8e4b1162afa7c47ed953be40d31ab4629ae917510051df"},
     {file = "PyYAML-5.4.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:5accb17103e43963b80e6f837831f38d314a0495500067cb25afab2e8d7a4018"},
     {file = "PyYAML-5.4.1-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:e1d4970ea66be07ae37a3c2e48b5ec63f7ba6804bdddfdbd3cfd954d25a82e63"},
+    {file = "PyYAML-5.4.1-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:cb333c16912324fd5f769fff6bc5de372e9e7a202247b48870bc251ed40239aa"},
+    {file = "PyYAML-5.4.1-cp37-cp37m-manylinux2014_s390x.whl", hash = "sha256:fe69978f3f768926cfa37b867e3843918e012cf83f680806599ddce33c2c68b0"},
     {file = "PyYAML-5.4.1-cp37-cp37m-win32.whl", hash = "sha256:dd5de0646207f053eb0d6c74ae45ba98c3395a571a2891858e87df7c9b9bd51b"},
     {file = "PyYAML-5.4.1-cp37-cp37m-win_amd64.whl", hash = "sha256:08682f6b72c722394747bddaf0aa62277e02557c0fd1c42cb853016a38f8dedf"},
     {file = "PyYAML-5.4.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:d2d9808ea7b4af864f35ea216be506ecec180628aced0704e34aca0b040ffe46"},
     {file = "PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:8c1be557ee92a20f184922c7b6424e8ab6691788e6d86137c5d93c1a6ec1b8fb"},
+    {file = "PyYAML-5.4.1-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:fd7f6999a8070df521b6384004ef42833b9bd62cfee11a09bda1079b4b704247"},
+    {file = "PyYAML-5.4.1-cp38-cp38-manylinux2014_s390x.whl", hash = "sha256:bfb51918d4ff3d77c1c856a9699f8492c612cde32fd3bcd344af9be34999bfdc"},
     {file = "PyYAML-5.4.1-cp38-cp38-win32.whl", hash = "sha256:fa5ae20527d8e831e8230cbffd9f8fe952815b2b7dae6ffec25318803a7528fc"},
     {file = "PyYAML-5.4.1-cp38-cp38-win_amd64.whl", hash = "sha256:0f5f5786c0e09baddcd8b4b45f20a7b5d61a7e7e99846e3c799b05c7c53fa696"},
     {file = "PyYAML-5.4.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:294db365efa064d00b8d1ef65d8ea2c3426ac366c0c4368d930bf1c5fb497f77"},
     {file = "PyYAML-5.4.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:74c1485f7707cf707a7aef42ef6322b8f97921bd89be2ab6317fd782c2d53183"},
+    {file = "PyYAML-5.4.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:d483ad4e639292c90170eb6f7783ad19490e7a8defb3e46f97dfe4bacae89122"},
+    {file = "PyYAML-5.4.1-cp39-cp39-manylinux2014_s390x.whl", hash = "sha256:fdc842473cd33f45ff6bce46aea678a54e3d21f1b61a7750ce3c498eedfe25d6"},
     {file = "PyYAML-5.4.1-cp39-cp39-win32.whl", hash = "sha256:49d4cdd9065b9b6e206d0595fee27a96b5dd22618e7520c33204a4a3239d5b10"},
     {file = "PyYAML-5.4.1-cp39-cp39-win_amd64.whl", hash = "sha256:c20cfa2d49991c8b4147af39859b167664f2ad4561704ee74c1de03318e898db"},
     {file = "PyYAML-5.4.1.tar.gz", hash = "sha256:607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e"},
@@ -1640,6 +1923,14 @@ requests-toolbelt = [
     {file = "requests-toolbelt-0.9.1.tar.gz", hash = "sha256:968089d4584ad4ad7c171454f0a5c6dac23971e9472521ea3b6d49d610aa6fc0"},
     {file = "requests_toolbelt-0.9.1-py2.py3-none-any.whl", hash = "sha256:380606e1d10dc85c3bd47bf5a6095f815ec007be7a8b69c878507068df059e6f"},
 ]
+rfc3986 = [
+    {file = "rfc3986-1.5.0-py2.py3-none-any.whl", hash = "sha256:a86d6e1f5b1dc238b218b012df0aa79409667bb209e58da56d0b94704e712a97"},
+    {file = "rfc3986-1.5.0.tar.gz", hash = "sha256:270aaf10d87d0d4e095063c65bf3ddbc6ee3d0b226328ce21e036f946e421835"},
+]
+routeros-api = [
+    {file = "RouterOS-api-0.17.0.tar.gz", hash = "sha256:1b9898460ecc4667b54e477d495b74c2f24ae0aac4c90dd0e62f23ec7eae8252"},
+    {file = "RouterOS_api-0.17.0-py2.py3-none-any.whl", hash = "sha256:bf38da94a570875eaa87ff537558f765a4697dbce1a9753070194b687f441bf0"},
+]
 "ruamel.yaml" = [
     {file = "ruamel.yaml-0.16.13-py2.py3-none-any.whl", hash = "sha256:64b06e7873eb8e1125525ecef7345447d786368cadca92a7cd9b59eae62e95a3"},
     {file = "ruamel.yaml-0.16.13.tar.gz", hash = "sha256:bb48c514222702878759a05af96f4b7ecdba9b33cd4efcf25c86b882cef3a942"},
@@ -1682,20 +1973,28 @@ scp = [
     {file = "scp-0.13.3.tar.gz", hash = "sha256:8bd748293d7362073169b96ce4b8c4f93bcc62cfc5f7e1d949e01e406a025bd4"},
 ]
 scrapli = [
-    {file = "scrapli-2021.1.30-py3-none-any.whl", hash = "sha256:31a35daa75212953efb8cf7d7ff582f93aae12d2b957056c9ec185d4f6f5e586"},
-    {file = "scrapli-2021.1.30.tar.gz", hash = "sha256:aac7e8ae764f098a77d8d14fa4bda1cd886318b7293507e56a05f007d3e2e6c4"},
+    {file = "scrapli-2021.7.30-py3-none-any.whl", hash = "sha256:7bdf482a79d0a3d24a9a776b8d82686bc201a4c828fd14a917453177c0008d98"},
+    {file = "scrapli-2021.7.30.tar.gz", hash = "sha256:fa1e27a7f6281e6ea8ae8bb096b637b2f5b0ecf37251160b839577a1c0cef40f"},
+]
+scrapli-cfg = [
+    {file = "scrapli_cfg-2021.7.30-py3-none-any.whl", hash = "sha256:9d5ce8dd0c6446a004436e642b7e8f64f8d3b2e3b19e85e792b0af7b3092ba86"},
+    {file = "scrapli_cfg-2021.7.30.tar.gz", hash = "sha256:2e3cc2dc619fdc9557418aa6973269c202e6a2dd4f4a68e7911293432082879a"},
 ]
 scrapli-community = [
-    {file = "scrapli_community-2021.1.30-py3-none-any.whl", hash = "sha256:df5493203ad4b58147f4c685af8886fa1db2a095140ab7ab9d93ab05d87d48bf"},
-    {file = "scrapli_community-2021.1.30.tar.gz", hash = "sha256:1b473ed0ac356f07ab33339013b63efe00af0d246bb7be356f0d6cb2989e7f77"},
+    {file = "scrapli_community-2021.7.30-py3-none-any.whl", hash = "sha256:b567abc59d384d3f0c3845aa73ed7e9d9cc954c69c2899033c2b7687c41a68f1"},
+    {file = "scrapli_community-2021.7.30.tar.gz", hash = "sha256:2805a4830024dac8d2d150f3cacb8c9b6a4b44da41220b6b48e0f62edf3e5a85"},
 ]
 scrapli-netconf = [
-    {file = "scrapli_netconf-2021.1.30-py3-none-any.whl", hash = "sha256:5ed9867e180cca35d2f8a769bcbf9fae6bde11e56b29a62e9cda1af4c487d099"},
-    {file = "scrapli_netconf-2021.1.30.tar.gz", hash = "sha256:45c32ebf06c588571c9cfc33c15b3e23c2293d01e88e99b0e5129817ecd7ea50"},
+    {file = "scrapli_netconf-2021.7.30-py3-none-any.whl", hash = "sha256:4cf87bf615f297967e139797326a59617ebd5b8859c67b08d7a5c06c77ba04f2"},
+    {file = "scrapli_netconf-2021.7.30.tar.gz", hash = "sha256:5c71ed124971751c171160c03d2d04d62ff61b16c05551c09c06e88264f84bec"},
 ]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
+]
+sniffio = [
+    {file = "sniffio-1.2.0-py3-none-any.whl", hash = "sha256:471b71698eac1c2112a40ce2752bb2f4a4814c22a54a3eed3676bc0f5ca9f663"},
+    {file = "sniffio-1.2.0.tar.gz", hash = "sha256:c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de"},
 ]
 tenacity = [
     {file = "tenacity-7.0.0-py2.py3-none-any.whl", hash = "sha256:a0ce48587271515db7d3a5e700df9ae69cce98c4b57c23a4886da15243603dd8"},
@@ -1703,6 +2002,9 @@ tenacity = [
 ]
 textfsm = [
     {file = "textfsm-1.1.0-py2.py3-none-any.whl", hash = "sha256:0aef3f9cad3d03905915fd62bff358c42b7dc35c863ff2cb0b5324c2b746cc24"},
+]
+tftpy = [
+    {file = "tftpy-0.8.1.tar.gz", hash = "sha256:6bc1583d497d04162f05c79d27e836158cdc29f6ce275cc1f42f6f0f41965982"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

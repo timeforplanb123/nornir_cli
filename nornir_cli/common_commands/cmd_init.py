@@ -7,8 +7,6 @@ from nornir_cli.common_commands import (
     _pickle_to_hidden_file,
     _json_loads,
     _get_lists,
-)
-from nornir_cli.common_commands.common import (
     CONNECTION_OPTIONS,
     SHOW_INVENTORY_OPTIONS,
 )
