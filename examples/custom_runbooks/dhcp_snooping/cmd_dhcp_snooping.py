@@ -2,7 +2,7 @@ import os
 from nornir_netmiko import netmiko_send_command, netmiko_send_config
 from nornir.core.plugins.connections import ConnectionPluginRegister
 from nornir_jinja2.plugins.tasks import template_file
-from nornir_cli.common_commands import custom, _info
+from nornir_cli.common_commands import custom, print_stat
 
 
 @custom
@@ -49,6 +49,10 @@ def cli(ctx):
             exit_config_mode=False,
         )
 
-    task = ctx.run(task=_get_trusted_untrusted, on_failed=True)
+    result = ctx.nornir.run(task=_get_trusted_untrusted, on_failed=True)
+    # add result to ctx.result for print_result, write_result, write_results
+    # `netmiko_send_config` doesn't return data, so `result` will be empty
+    # ctx.result = result
+
     # Show statistic
-    _info(ctx, task)
+    print_stat(ctx.nornir, result)

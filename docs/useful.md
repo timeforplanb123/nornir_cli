@@ -7,7 +7,7 @@ In `nornir_cli` Click Multi Commands feature is implemented through class inheri
 So, you can easily implement your command in `nornir_cli`, by following the rules described in `class_factory` function. 
 Add your command to one of the directories:
 
-* **nornir_cli/common_commands** - here are the commands common to all groups/plugins. Here you will find such commands like `init`, `filter`, `show_inventory`
+* **nornir_cli/common_commands** - here are the commands common to all groups/plugins. Here you will find such commands like `init`, `filter`, `show_inventory`, `print_result`, `write_result`, `write_results`, `write_file`
 * **nornir_cli/plugin_commands** - here are the commands, that run single Tasks based on Nornir plugins
 * **nornir_cli/custom_commands** - directory for your custom commands based on Nornir
 
@@ -20,7 +20,7 @@ $ pip show nornir_cli
 Location: /home/user/virtenvs/3.8.4/lib/python3.8/site-packages
 ...
 $ ls /home/user/virtenvs/3.8.4/lib/python3.8/site-packages/nornir_cli
-common_commands  custom_commands  __init__.py  nornir_cli.py  plugin_commands  __pycache__  transform
+common_commands  custom_commands  __init__.py  nornir_cli.py  plugin_commands  transform
 ```
 
 If you installed `nornir_cli` from git:
@@ -50,11 +50,19 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
         def nornir_runbook(task):
         # code
         # ...
-    task = ctx.run(task=nornir_runbook)
+    task = ctx.nornir.run(task=nornir_runbook)
     ```
 
-    `ctx` after decorating with `@custom` is an current `nornir.core.Nornir` object and `cli` is a new `click.command`
+    `cli` is a new `click.command`
 
+    `ctx` after decorating with `@custom` is an `CustomContext` class object. It has 2 attributes, by default:
+    - `ctx.nornir` - current `nornir.core.Nornir`. This is a mutable object, but it can contain `nornir.core.Nornir` class object only
+    - `ctx.result` - current `nornir.core.task.Result` object. This is a mutable object. It works with built-in commands, such a `print_result`, `write_result`, `write_results`
+
+    At any time, you can create a new attribute (for example, `ctx.new_attr_0`, `ctx.new_attr_1`, etc.) and save any data/python object to it. The state of `ctx` object is saved and you can pass it between your custom Nornir runbooks. This is very useful and allows you to divide a large task into several small ones and run them in the required order from the `nornir_cli` interface
+
+    An important point is that only `ctx.nornir` object errors are processed, other errors are not processed to make code debugging easier
+ 
 * name a file with your runbook as `cmd_something.py` (replace `something` on your own). `something` between `cmd_` and `.py` will be command name
 
 * create directory tree in `custom_commands` direcotry and put your nornir runbooks there. Here the directories are new `nornir_cli` groups, and nornir runbooks are new commands. Easy-peasy. 
@@ -93,12 +101,17 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
         Commands:
           dhcp
           mpls
-          nornir-f5       nornir_f5 plugin
-          nornir-jinja2   nornir_jinja2 plugin
-          nornir-napalm   nornir_napalm plugin
-          nornir-netmiko  nornir_netmiko plugin
-          nornir-pyez     nornir_pyez plugin
-          nornir-scrapli  nornir_scrapli plugin
+          nornir-f5        nornir_f5 plugin
+          nornir-http      nornir_http plugin
+          nornir-jinja2    nornir_jinja2 plugin
+          nornir-napalm    nornir_napalm plugin
+          nornir-netconf   nornir_netconf plugin
+          nornir-netmiko   nornir_netmiko plugin
+          nornir-paramiko  nornir_paramiko plugin
+          nornir-pyez      nornir_pyez plugin
+          nornir-pyxl      nornir_pyxl plugin
+          nornir-routeros  nornir_routeros plugin
+          nornir-scrapli   nornir_scrapli plugin
         ```
 
     === "nornir_cli dhcp:"
@@ -112,10 +125,15 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
           --help  Show this message and exit.
 
         Commands:
-          init            Initialize a Nornir
-          filter          Do simple or advanced filtering
-          show_inventory  Show current inventory
-          dhcp_snooping   Configure dhcp snooping
+          change_credentials  Change username and password
+          dhcp_snooping       Configure dhcp snooping
+          filter              Do simple or advanced filtering
+          init                Initialize a Nornir
+          print_result        print_result from nornir_utils
+          show_inventory      Show current inventory
+          write_file          Write_file, but not from nornir_utils
+          write_result        Write `Result` object to file
+          write_results       Write `Result` object to files
         ```
 
     === "nornir_cli mpls:"
@@ -129,10 +147,15 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
           --help  Show this message and exit.
 
         Commands:
-          init            Initialize a Nornir
-          filter          Do simple or advanced filtering
-          show_inventory  Show current inventory
-          ldp_config      Configure ldp
+          change_credentials  Change username and password
+          filter              Do simple or advanced filtering
+          init                Initialize a Nornir
+          print_result        print_result from nornir_utils
+          show_inventory      Show current inventory
+          write_file          Write_file, but not from nornir_utils
+          write_result        Write `Result` object to file
+          write_results       Write `Result` object to files
+          ldp_config          Configure ldp
         ```
 
 **Runbook collections features:**
@@ -153,9 +176,103 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
 
 See [example](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks) and [Examples](https://timeforplanb123.github.io/nornir_cli/examples/).
 
+And let's look at an simple example:
+
+=== "directory tree:"
+    ```text
+    $ tree ~/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+    /home/user/virtenvs/py3.8.4/lib/python3.8/site-packages/nornir_cli/custom_commands/
+    ├── cmd_first_command.py
+    ├── cmd_second_command.py
+    └── __init__.py
+
+    1 directories, 3 files
+    ```
+=== "init and filter Nornir object:"
+    ```text
+    # InitNornir with NetBox Inventory
+    $ nornir_cli custom init -u username -p password -c None -f 'inventory={"plugin":"NetBoxInventory2", "options": {"nb_url": "http://your_netbox_domain", "nb_token": "your_netbox_token", "ssl_verify": false}} runner={"plugin": "threaded", "options": {"num_workers": 50}} logging={"enabled":true, "level": "DEBUG", "to_console": true}'
+
+    # filter dev_1
+    $ nornir_cli custom filter --hosts -s name=dev_1
+    [
+        "dev_1"
+    ]
+    ```
+=== "cmd_first_command.py:"
+    ```python
+    from nornir_cli.common_commands import custom
+    from nornir_netmiko import netmiko_send_command
+    from nornir.core.plugins.connections import ConnectionPluginRegister
+
+
+    @custom
+    def cli(ctx):
+        ConnectionPluginRegister.auto_register()
+
+        res = ctx.nornir.run(
+            task=netmiko_send_command, name="display clock", command_string="disp clock"
+        )
+
+        # we will use print_result command for res
+        ctx.result = res
+        # create new attributes
+        ctx.simple_object = "simple object"
+        ctx.complex_object = "complex object"
+    ```
+=== "cmd_second_command.py:"
+    ```python
+    from nornir_cli.common_commands import custom
+    from nornir_netmiko import netmiko_send_command
+    from nornir.core.plugins.connections import ConnectionPluginRegister
+
+
+    @custom
+    def cli(ctx):
+        ConnectionPluginRegister.auto_register()
+
+        res = ctx.nornir.run(
+            task=netmiko_send_command, name="display interface brief", command_string="disp int br"
+        )
+
+        # we will use print_result command for res
+        ctx.result = res
+        # print attributes from first_command
+        print()
+        print("ctx.simple_object from first_command:", ctx.simple_object, end=f"\n{'-' * 10}\n")
+        print("ctx.complex_object from first_command:", ctx.complex_object)
+        print()
+    ```
+=== "run custom commands:"
+    ```text
+    $ nornir_cli custom first_command print_result second_command print_result
+    display clock*******************************************************************
+    * dev_1 ** changed : False *****************************************************
+    vvvv display clock ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+
+    2021-10-04 11:55:46
+    Monday
+    Time Zone(Moscow) : UTC+03:00
+    ^^^^ END display clock ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    ctx.simple_object from first_command: simple object
+    ----------
+    ctx.complex_object from first_command: complex object
+
+    display interface brief*********************************************************
+    * dev_1 ** changed : False *****************************************************
+    vvvv display interface brief ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+    ...
+    InUti/OutUti: input utility/output utility
+    Interface                   PHY   Protocol InUti OutUti   inErrors  outErrors
+    Ethernet0/0/1               up    up       0.01%  0.18%          0          0
+    ...
+    ^^^^ END display interface brief ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ```
+
 ## Click Complex Applications
 
-[About Click Complex Application](https://click.palletsprojects.com/en/7.x/complex/#){target="_blank"}
+[About Click Complex Application](https://click.palletsprojects.com/en/8.0.x/complex/#){target="_blank"}
 
 [Click complex app example](https://github.com/pallets/click/tree/1cb86096124299579156f2c983efe05585f1a01b/examples/complex){target="_blank"}
 
@@ -170,7 +287,32 @@ send_interactive --interact_events '[["save", "Are you sure to continue?[Y/N]", 
 ```
 Context object will be:
 ```python
-{'queue_functions': [{<function send_interactive at 0x7f01839ba280>: {'interact_events': <class 'inspect._empty'>, 'failed_when_contains': None, 'privilege_level': '', 'timeout_ops': None}}], 'queue_parameters': {<function send_interactive at 0x7f01839ba280>: {'interact_events': <class 'inspect._empty'>, 'failed_when_contains': None, 'privilege_level': '', 'timeout_ops': None}}, 'nornir_scrapli': <module 'nornir_scrapli' from '/home/user/virtenvs/3.8.4/lib/python3.8/site-packages/nornir_scrapli/__init__.py'>, 'original': <function send_interactive at 0x7f01839ba280>, 'queue_functions_generator': <generator object decorator.<locals>.wrapper.<locals>.<genexpr> at 0x7f0182fafba0>}
+{
+    'queue_functions':
+    [
+        {
+            <function send_interactive at 0x7f01839ba280>:
+            {
+            'interact_events': <class 'inspect._empty'>,
+            'failed_when_contains': None,
+            'privilege_level': '',
+            'timeout_ops': None
+            }
+        }
+    ],
+    'queue_parameters':
+    {
+        <function send_interactive at 0x7f01839ba280>:
+        {
+            'interact_events': <class 'inspect._empty'>,
+            'failed_when_contains': None,
+            'privilege_level': '', 'timeout_ops': None
+        }
+    },
+    'nornir_scrapli': <module 'nornir_scrapli' from '/home/user/virtenvs/3.8.4/lib/python3.8/site-packages/nornir_scrapli/__init__.py'>,
+    'original': <function send_interactive at 0x7f01839ba280>,
+    'queue_functions_generator': <generator object decorator.<locals>.wrapper.<locals>.<genexpr> at 0x7f0182fafba0>
+}
 ```
 
 * `ctx.obj["queue_functions"]` - queue(list) of dictionaries, where the key is original function, and the value is a set of argumetns. For Commands chains.
@@ -183,7 +325,7 @@ If we run custom runbok (as instance, it's called [`dhcp_snooping`](https://time
 ```text
 $ nornir_cli custom dhcp_snooping
 ```
-and there is no Context object, but the first argument will be Nornir object. [See example](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks).
+and there is no Context object, but the first argument will be CustomContext object. [See example](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks).
 
 ## .temp.pkl
 
@@ -264,21 +406,22 @@ And now you can do `init` command
 
 #### Useful functions
 
-* `_info`
 
-    use `_info` to add statistic to your nornir runbook
+* `print_stat`
+
+    use `print_stat` to add statistic to your nornir runbook
 
     ```python
-    from nornir_cli.common_commands import _info
+    from nornir_cli.common_commands import print_stat 
 
     # code
     # ...
 
-    _info(nr, task)
+    print_stat(nr, result)
     # where is :nr: is nornir.core.Nornir object
-    # :task: is nornir.task.Task object
+    # :result: is nornir.core.task.Result object
     ```
-    The `_info` function show statistic in the following format:
+    The `print_stat` function show statistic in the following format:
 
     ```text
     dev_1                                             : ok=1               changed=0               failed=0
@@ -288,6 +431,59 @@ And now you can do `init` command
     OK      : 3
     CHANGED : 0
     FAILED  : 0
+    ```
+
+* `print_result`
+
+    It is the same function as `print_result` from `nornir_utils`, but with count parameter. 
+
+    `count` - number of sorted results. It's acceptable to use numbers with minus sign (-5 as example), then results will be from the end of results list. With `count` parameter you can output first `n` results or latest `n` results.
+
+    ```python
+    from nornir_cli.common_commands import print_result
+
+    # code
+    # ...
+
+    print_result(result, vars=["result", "diff"], count=-10)
+    # :result: is nornir.core.task.Result object
+    ```
+
+* `write_result`
+
+    Result can be written to a file using `write_result` function for all hosts from current Inventory. 
+
+    By default, `write_result`  tries to create a file in the current directory or in the specified directory, if file doesn't exist. 
+
+    `write_result` function has many parameters. For example, you can exclude errors from a file, write "diff" to another file or output it, use different write modes, limit entries number, etc.
+
+    ```python
+    from nornir_cli.common_commands import write_result
+
+    # code
+    # ...
+
+    write_result(result, filename="result.txt", vars=["result", "diff"], count=-10,
+    no_errors=True)
+    # :result: is nornir.core.task.Result object
+    ```
+
+* `write_results`
+
+    Result can be written to a files with hostnames as filenames using `write_results` function for all hosts from current Inventory. For example, it is usefull for diagnostic commands, that run many `show something` or `display something` commands.
+
+    By default, `write_results`  tries to create a specified directory, if it doesn't exist.
+
+    `write_results` command has the same parameters as `write_result`, but uses `-d` or `--dirname` instead of `-f` or `--filename`:
+
+    ```python
+    from nornir_cli.common_commands import write_results
+
+    # code
+    # ...
+
+    write_results(result, dirname="results", vars=["result", "diff"], no_errors=True)
+    # :result: is nornir.core.task.Result object
     ```
 
 * `_pickle_to_hidden_file`
@@ -354,7 +550,7 @@ $ pyang -f sample-xml-skeleton --sample-xml-skeleton-path \
 <ifm xmlns="http://www.huawei.com/netconf/vrp/huawei-ifm"><interfaces><interface><ifName/>
 </interface></interfaces></ifm></data>
 ```
-* [run `scrapli_netconf` from `nornir_cli`](https://timeforplanb123.github.io/nornir_cli/workflow/#what-about-netconf)
+* [run `scrapli_netconf`, `nornir_netconf`, `nornir_pyez` from `nornir_cli`](https://timeforplanb123.github.io/nornir_cli/workflow/#what-about-netconf)
 
 Thanks [hellt](https://github.com/hellt){target="_blank"} for this tutorial.
 
@@ -363,3 +559,24 @@ Sources:
 * [zero](https://github.com/hpreston/python_networking/blob/master/data_manipulation/yang/pyang-examples.sh){target="_blank"}
 * [one](https://netdevops.me/nokia-yang-tree/){target="_blank"}
 * [two](https://twitter.com/rganascim/status/1223221183753134080?s=09){target="_blank"}
+
+## Command exceptions
+
+`nornir_cli v1.0.0` includes some commands, that require a unique python runner:
+
+**nornir-netmiko netmiko_send_command with use_timing option**:
+
+Current python runner (see `nornir_cli/plugin_commands/cmd_common.py`) does not check the output, by default, so, now, it will not be possible to add conditions to the check, as described in the [example](https://github.com/ktbyers/netmiko/blob/develop/EXAMPLES.md#handling-commands-that-prompt-timing){target="_blank"}. 
+
+`use_timing` option works, but it doesn't make sense.
+
+You can use `nornir-scrapli send_interactive` method instead of `nornir-netmiko netmiko_send_command` with `use_timing` option. See example [here](https://timeforplanb123.github.io/nornir_cli/workflow/#commands-chains)
+
+**nornir-scrapli cfg_load_config**:
+
+`scrapli cfg_load_config` has `**kwargs` parameters, that depends on [platforms](https://github.com/scrapli/scrapli_cfg/tree/b75b68caa26240f5ec7af92312a92196bc07f3a8/scrapli_cfg/platform/core){target="_blank"}. There is no option for the current python runner, so additional arguments cannot be passed.
+
+**nornir-pyxl pyxl_map_data**:
+
+[`pyxl_map_data`](https://github.com/h4ndzdatm0ld/nornir_pyxl#example---map-data-with-nested-dict-magic-key){target="_blank"} command was excluded from `nornir_cli` - `Nested Dict Magic Key` is not supported now.
+

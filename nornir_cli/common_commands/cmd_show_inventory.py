@@ -1,20 +1,16 @@
-import click
+import json
 from itertools import islice
+import click
 from nornir_cli.common_commands import (
     _pickle_to_hidden_file,
     common_options,
-)
-from nornir_cli.common_commands.common import (
     SHOW_INVENTORY_OPTIONS,
 )
-import json
 
 
 def _get_inventory(nr_obj, count, **kwargs):
 
-    d = {  # "inventory": nr_obj.inventory.dict().setdefault(kwargs["inventory"]).items(),
-        # "groups": nr_obj.inventory.groups,
-        # "hosts": nr_obj.inventory.hosts,
+    d = {
         str: dict,
         bool: list,
     }
@@ -26,16 +22,37 @@ def _get_inventory(nr_obj, count, **kwargs):
 
     for k, v in kwargs.items():
         if v:
-            try:
-                o = nr_obj.inventory.dict()[k]
-            except KeyError:
-                o = nr_obj.inventory.dict()[v].items()
-            l = len(o)
-            _ = [0, count or l] if count >= 0 else [l + count, l]
-            json_string = json.dumps(
-                d[type(v)](islice(o, *_)), indent=4, ensure_ascii=False
-            ).encode("utf8")
-            yield json_string.decode()
+
+            if v == "all":
+                for inventory_key in ("hosts", "groups", "defaults"):
+                    for item in _get_inventory(nr_obj, count, inventory=inventory_key):
+                        if item:
+                            yield item
+            elif v == "defaults":
+                yield {v: nr_obj.inventory.defaults.dict()}
+            else:
+                try:
+                    o = nr_obj.inventory.dict()[k]
+                except KeyError:
+                    o = nr_obj.inventory.dict()[v].items()
+                l = len(o)
+                if isinstance(count, type(None)):
+                    if l > 1:
+                        msg = (
+                            f"all required {v} in inventory"
+                            if isinstance(v, str)
+                            else f"list of all required {k}"
+                        )
+                        click.confirm(
+                            f"Are you sure you want to output {msg} on stdout?",
+                            default="Y",
+                            abort=True,
+                        )
+                _ = [0, count or l] if count == None or count >= 0 else [l + count, l]
+                inventory_part = d[type(v)](islice(o, *_))
+                if isinstance(inventory_part, dict):
+                    inventory_part = {v: inventory_part}
+                yield inventory_part
 
 
 @click.command()
@@ -51,16 +68,14 @@ def cli(ctx, count, hosts, groups, inventory):
     except KeyError:
         nr = _pickle_to_hidden_file("temp.pkl", mode="rb", dump=False)
 
-    if not count or ctx.resilient_parsing:
-        click.confirm("Are you sure you want to output all on stdout?", abort=True)
-
     d = {
         x: y
         for x, y in zip(("inventory", "hosts", "groups"), (inventory, hosts, groups))
     }
     try:
         for item in _get_inventory(nr, count, **d):
-            print(item)
+            json_string = json.dumps(item, indent=4, ensure_ascii=False)
+            print(json_string.encode("utf-8").decode())
     except ValueError:
         raise ctx.fail(
             click.BadParameter(
