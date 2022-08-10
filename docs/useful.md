@@ -566,7 +566,7 @@ Sources:
 
 ## Command exceptions
 
-`nornir_cli v1.1.0` includes some commands, that require a unique python runner:
+`nornir_cli v1.1.1` includes some commands, that require a unique python runner:
 
 **nornir-netmiko netmiko_send_command with use_timing option**:
 
