@@ -1,10 +1,12 @@
 import json
 from itertools import islice
+
 import click
+
 from nornir_cli.common_commands import (
+    SHOW_INVENTORY_OPTIONS,
     _pickle_to_hidden_file,
     common_options,
-    SHOW_INVENTORY_OPTIONS,
 )
 
 

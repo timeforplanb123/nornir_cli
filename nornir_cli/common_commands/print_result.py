@@ -1,11 +1,13 @@
+import json
 import logging
 import pprint
 import threading
-import json
-from itertools import islice
-from typing import List, cast, Optional
 from collections import OrderedDict
+from itertools import islice
+from typing import List, Optional, cast
+
 from colorama import Fore, Style, init
+
 from nornir.core.task import AggregatedResult, MultiResult, Result
 
 LOCK = threading.Lock()

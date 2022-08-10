@@ -1,7 +1,8 @@
 import click
+
 from nornir_cli.common_commands import (
-    _pickle_to_hidden_file,
     _json_loads,
+    _pickle_to_hidden_file,
 )
 
 

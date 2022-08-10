@@ -1,14 +1,17 @@
-from itertools import takewhile, dropwhile
+from itertools import dropwhile, takewhile
+
 import click
+
 from nornir.core.filter import F
+
 from nornir_cli.common_commands import (
-    cmd_show_inventory,
-    common_options,
-    _pickle_to_hidden_file,
-    _json_loads,
-    _get_lists,
     SHOW_INVENTORY_OPTIONS,
+    _get_lists,
+    _json_loads,
+    _pickle_to_hidden_file,
+    common_options,
 )
+from nornir_cli.common_commands.cmd_show_inventory import cli as show_inventory
 
 
 ERROR_MESSAGE = (
@@ -96,7 +99,7 @@ def cli(ctx, advanced_filter, f, save, **kwargs):
 
         # run show_inventory command
         if any(kwargs.values()):
-            ctx.invoke(cmd_show_inventory.cli, **kwargs)
+            ctx.invoke(show_inventory, **kwargs)
     except (ValueError, IndexError):
         raise ctx.fail(
             click.BadParameter(

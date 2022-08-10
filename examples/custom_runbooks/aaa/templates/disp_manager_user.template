@@ -1,0 +1,10 @@
+Value USERNAME (\S+)
+Value SERVICE_TYPE (.*)
+Value USER_LEVEL (\d+)
+Value FTP_DIR (\S+)
+
+Start
+  ^\s+Username \s+ : ${USERNAME}
+  ^\s+Service-type \s+ : ${SERVICE_TYPE}
+  ^\s+User-level \s+ : ${USER_LEVEL}
+  ^\s+FTP-directory \s+ : ${FTP_DIR}

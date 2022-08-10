@@ -1,13 +1,14 @@
-import os
-import json
 import difflib
+import json
 import logging
+import os
 import threading
-from pathlib import Path
 from itertools import islice
-from collections import OrderedDict
-from typing import List, Optional, Tuple, NamedTuple
+from pathlib import Path
+from typing import List, NamedTuple, Optional, Tuple
+
 from nornir.core.task import AggregatedResult, MultiResult, Result
+
 from nornir_utils.plugins.tasks.files.write_file import _read_file
 
 

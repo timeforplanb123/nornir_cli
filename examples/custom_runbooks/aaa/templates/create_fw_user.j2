@@ -1,0 +1,15 @@
+aaa
+{% for user in host.users %}
+manager-user {{ user }}
+level 15
+service-type {{ host.service_types }}
+ftp-directory cfcard:
+authentication-scheme some_hwtacacs_auth_scheme
+hwtacacs-server some_hwtacacs_server
+quit
+bind manager-user {{ user }} role {{ host.role }}
+{% endfor %}
+quit
+quit
+save
+Y

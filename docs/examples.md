@@ -131,16 +131,19 @@ FAILED  : 0
 [How to run custom
 runbook](https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections)
 
-And here is an example of this runbook:
+And here is an example of this runbook(btw, all examples are [here](https://github.com/timeforplanb123/nornir_cli/tree/master/examples/custom_runbooks){target="_blank"}):
 === "Nornir runbook example:"
     ```python
     # nornir_cli/custom_commands/dhcp/cmd_dhcp_snooping.py
-
     import os
-    from nornir_netmiko import netmiko_send_command, netmiko_send_config
+
     from nornir.core.plugins.connections import ConnectionPluginRegister
+
+    from nornir_cli.common_commands import custom, print_stat
+
     from nornir_jinja2.plugins.tasks import template_file
-    from nornir_cli.common_commands import custom, print_stat 
+
+    from nornir_netmiko import netmiko_send_command, netmiko_send_config
 
 
     @custom
@@ -161,7 +164,7 @@ And here is an example of this runbook:
                 command_string="disp int",
                 use_textfsm=True,
                 textfsm_template=os.path.join(
-                    os.getcwd(), "nornir_cli/custom_commands/templates/disp_int.template"
+                    os.path.dirname(os.path.abspath(__file__)), "templates/disp_int.template"
                 ),
             )
             # Get trusted interfaces
@@ -177,7 +180,9 @@ And here is an example of this runbook:
             # Render j2 template
             template = task.run(
                 task=template_file,
-                path="nornir_cli/custom_commands/templates",
+                path=os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)), "templates"
+                ),
                 template="dhcp_snooping.j2",
             )
             # Configure commands from j2 template
@@ -432,7 +437,7 @@ Usage: nornir_cli nornir-netmiko netmiko_save_config [OPTIONS]
       bar(optional)
 
 Options:
-  --pg_bar                        [default: False]
+  --pg_bar                        Progress bar flag
   --print_result / --no_print_result
                                   print_result from nornir_utils  [default:
                                   print_result]

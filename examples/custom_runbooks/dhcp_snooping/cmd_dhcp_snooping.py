@@ -1,12 +1,20 @@
 import os
-from nornir_netmiko import netmiko_send_command, netmiko_send_config
+
 from nornir.core.plugins.connections import ConnectionPluginRegister
-from nornir_jinja2.plugins.tasks import template_file
+
 from nornir_cli.common_commands import custom, print_stat
+
+from nornir_jinja2.plugins.tasks import template_file
+
+from nornir_netmiko import netmiko_send_command, netmiko_send_config
 
 
 @custom
 def cli(ctx):
+    """
+    dhcp snooping configuration example
+    """
+
     def _get_trusted_untrusted(task):
         ConnectionPluginRegister.auto_register()
         # Get parameters in format:
@@ -20,7 +28,7 @@ def cli(ctx):
             command_string="disp int",
             use_textfsm=True,
             textfsm_template=os.path.join(
-                os.getcwd(), "nornir_cli/custom_commands/templates/disp_int.template"
+                os.path.dirname(os.path.abspath(__file__)), "templates/disp_int.template"
             ),
         )
         # Get trusted interfaces
@@ -36,7 +44,9 @@ def cli(ctx):
         # Render j2 template
         template = task.run(
             task=template_file,
-            path="nornir_cli/custom_commands/templates",
+            path=os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "templates"
+            ),
             template="dhcp_snooping.j2",
         )
         # Configure commands from j2 template
