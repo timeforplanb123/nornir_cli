@@ -1,13 +1,15 @@
 import logging
+
 import click
+
 from nornir_cli.common_commands import (
-    _pickle_to_hidden_file,
+    PRINT_RESULT_OPTIONS,
+    PRINT_RESULT_WRITE_RESULT_OPTIONS,
     _json_loads,
+    _pickle_to_hidden_file,
     common_options,
     print_result,
     print_stat as ps,
-    PRINT_RESULT_OPTIONS,
-    PRINT_RESULT_WRITE_RESULT_OPTIONS,
 )
 
 

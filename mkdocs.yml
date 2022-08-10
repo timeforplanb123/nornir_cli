@@ -7,7 +7,7 @@ nav:
 
 site_author: Pavel Shemetov
 site_description: >-
-        nornir_cli is CLI tool based on Nornir framework and Nornir Plugins
+       nornir_cli is CLI tool based on Nornir framework and Nornir Plugins
 # Repository
 repo_name: timeforplanb123/nornir_cli 
 repo_url: https://github.com/timeforplanb123/nornir_cli
@@ -30,27 +30,26 @@ theme:
 
   palette:
 
-    # Light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: slate
-      primary: black 
-      accent: green
-      toggle:
-        icon: material/lightbulb-outline
-        name: Switch to dark mode
-
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
-      scheme: default
+      scheme: slate 
       primary: black
       accent: green
       toggle:
-        icon: material/lightbulb
+        icon: material/lightbulb-outline
         name: Switch to light mode
+
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: black 
+      accent: green 
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
   font:
     text: Manrope
     code: Fira Mono
-  # icon:
   logo: 
   favicon:
   icon:

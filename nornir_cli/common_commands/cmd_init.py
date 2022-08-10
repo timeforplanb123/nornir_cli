@@ -1,15 +1,17 @@
 import click
+
 from nornir import InitNornir
 from nornir.core.plugins.inventory import TransformFunctionRegister
+
 from nornir_cli.common_commands import (
-    cmd_show_inventory,
-    common_options,
-    _pickle_to_hidden_file,
-    _json_loads,
-    _get_lists,
     CONNECTION_OPTIONS,
     SHOW_INVENTORY_OPTIONS,
+    _get_lists,
+    _json_loads,
+    _pickle_to_hidden_file,
+    common_options,
 )
+from nornir_cli.common_commands.cmd_show_inventory import cli as show_inventory
 from nornir_cli.transform.function import adapt_host_data
 
 
@@ -125,7 +127,7 @@ def cli(
 
         # run show_inventory command
         if any(kwargs.values()):
-            ctx.invoke(cmd_show_inventory.cli, **kwargs)
+            ctx.invoke(show_inventory, **kwargs)
 
     except (ValueError, IndexError, TypeError, KeyError):
         raise ctx.fail(

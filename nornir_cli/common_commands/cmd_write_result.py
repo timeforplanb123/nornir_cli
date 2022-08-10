@@ -1,16 +1,18 @@
-import os
 import logging
+import os
 from pathlib import Path
+
 import click
+
 from nornir_cli.common_commands import (
-    _pickle_to_hidden_file,
-    _json_loads,
-    common_options,
-    write_result,
-    print_stat as ps,
     PRINT_RESULT_WRITE_RESULT_OPTIONS,
     WRITE_RESULT_OPTIONS,
     WRITE_RESULT_WRITE_RESULTS_OPTIONS,
+    _json_loads,
+    _pickle_to_hidden_file,
+    common_options,
+    print_stat as ps,
+    write_result,
 )
 
 

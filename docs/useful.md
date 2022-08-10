@@ -1,6 +1,6 @@
 ## Click Multi Commands feature
 
-All commands are loaded 'lazily' from different plugins (about [Click Multi Commands](https://click.palletsprojects.com/en/7.x/commands/?highlight=multi%20command#custom-multi-commands){target="_blank"} + [Click Multi Commands example](https://github.com/pallets/click/tree/master/examples/complex){target="_blank"}. This applies to Nornir plugins and manually written plugins.
+All commands are loaded 'lazily' from different plugins (about [Click Multi Commands](https://click.palletsprojects.com/en/latest/commands/#custom-multi-commands){target="_blank"} + [Click Multi Commands example](https://github.com/pallets/click/tree/master/examples/complex){target="_blank"}. This applies to Nornir plugins and manually written plugins.
 
 
 In `nornir_cli` Click Multi Commands feature is implemented through class inheritance, created dynamically from `class_factory` function in `nornir_cli/nornir_cli.py`. 
@@ -201,9 +201,11 @@ And let's look at an simple example:
     ```
 === "cmd_first_command.py:"
     ```python
-    from nornir_cli.common_commands import custom
-    from nornir_netmiko import netmiko_send_command
     from nornir.core.plugins.connections import ConnectionPluginRegister
+
+    from nornir_cli.common_commands import custom
+
+    from nornir_netmiko import netmiko_send_command
 
 
     @custom
@@ -222,9 +224,11 @@ And let's look at an simple example:
     ```
 === "cmd_second_command.py:"
     ```python
-    from nornir_cli.common_commands import custom
-    from nornir_netmiko import netmiko_send_command
     from nornir.core.plugins.connections import ConnectionPluginRegister
+
+    from nornir_cli.common_commands import custom
+
+    from nornir_netmiko import netmiko_send_command
 
 
     @custom
@@ -272,11 +276,11 @@ And let's look at an simple example:
 
 ## Click Complex Applications
 
-[About Click Complex Application](https://click.palletsprojects.com/en/8.0.x/complex/#){target="_blank"}
+[About Click Complex Application](https://click.palletsprojects.com/en/latest/complex/#complex-applications){target="_blank"}
 
 [Click complex app example](https://github.com/pallets/click/tree/1cb86096124299579156f2c983efe05585f1a01b/examples/complex){target="_blank"}
 
-An important role in `nornir_cli` is given to the [Context object](https://click.palletsprojects.com/en/7.x/complex/#contexts){target="_blank"}.
+An important role in `nornir_cli` is given to the [Context object](https://click.palletsprojects.com/en/latest/complex/#contexts){target="_blank"}.
 As instance, if we run that command:
 ```text
 $ nornir_cli nornir-scrapli init -u username -p password \
@@ -562,7 +566,7 @@ Sources:
 
 ## Command exceptions
 
-`nornir_cli v1.0.0` includes some commands, that require a unique python runner:
+`nornir_cli v1.1.0` includes some commands, that require a unique python runner:
 
 **nornir-netmiko netmiko_send_command with use_timing option**:
 

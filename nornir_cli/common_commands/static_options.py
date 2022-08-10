@@ -1,5 +1,7 @@
-import click
 import pathlib
+
+import click
+
 from nornir_cli.common_commands.common import _validate_connection_options
 
 
@@ -17,7 +19,9 @@ CONNECTION_OPTIONS = [
 PLUGIN_OPTIONS = [
     click.option(
         "--pg_bar",
+        help="Progress bar flag",
         is_flag=True,
+        default=False,
         show_default=True,
     ),
     click.option(

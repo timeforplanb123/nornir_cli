@@ -1,9 +1,11 @@
 import os
 from pathlib import Path
+
 import click
+
 from nornir_cli.common_commands import (
-    common_options,
     WRITE_FILE_OPTIONS,
+    common_options,
 )
 
 

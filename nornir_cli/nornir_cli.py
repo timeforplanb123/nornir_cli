@@ -1,17 +1,27 @@
-import os
-import click
 import inspect
+import os
+import re
 from itertools import chain
+
+import click
+
+from httpx import Timeout
+
+from nornir_cli import __version__
 from nornir_cli.common_commands import (
+    PLUGIN_OPTIONS,
     _doc_generator,
     common_options,
-    PLUGIN_OPTIONS,
 )
-from nornir_cli import __version__
-from httpx import Timeout
 
 
 COMMAND_EXCEPTIONS = {"nornir_pyxl.plugins": ["pyxl_data_map"]}
+
+# methods with a large and complex __doc__ :(
+METHOD_EXCEPTIONS = ("send_interactive",)
+
+# when click short_help is more than one string and is the __doc__ part before "Arguments:" or "Args:"
+SHORT_HELP_EXCEPTIONS = ("http_method",)
 
 CMD_FOLDERS = ["common_commands"]
 
@@ -19,7 +29,7 @@ PACKAGE_NAME = "nornir_cli"
 
 SETTINGS = {
     "nornir_scrapli": {
-        "NetconfScrape": "scrapli_netconf.driver",
+        "NetconfDriver": "scrapli_netconf.driver",
         "NetworkDriver": "scrapli.driver",
         "GenericDriver": "scrapli.driver",
     },
@@ -138,7 +148,7 @@ def class_factory(name, plugin, cmd_path=[], BaseClass=click.Group):
             ctx.obj[plugin] = __import__(plugin, fromlist=["tasks"])
             ctx.obj["original"] = getattr(ctx.obj[plugin].tasks, cmd_name, None)
 
-            # decorate the command and cover it with click.Options
+            # decorate the command and wrap it with click.Options
             return decorator(plugin, ctx)(plugin_command)
         except (ImportError, AttributeError):
             return
@@ -238,17 +248,22 @@ def dec(param=None):
 # command decorator
 def decorator(plugin, ctx):
     def wrapper(f):
-        # methods with a large and complex __doc__ :(
-        method_exceptions = ("send_interactive",)
+        doc = ""
         if obj_or.__doc__:
+            if obj_or.__name__ in SHORT_HELP_EXCEPTIONS:
+                doc_title_regex = r"Arguments:" r"|Args:"
+                doc_title_match = re.search(doc_title_regex, obj_or.__doc__)
+                if doc_title_match:
+                    doc = obj_or.__doc__[: obj_or.__doc__.find(doc_title_match.group())]
+            if not doc:
+                doc = [title for title in obj_or.__doc__.split("\n") if title][0]
 
-            doc = [title for title in obj_or.__doc__.split("\n")[:2] if title]
-
-            short_help = doc[0].strip(", ., :")
+            short_help = doc.strip(", ., : \n").split("\n")
+            short_help = " ".join([title.strip() for title in short_help])
 
             f.__doc__ = "\n".join(list(_doc_generator(obj_or.__doc__)))
 
-            if obj_or.__name__ in method_exceptions:
+            if obj_or.__name__ in METHOD_EXCEPTIONS:
                 f.__doc__ = f"{short_help}\n" + "\n".join(
                     list(
                         _doc_generator(

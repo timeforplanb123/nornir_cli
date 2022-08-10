@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom group (see [Runbook collections](https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections)).
 
-For version `1.0.0`, the following Nornir plugins are available:
+For version `1.1.0`, the following Nornir plugins are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
@@ -608,6 +608,8 @@ At first, let's check all available Tasks/commands for current list of Nornir pl
       init                   Initialize a Nornir
       netmiko_commit         Execute Netmiko commit method
       netmiko_file_transfer  Execute Netmiko file_transfer method
+      netmiko_multiline      Execute Netmiko send_multiline method (or
+                             send_multiline_timing)
       netmiko_save_config    Execute Netmiko save_config method
       netmiko_send_command   Execute Netmiko send_command method (or
                              send_command_timing)
@@ -735,28 +737,35 @@ At first, let's check all available Tasks/commands for current list of Nornir pl
       --help  Show this message and exit.
 
     Commands:
-      change_credentials  Change username and password
-      filter              Do simple or advanced filtering
-      init                Initialize a Nornir
-      print_result        print_result from nornir_utils
+      change_credentials             Change username and password
+      filter                         Do simple or advanced filtering
+      init                           Initialize a Nornir
+      print_result                   print_result from nornir_utils
+      pyez_chassis_inventory
+      pyez_checksum
+      pyez_cmd
       pyez_commit
       pyez_config
       pyez_diff
       pyez_facts
+      pyez_get_arp
       pyez_get_config
+      pyez_get_int_optics_diag_info
       pyez_int_terse
+      pyez_rollback
       pyez_route_info
       pyez_rpc
+      pyez_scp
       pyez_sec_ike
       pyez_sec_ipsec
       pyez_sec_nat_dest
       pyez_sec_nat_src
       pyez_sec_policy
       pyez_sec_zones
-      show_inventory      Show current inventory
-      write_file          Write_file, but not from nornir_utils
-      write_result        Write `Result` object to file
-      write_results       Write `Result` object to files
+      show_inventory                 Show current inventory
+      write_file                     Write_file, but not from nornir_utils
+      write_result                   Write `Result` object to file
+      write_results                  Write `Result` object to files
     ```
 === "nornir-f5:"
     ```text
@@ -858,7 +867,8 @@ At first, let's check all available Tasks/commands for current list of Nornir pl
       change_credentials  Change username and password
       filter              Do simple or advanced filtering
       http_method         This is a helper task that uses `httpx
-                          <https://www.python-httpx.org/api/>`_ to
+                          <https://www.python-httpx.org/api/>`_ to interact with
+                          an HTTP server
       init                Initialize a Nornir
       print_result        print_result from nornir_utils
       show_inventory      Show current inventory
@@ -982,7 +992,7 @@ Usage: nornir_cli nornir-scrapli send_command [OPTIONS]
       bar(optional)
 
 Options:
-  --pg_bar                        [default: False]
+  --pg_bar                        Progress bar flag
   --print_result / --no_print_result
                                   print_result from nornir_utils  [default:
                                   print_result]

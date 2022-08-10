@@ -1,15 +1,17 @@
-import os
-import re
+import functools
 import json
+import os
 import pickle
 import platform
-import functools
-import click
-from itertools import takewhile, dropwhile
+import re
 from dataclasses import dataclass
+from itertools import dropwhile, takewhile
+
+import click
+
 from nornir.core import Nornir
-from nornir.core.task import Result
 from nornir.core.inventory import ConnectionOptions
+from nornir.core.task import Result
 
 
 # custom decorator to get the current Nornir and Result objects and put them to ctx
@@ -146,7 +148,7 @@ def _get_lists(s):
 def _doc_generator(s):
     regex = (
         r".*kwargs: (?P<kwargs>.*)"
-        r"|.*task(?P<task>.*)"
+        r"|^\s*task(?P<task>.*)"
         r"|(?P<returns>.*Returns.*|.*Examples.*)"
         r"|(?P<colon>^\S+:.*)"
         r"|(?P<dash>.* – .*)"
