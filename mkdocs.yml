@@ -1,6 +1,6 @@
 site_name: nornir_cli 
 nav:
-  - Home: index.md
+  - nornir_cli: index.md
   - Workflow: workflow.md
   - Useful: useful.md
   - Examples: examples.md
@@ -96,7 +96,8 @@ markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.superfences
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
