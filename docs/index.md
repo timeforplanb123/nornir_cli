@@ -73,7 +73,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 1.1.0 
+nornir_cli, version 1.1.1
 ```
 
 #### Simple Example

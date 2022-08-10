@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom group (see [Runbook collections](https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections)).
 
-For version `1.1.0`, the following Nornir plugins are available:
+For version `1.1.1`, the following Nornir plugins are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
