@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom group (see [Runbook collections](https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections)).
 
-For version `1.1.1`, the following Nornir plugins are available:
+For version `1.2.0`, the following Nornir plugins are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
@@ -47,7 +47,6 @@ Commands:
   nornir-paramiko  nornir_paramiko plugin
   nornir-pyez      nornir_pyez plugin
   nornir-pyxl      nornir_pyxl plugin
-  nornir-routeros  nornir_routeros plugin
   nornir-scrapli   nornir_scrapli plugin
 ```
 #### Without a configuration file
@@ -805,30 +804,6 @@ At first, let's check all available Tasks/commands for current list of Nornir pl
       write_result                    Write `Result` object to file
       write_results                   Write `Result` object to files
     ```
-=== "nornir-routeros:"
-    ```text
-    $ nornir_cli nornir-routeros
-    Usage: nornir_cli nornir-routeros [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
-                                      [ARGS]...]...
-
-      nornir_routeros plugin
-
-    Options:
-      --help  Show this message and exit.
-
-    Commands:
-      change_credentials    Change username and password
-      filter                Do simple or advanced filtering
-      init                  Initialize a Nornir
-      print_result          print_result from nornir_utils
-      routeros_command      Runs a RouterOS command such as ping or fetch
-      routeros_config_item  Configures an item
-      routeros_get          Returns a RouterOS resource
-      show_inventory        Show current inventory
-      write_file            Write_file, but not from nornir_utils
-      write_result          Write `Result` object to file
-      write_results         Write `Result` object to files
-    ```
 === "nornir-paramiko:"
     ```text
     $ nornir_cli nornir-paramiko
@@ -1405,7 +1380,6 @@ And my `nornir_cli` structure:
       nornir-paramiko  nornir_paramiko plugin
       nornir-pyez      nornir_pyez plugin
       nornir-pyxl      nornir_pyxl plugin
-      nornir-routeros  nornir_routeros plugin
       nornir-scrapli   nornir_scrapli plugin
     ```
 === "nornir_cli dhcp:"
