@@ -276,6 +276,8 @@ FAILED  : 0
 
 #### routeros 
 
+!!! update `nornir_cli` is not compatible with `nornir-routeros` since `0.3.0` version. `nornir-routeros` has been removed from `nornir_cli 1.2.0`.
+
 === "config.yaml:"
     ```yaml
     config.yaml:

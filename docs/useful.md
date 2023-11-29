@@ -1,6 +1,6 @@
 ## Click Multi Commands feature
 
-All commands are loaded 'lazily' from different plugins (about [Click Multi Commands](https://click.palletsprojects.com/en/latest/commands/#custom-multi-commands){target="_blank"} + [Click Multi Commands example](https://github.com/pallets/click/tree/master/examples/complex){target="_blank"}. This applies to Nornir plugins and manually written plugins.
+All commands are loaded 'lazily' from different plugins ([Click Multi Commands](https://click.palletsprojects.com/en/latest/commands/#custom-multi-commands){target="_blank"} + [Click Multi Commands example](https://github.com/pallets/click/tree/master/examples/complex){target="_blank"}). This applies to Nornir plugins and manually written plugins.
 
 
 In `nornir_cli` Click Multi Commands feature is implemented through class inheritance, created dynamically from `class_factory` function in `nornir_cli/nornir_cli.py`. 
@@ -110,7 +110,6 @@ All custom Nornir runbooks stored in `custom_commands` directory (see [Click Mul
           nornir-paramiko  nornir_paramiko plugin
           nornir-pyez      nornir_pyez plugin
           nornir-pyxl      nornir_pyxl plugin
-          nornir-routeros  nornir_routeros plugin
           nornir-scrapli   nornir_scrapli plugin
         ```
 
@@ -566,7 +565,7 @@ Sources:
 
 ## Command exceptions
 
-`nornir_cli v1.1.1` includes some commands, that require a unique python runner:
+`nornir_cli v1.2.0` includes some commands, that require a unique python runner:
 
 **nornir-netmiko netmiko_send_command with use_timing option**:
 

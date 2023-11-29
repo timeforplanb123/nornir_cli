@@ -407,12 +407,14 @@ def nornir_f5():
     pass
 
 
-@dec("nornir_routeros.plugins")
-def nornir_routeros():
-    """
-    nornir_routeros plugin
-    """
-    pass
+# nornir_cli is not compatible with nornir-routeros since 0.3.0 version
+# nornir-routeros has been removed from nornir_cli 1.2.0
+# @dec("nornir_routeros.plugins")
+# def nornir_routeros():
+#     """
+#     nornir_routeros plugin
+#     """
+#     pass
 
 
 @dec("nornir_paramiko.plugins")
