@@ -195,7 +195,6 @@ def dec(param=None):
                         for filename in p[2]
                         if filename.endswith(".py") and filename.startswith("cmd_")
                     ]:
-
                         cmd_path = p[0].split(path)[1]
 
                         grps = cmd_path.split(os.sep)[1:]

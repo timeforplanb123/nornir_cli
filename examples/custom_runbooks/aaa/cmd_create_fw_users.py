@@ -29,9 +29,7 @@ SERVICE_TYPES_ERROR_MESSAGE = (
 SPECIAL_CHARACTERS = "'\"[!@#$%^&*()-+?_=,<>}{~:]/\"'"
 
 
-def validate_user_parameters(
-    task, valid_user_parameters, current_user_parameters
-):
+def validate_user_parameters(task, valid_user_parameters, current_user_parameters):
     for dict_0, dict_1 in zip(valid_user_parameters, current_user_parameters):
         if dict_0 != dict_1:
             return Result(host=task.host, result="Validation error")
@@ -119,9 +117,7 @@ def cli(ctx, usernames, role, service_types):
         template = task.run(
             task=template_file,
             name="Create template",
-            path=os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), "templates"
-            ),
+            path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates"),
             template="create_fw_user.j2",
         )
 
@@ -165,15 +161,13 @@ def cli(ctx, usernames, role, service_types):
         f, ch = (result[host].failed, result[host].changed)
         if f:
             click.secho(
-                f"{host:<25}: Oh! Here is some exception:"
-                f" {result[host].exception}",
+                f"{host:<25}: Oh! Here is some exception:" f" {result[host].exception}",
                 fg="red",
                 bold=True,
             )
         elif ch:
             click.secho(
-                f"{host:<25}: {' '.join(usernames)}"
-                " have been created or changed",
+                f"{host:<25}: {' '.join(usernames)}" " have been created or changed",
                 fg="yellow",
                 bold=True,
             )

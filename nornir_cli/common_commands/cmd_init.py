@@ -7,6 +7,7 @@ from nornir_cli.common_commands import (
     CONNECTION_OPTIONS,
     SHOW_INVENTORY_OPTIONS,
     _get_lists,
+    _get_dict_from_json_string,
     _json_loads,
     _pickle_to_hidden_file,
     common_options,
@@ -93,16 +94,10 @@ def cli(
     ctx.ensure_object(dict)
 
     try:
-
         TransformFunctionRegister.register("adapt_host_data", adapt_host_data)
 
         if from_dict:
-            d = dict(
-                [
-                    _json_loads(i)
-                    for i in (value.split("=") for value in _get_lists(from_dict))
-                ]
-            )
+            d = _get_dict_from_json_string(from_dict)
             cf = (
                 None
                 if not config_file or config_file == "None" or "null"
@@ -135,11 +130,11 @@ def cli(
                 f"{ERROR_MESSAGE}",
             ).format_message(),
         )
-    except (AttributeError):
+    except AttributeError:
         ctx.fail(
             f"File '{config_file}' is empty",
         )
-    except (FileNotFoundError):
+    except FileNotFoundError:
         raise ctx.fail(
             click.BadParameter(
                 f"Path '{config_file}' does not exist",

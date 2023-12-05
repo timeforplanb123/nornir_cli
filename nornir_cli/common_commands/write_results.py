@@ -52,7 +52,6 @@ def _write_individual_result(
     no_errors: bool = False,
     append: bool = False,
 ) -> None:
-
     individual_result = []
 
     # ignore results with a specifig severity_level
@@ -120,13 +119,11 @@ def _write_results(
     no_errors: bool = False,
     append: bool = False,
 ) -> None:
-
     attrs = attrs or ["diff", "result", "stdout"]
     if isinstance(attrs, str):
         attrs = [attrs]
 
     if isinstance(result, AggregatedResult):
-
         result = dict(sorted(result.items()))
 
         if isinstance(count, int):

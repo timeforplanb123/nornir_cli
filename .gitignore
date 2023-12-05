@@ -7,6 +7,7 @@ dist/
 # Service files
 config.yaml
 nornir.log
+temp.pkl
 .temp.pkl
 
 *.swp

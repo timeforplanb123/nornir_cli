@@ -7,6 +7,7 @@ from nornir.core.filter import F
 from nornir_cli.common_commands import (
     SHOW_INVENTORY_OPTIONS,
     _get_lists,
+    _get_dict_from_json_string,
     _json_loads,
     _pickle_to_hidden_file,
     common_options,
@@ -90,9 +91,7 @@ def cli(ctx, advanced_filter, f, save, **kwargs):
         if advanced_filter:
             ctx.obj["nornir"] = _get_obj_after_adv_filter(ctx.obj["nornir"], f)
         else:
-            d = dict(
-                [_json_loads(i) for i in (value.split("=") for value in _get_lists(f))]
-            )
+            d = _get_dict_from_json_string(f)
             ctx.obj["nornir"] = ctx.obj["nornir"].filter(**d)
         if save:
             _pickle_to_hidden_file("temp.pkl", obj=ctx.obj["nornir"])
@@ -100,7 +99,7 @@ def cli(ctx, advanced_filter, f, save, **kwargs):
         # run show_inventory command
         if any(kwargs.values()):
             ctx.invoke(show_inventory, **kwargs)
-    except (ValueError, IndexError):
+    except (ValueError, TypeError, IndexError):
         raise ctx.fail(
             click.BadParameter(
                 f"{ERROR_MESSAGE}",

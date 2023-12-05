@@ -36,6 +36,10 @@ PLUGIN_OPTIONS = [
         default=True,
         show_default=True,
     ),
+    click.argument(
+        "arguments",
+        required=False,
+    ),
 ]
 
 PRINT_RESULT_WRITE_RESULT_OPTIONS = [
