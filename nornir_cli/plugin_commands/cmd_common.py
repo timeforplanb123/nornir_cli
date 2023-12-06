@@ -39,9 +39,19 @@ def cli(ctx, pg_bar, print_result, print_stat, arguments, *args, **kwargs):
                 for key, value in kwargs.items()
                 if (key, value) not in params
             }
+
             # use arguments to update parameters
             if arguments:
                 parameters = {**_get_dict_from_json_string(arguments), **parameters}
+        missing_options = [
+            f"'--{option}'"
+            for option in ctx.obj["required_options"]
+            if parameters.get(option) == None
+        ]
+        if missing_options:
+            raise ctx.fail(
+                f"Missing options {', '.join(missing_options)}",
+            )
     except (ValueError, IndexError, TypeError, KeyError):
         raise ctx.fail(
             click.BadParameter(
