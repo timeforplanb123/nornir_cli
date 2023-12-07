@@ -15,7 +15,27 @@ from nornir_cli.common_commands import (
 from tqdm import tqdm
 
 
-ERROR_MESSAGE = "error"
+ERROR_MESSAGE = (
+    "Nornir plugin options and arguments.\n"
+    "Check the required options and the command format"
+    "(use json syntax for arguments).\n"
+    "There should be something like...\n\n"
+    "Only with required options:\n"
+    '   nornir_cli nornir-netmiko netmiko_send_command --command_string "disp clock"\n\n'
+    "Only with required options as an arguments(json-string):\n"
+    "   nornir_cli nornir-netmiko netmiko_send_command "
+    '\'{"command_string":"disp clock"}\'\n\n'
+    "With required options and arguments(json-string). The priority of options will be "
+    'higher, the command "disp ver" will be executed:\n'
+    "   nornir_cli nornir-netmiko netmiko_send_command "
+    '--command_string "disp ver" '
+    '\'{"command_string":"disp clock"}\'\n\n'
+    'With required options and arguments(json-string). The command "disp ver" '
+    'will be executed with the "read_timeout" argument:\n'
+    "   nornir_cli nornir-netmiko netmiko_send_command "
+    '--command_string "disp ver" '
+    "'{\"read_timeout\":11.0}'"
+)
 
 
 @click.pass_context
