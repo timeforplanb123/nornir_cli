@@ -360,7 +360,7 @@ FAILED  : 0
 
 #### routeros 
 
-`nornir_cli` is not compatible with `nornir-routeros` since `0.3.0` version. `nornir-routeros` has been removed from `nornir_cli 1.2.0`.
+`nornir_cli` is not compatible with `nornir-routeros` since `0.3.0` version. `nornir-routeros` has been removed from `nornir_cli 1.2.0`. 
 
 But starting from `nornir_cli` version `1.3.0`, you can pass any additional arguments as a json string to Nornir plugin commands. This feature allows you to run any Nornir plugin command without an unique set of parameters.
 
