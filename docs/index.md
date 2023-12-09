@@ -35,7 +35,7 @@
 
 * **Json input. Json output**
 
-    Json strings are everywhere! Ok, only in command options and arguments
+    Json strings are everywhere! Command options and arguments accept json strings. Use this feature in your scripts with the `jq`, `jc` utilities
 
 * **Custom Multi Commands with click**
 
@@ -73,7 +73,7 @@ docker build -t timeforplanb123/nornir_cli .
 docker run --rm -it timeforplanb123/nornir_cli sh
 
 # nornir_cli --version
-nornir_cli, version 1.2.0
+nornir_cli, version 1.3.0
 ```
 
 #### Simple Example

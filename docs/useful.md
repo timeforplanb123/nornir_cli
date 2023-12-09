@@ -284,9 +284,9 @@ As instance, if we run that command:
 ```text
 $ nornir_cli nornir-scrapli init -u username -p password \
 -co '{"scrapli": {"platform": "huawei_vrp", "extras":{"ssh_config_file": true}}}' \
-filter --hosts -s 'name=dev_1' send_command --command "display clock" \
-send_interactive --interact_events '[["save", "Are you sure to continue?[Y/N]", false], \
-["Y", "Save the configuration successfully.", true]]'
+filter --hosts -s '{"name":"dev_1"}' send_command '{"command":"display clock"}' \
+send_interactive '{"interact_events":[["save", "Are you sure to continue?[Y/N]", false], \
+["Y", "Save the configuration successfully.", true]]}'
 ```
 Context object will be:
 ```python
@@ -315,6 +315,10 @@ Context object will be:
     'nornir_scrapli': <module 'nornir_scrapli' from '/home/user/virtenvs/3.8.4/lib/python3.8/site-packages/nornir_scrapli/__init__.py'>,
     'original': <function send_interactive at 0x7f01839ba280>,
     'queue_functions_generator': <generator object decorator.<locals>.wrapper.<locals>.<genexpr> at 0x7f0182fafba0>
+    # required_options for send_command
+    'required_options': ['command']}
+    # required_options for send_interactive
+    'required_options': ['interact_events']}
 }
 ```
 
@@ -323,6 +327,7 @@ Context object will be:
 * `ctx.obj[plugin]` - where plugin is "nornir_scrapli"
 * `ctx.obj["original"]` - last original function without arguments (from chain of commands)
 * `ctx.obj["queue_functions_generator"]` - ctx.obj["queue_functions"] in the form of a generator expression
+* `ctx.obj["required_options"]` - list with required options for last plugin command
 
 If we run custom runbok (as instance, it's called [`dhcp_snooping`](https://timeforplanb123.github.io/nornir_cli/examples/#custom-nornir-runbooks) from example above), then most likely we use a `@custom` decorator:
 ```text
@@ -357,7 +362,7 @@ As instance:
 	# if we started init earlier, then we already have the Nornir object.
 	# It will be enough to filter the Nornir Inventory and save it to temp.pkl
 
-	$ nornir_cli nornir-scrapli filter -a 'name__contains=leaf' send_command --command "display clock" send_command --command "display device"
+	$ nornir_cli nornir-scrapli filter -a 'name__contains=leaf' send_command '{"command":"display clock"}' send_command '{"command":"display device"}'
 	```
 === "without init and filter:"
 	```text
@@ -565,7 +570,7 @@ Sources:
 
 ## Command exceptions
 
-`nornir_cli v1.2.0` includes some commands, that require a unique python runner:
+`nornir_cli v1.3.0` includes some commands, that require a unique python runner:
 
 **nornir-netmiko netmiko_send_command with use_timing option**:
 
@@ -577,7 +582,11 @@ You can use `nornir-scrapli send_interactive` method instead of `nornir-netmiko 
 
 **nornir-scrapli cfg_load_config**:
 
-`scrapli cfg_load_config` has `**kwargs` parameters, that depends on [platforms](https://github.com/scrapli/scrapli_cfg/tree/b75b68caa26240f5ec7af92312a92196bc07f3a8/scrapli_cfg/platform/core){target="_blank"}. There is no option for the current python runner, so additional arguments cannot be passed.
+`scrapli cfg_load_config` has `**kwargs` parameters, that depends on [platforms](https://github.com/scrapli/scrapli_cfg/tree/b75b68caa26240f5ec7af92312a92196bc07f3a8/scrapli_cfg/platform/core){target="_blank"}. Python runner for `nornir_cli` version `<=1.2.0` did not support passing any additional arguments, but starting from `nornir_cli` version `1.3.0`, you can pass any additional arguments as a json string:
+```text
+$ nornir_cli nornir-scrapli cfg_load_config '{"config": "..." "any":"arguments"}'
+```
+This rule works for any Nornir plugin command without an unique set of `**kwargs` parameters.
 
 **nornir-pyxl pyxl_map_data**:
 
