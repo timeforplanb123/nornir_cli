@@ -36,6 +36,7 @@ nornir-paramiko = "0.2.0"
 nornir-http = "0.1.3"
 nornir-pyxl = "1.0.1"
 nornir-netconf = "2.0.0"
+nornir-routeros = "0.6.0"
 tqdm = "^4.64.0"
 
 [tool.poetry.dev-dependencies]
