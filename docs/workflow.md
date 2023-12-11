@@ -1478,6 +1478,7 @@ And my `nornir_cli` structure:
       nornir-paramiko  nornir_paramiko plugin
       nornir-pyez      nornir_pyez plugin
       nornir-pyxl      nornir_pyxl plugin
+      nornir-routeros  nornir_routeros plugin
       nornir-scrapli   nornir_scrapli plugin
     ```
 === "nornir_cli dhcp:"
