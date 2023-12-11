@@ -1,6 +1,7 @@
 from nornir_cli.common_commands.common import (
     _doc_generator,
     _get_lists,
+    _get_dict_from_json_string,
     _json_loads,
     _pickle_to_hidden_file,
     _validate_connection_options,
@@ -27,6 +28,7 @@ from nornir_cli.common_commands.write_results import write_results
 __all__ = (
     "_doc_generator",
     "_get_lists",
+    "_get_dict_from_json_string",
     "_json_loads",
     "_pickle_to_hidden_file",
     "_validate_connection_options",

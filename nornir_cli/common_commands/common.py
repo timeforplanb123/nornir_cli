@@ -139,7 +139,7 @@ def _get_lists(s):
         begin = list(takewhile(lambda x: "=" in x, s))
         s = list(dropwhile(lambda x: "=" in x, s))
         begin.extend([i for i in takewhile(lambda x: "=" not in x, s)])
-        body.append("".join(begin))
+        body.append(" ".join(begin))
         s = list(dropwhile(lambda x: "=" not in x, s))
     return body
 
@@ -209,3 +209,16 @@ def multiple_progress_bar(task, method, pg_bar, **kwargs):
     task.run(task=method, **kwargs)
     if pg_bar:
         pg_bar.update()
+
+
+# json_string to dict function
+def _get_dict_from_json_string(json_string):
+    if "=" in json_string:
+        return dict(
+            [
+                _json_loads(i)
+                for i in (value.split("=") for value in _get_lists(json_string))
+            ]
+        )
+    else:
+        return _json_loads([json_string])[0]

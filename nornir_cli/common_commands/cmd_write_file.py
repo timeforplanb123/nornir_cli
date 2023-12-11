@@ -18,7 +18,6 @@ def cli(ctx, filename, content, append, line_feed):
     """
 
     try:
-
         dirname = os.path.dirname(filename)
         Path(dirname).mkdir(parents=True, exist_ok=True)
 

@@ -195,7 +195,6 @@ def dec(param=None):
                         for filename in p[2]
                         if filename.endswith(".py") and filename.startswith("cmd_")
                     ]:
-
                         cmd_path = p[0].split(path)[1]
 
                         grps = cmd_path.split(os.sep)[1:]
@@ -305,16 +304,22 @@ def decorator(plugin, ctx):
                 str(default_value) if not isinstance(default_value, type) else None
             )
 
+            if not default_value and default_value not in ["", 0]:
+                ctx.obj["required_options"].append(k)
+
             click.option(
                 "--" + k,
                 default=default_value,
                 show_default=True,
-                required=False if default_value or default_value == "" else True,
+                required=False,
+                help="[required]" if k in ctx.obj["required_options"] else "",
                 type=PARAMETER_TYPES.setdefault(typ, click.STRING),
             )(cmd)
 
             # last original functions with arguments
-            ctx.obj["queue_parameters"][obj_or].update({k: v.default})
+            ctx.obj["queue_parameters"][obj_or].update(
+                {k: v.default if not isinstance(v.default, type) else default_value}
+            )
 
         # list of dictionaries with original function (key) and set of arguments (value)
         ctx.obj["queue_functions"].append(ctx.obj["queue_parameters"])
@@ -339,6 +344,9 @@ def decorator(plugin, ctx):
 
     ctx.obj["queue_parameters"][obj_or] = {}
 
+    # list with required options for obj_or
+    ctx.obj["required_options"] = []
+
     return wrapper
 
 
@@ -357,6 +365,8 @@ def init_nornir_cli(ctx):
     ctx.obj["queue_functions"] = []
     # last original functions with arguments
     ctx.obj["queue_parameters"] = {}
+    # list with required options for last plugin command
+    ctx.obj["required_options"] = []
 
 
 @dec("nornir_netmiko")

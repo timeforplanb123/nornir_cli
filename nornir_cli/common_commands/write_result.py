@@ -45,7 +45,6 @@ def _write_individual_result(
     write_host: bool = False,
     no_errors: bool = False,
 ) -> None:
-
     # ignore results with a specifig severity_level
     if result.severity_level < severity_level:
         return
@@ -93,7 +92,6 @@ def _write_result(
     count: Optional[int] = None,
     no_errors: bool = False,
 ) -> None:
-
     attrs = attrs or ["diff", "result", "stdout"]
     if isinstance(attrs, str):
         attrs = [attrs]

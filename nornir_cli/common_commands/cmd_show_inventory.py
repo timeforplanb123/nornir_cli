@@ -11,7 +11,6 @@ from nornir_cli.common_commands import (
 
 
 def _get_inventory(nr_obj, count, **kwargs):
-
     d = {
         str: dict,
         bool: list,
@@ -24,7 +23,6 @@ def _get_inventory(nr_obj, count, **kwargs):
 
     for k, v in kwargs.items():
         if v:
-
             if v == "all":
                 for inventory_key in ("hosts", "groups", "defaults"):
                     for item in _get_inventory(nr_obj, count, inventory=inventory_key):

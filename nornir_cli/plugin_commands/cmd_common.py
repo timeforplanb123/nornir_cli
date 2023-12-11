@@ -3,6 +3,8 @@ import click
 from nornir.core.plugins.connections import ConnectionPluginRegister
 
 from nornir_cli.common_commands import (
+    _get_lists,
+    _get_dict_from_json_string,
     _json_loads,
     _pickle_to_hidden_file,
     multiple_progress_bar,
@@ -13,24 +15,49 @@ from nornir_cli.common_commands import (
 from tqdm import tqdm
 
 
+ERROR_MESSAGE = "error"
+
+
 @click.pass_context
-def cli(ctx, pg_bar, print_result, print_stat, *args, **kwargs):
+def cli(ctx, pg_bar, print_result, print_stat, arguments, *args, **kwargs):
     ConnectionPluginRegister.auto_register()
 
-    # 'None' = None
-    kwargs.update({k: v for k, v in zip(kwargs, _json_loads(kwargs.values()))})
+    try:
+        # 'None' = None
+        kwargs.update({k: v for k, v in zip(kwargs, _json_loads(kwargs.values()))})
 
-    current_func_params = next(ctx.obj["queue_functions_generator"])
+        current_func_params = next(ctx.obj["queue_functions_generator"])
 
-    # try to pass not all arguments, but only the necessary ones
-    if kwargs == list(current_func_params.values())[0]:
-        function, parameters = list(current_func_params.items())[0]
-    else:
-        param_iterator = iter(current_func_params.values())
-        params = list(next(param_iterator).items())
-        function, parameters = list(current_func_params)[0], {
-            key: value for key, value in kwargs.items() if (key, value) not in params
-        }
+        # try to pass not all arguments, but only the necessary ones
+        if kwargs == list(current_func_params.values())[0] and not arguments:
+            function, parameters = list(current_func_params.items())[0]
+        else:
+            param_iterator = iter(current_func_params.values())
+            params = list(next(param_iterator).items())
+            function, parameters = list(current_func_params)[0], {
+                key: value
+                for key, value in kwargs.items()
+                if (key, value) not in params
+            }
+
+            # use arguments to update parameters
+            if arguments:
+                parameters = {**_get_dict_from_json_string(arguments), **parameters}
+        missing_options = [
+            f"'--{option}'"
+            for option in ctx.obj["required_options"]
+            if parameters.get(option) == None
+        ]
+        if missing_options:
+            raise ctx.fail(
+                f"Missing options {', '.join(missing_options)}",
+            )
+    except (ValueError, IndexError, TypeError, KeyError):
+        raise ctx.fail(
+            click.BadParameter(
+                f"{ERROR_MESSAGE}",
+            ).format_message(),
+        )
 
     # get the current Nornir object from Commands chain or from temp.pkl file
     try:
