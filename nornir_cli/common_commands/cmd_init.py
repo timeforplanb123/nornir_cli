@@ -32,10 +32,20 @@ ERROR_MESSAGE = (
     '"/home/user/inventory/hosts.yaml", "group_file": '
     '"/home/user/inventory/groups.yaml", '
     '"defaults_file": "/home/user/inventory/defaults.yaml"}}\'\n\n'
+    "The same:\n"
+    '   nornir_cli nornir-scrapli init -c "" -f '
+    '\'{"inventory":{"plugin":"SimpleInventory",options": {"host_file": '
+    '"/home/user/inventory/hosts.yaml", "group_file": '
+    '"/home/user/inventory/groups.yaml", '
+    '"defaults_file": "/home/user/inventory/defaults.yaml"}}}\'\n\n'
     "With combination of both methods:\n"
     '   nornir_cli nornir-napalm init -f \'logging={"enabled": true, "level":'
     '"DEBUG",'
-    '"to_console": false}'
+    '"to_console": false}\'\n\n'
+    "The same:\n"
+    '   nornir_cli nornir-napalm init -f \'{"logging":{"enabled": true, "level":'
+    '"DEBUG",'
+    '"to_console": false}}\''
 )
 
 

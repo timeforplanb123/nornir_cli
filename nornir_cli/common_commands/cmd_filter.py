@@ -19,16 +19,22 @@ ERROR_MESSAGE = (
     "Filter optiions. There should be something like...\n\n"
     "Simple filtering:\n"
     "   nornir_cli nornir-netmiko <init> filter site=cmh role=spine\n\n"
+    "Or:\n"
+    '   nornir_cli nornir-netmiko <init> filter \'{"name":"spine_1"}\'\n\n'
     "Simple filtering with json:\n"
     "   nornir_cli nornir-netmiko <init> filter --hosts "
-    '\'primary_ip={"address": "10.1.129.71/32", "family": 4, "id": 4482, '
+    '\'primary_ip={"address": "10.1.10.10/32", "family": 4, "id": 4482, '
     '"url": "http://netbox-domain/api/ipam/ip-addresses/4482/"} name=spine_1\'\n\n'
+    "The same:\n"
+    "   nornir_cli nornir-netmiko <init> filter --hosts "
+    '\'{"primary_ip":{"address": "10.1.10.10/32", "family": 4, "id": 4482, '
+    '"url": "http://netbox-domain/api/ipam/ip-addresses/4482/"}, "name":"spine_1"}\'\n\n'
     "Advanced filtering:\n"
     "   nornir_cli nornir-netmiko <init> filter -a "
-    "'name__contains=cmh device_role__name__contains=access'\n"
+    "'name__contains=cmh device_role__name__contains=access'\n\n"
     "The same:\n"
     "   nornir_cli nornir-netmiko <init> filter -a "
-    "'name__contains=cmh & device_role__name__contains=access'\n"
+    "'name__contains=cmh & device_role__name__contains=access'\n\n"
     "Or:\n"
     "   nornir_cli nornir-netmiko <init> filter -a "
     "'name__contains=cmh | name__contains=access'\n\n"
