@@ -1,0 +1,1275 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="nornir_cli is CLI tool based on Nornir framework and Nornir Plugins">
+      
+      
+        <meta name="author" content="Pavel Shemetov">
+      
+      
+      
+        <link rel="prev" href="../useful/">
+      
+      
+      
+      <link rel="icon" href="../None">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.1">
+    
+    
+      
+        <title>Examples - nornir_cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.45e1311d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Manrope";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tasks-and-runbooks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="nornir_cli" class="md-header__button md-logo" aria-label="nornir_cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            nornir_cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Examples
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/timeforplanb123/nornir_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timeforplanb123/nornir_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="nornir_cli" class="md-nav__button md-logo" aria-label="nornir_cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    nornir_cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/timeforplanb123/nornir_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    timeforplanb123/nornir_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    nornir_cli
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../useful/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Useful
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-and-runbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks and runbooks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tasks and runbooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Single Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-chains" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task chains
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-nornir-runbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Nornir runbooks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textfsm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Textfsm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      routeros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nornir-paramiko" class="md-nav__link">
+    <span class="md-ellipsis">
+      nornir-paramiko
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nornir-pyxl" class="md-nav__link">
+    <span class="md-ellipsis">
+      nornir-pyxl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      --help
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-and-runbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks and runbooks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tasks and runbooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Single Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-chains" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task chains
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-nornir-runbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Nornir runbooks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textfsm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Textfsm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      routeros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nornir-paramiko" class="md-nav__link">
+    <span class="md-ellipsis">
+      nornir-paramiko
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nornir-pyxl" class="md-nav__link">
+    <span class="md-ellipsis">
+      nornir-pyxl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      --help
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Examples</h1>
+
+<h2 id="tasks-and-runbooks">Tasks and runbooks<a class="headerlink" href="#tasks-and-runbooks" title="Permanent link">#</a></h2>
+<h4 id="single-task">Single Task<a class="headerlink" href="#single-task" title="Permanent link">#</a></h4>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">one:</label><label for="__tabbed_1_2">two:</label><label for="__tabbed_1_3">three:</label><label for="__tabbed_1_4">four:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as one comand with config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password \
+filter --hosts -a &#39;name__contains=dev_1 device_role__name__contains=leaf&#39; \
+netmiko_send_command --command_string &quot;display clock&quot;
+[
+    &quot;dev_1&quot;
+]
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:15:23+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as one comand without config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password -c &quot;&quot; -f \
+&#39;inventory={&quot;plugin&quot;:&quot;NetBoxInventory2&quot;, &quot;options&quot;: {&quot;nb_url&quot;: &quot;your_netbox_domain&quot;, \
+&quot;nb_token&quot;: &quot;your_netbox_token&quot;, &quot;ssl_verify&quot;: false}} \
+runner={&quot;plugin&quot;: &quot;threaded&quot;, &quot;options&quot;: {&quot;num_workers&quot;: 50}} \
+logging={&quot;enabled&quot;:true, &quot;level&quot;: &quot;DEBUG&quot;, &quot;to_console&quot;: true}&#39; \
+filter --hosts -a &#39;name__contains=dev_1 \
+device_role__name__contains=leaf&#39; netmiko_send_command --command_string &quot;display clock&quot;
+
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:20:53+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as many commands with config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password
+
+$ nornir_cli nornir-netmiko filter --hosts -a -s &#39;name__contains=dev_1 device_role__name__contains=leaf&#39;
+[
+    &quot;dev_1&quot;
+]
+
+$ nornir_cli nornir-netmiko netmiko_send_command --command_string &quot;display clock&quot;
+
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:30:13+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># of course, the same thing can be done without a configuration file
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Or the same, but with json string arguments:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">one:</label><label for="__tabbed_2_2">two:</label><label for="__tabbed_2_3">three:</label><label for="__tabbed_2_4">four:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as one comand with config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password \
+filter --hosts -a &#39;name__contains=dev_1 device_role__name__contains=leaf&#39; \
+netmiko_send_command &#39;{&quot;command_string&quot;:&quot;display clock&quot;}&#39;
+[
+    &quot;dev_1&quot;
+]
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:15:23+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as one comand without config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password -c &quot;&quot; -f \
+&#39;{&quot;inventory&quot;:{&quot;plugin&quot;:&quot;NetBoxInventory2&quot;, &quot;options&quot;: {&quot;nb_url&quot;: &quot;your_netbox_domain&quot;, \
+&quot;nb_token&quot;: &quot;your_netbox_token&quot;, &quot;ssl_verify&quot;: false}}, \
+&quot;runner&quot;:{&quot;plugin&quot;: &quot;threaded&quot;, &quot;options&quot;: {&quot;num_workers&quot;: 50}} \
+&quot;logging&quot;:{&quot;enabled&quot;:true, &quot;level&quot;: &quot;DEBUG&quot;, &quot;to_console&quot;: true}}&#39; \
+filter --hosts -a &#39;name__contains=dev_1 \
+device_role__name__contains=leaf&#39; netmiko_send_command &#39;{&quot;command_string&quot;:&quot;display clock&quot;}&#39;
+
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:20:53+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># as many commands with config.yaml
+
+$ nornir_cli nornir-netmiko init -u username -p password
+
+$ nornir_cli nornir-netmiko filter --hosts -a -s &#39;name__contains=dev_1 device_role__name__contains=leaf&#39;
+[
+    &quot;dev_1&quot;
+]
+
+$ nornir_cli nornir-netmiko netmiko_send_command &#39;{&quot;command_string&quot;:&quot;display clock&quot;}&#39;
+
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-21 23:30:13+03:00
+Sunday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># of course, the same thing can be done without a configuration file
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="task-chains">Task chains<a class="headerlink" href="#task-chains" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code># any chain of commands in a group/plugin is possible
+
+$ nornir_cli nornir-scrapli init -u username -p password \
+-co &#39;{&quot;scrapli&quot;: {&quot;platform&quot;: &quot;huawei_vrp&quot;, &quot;extras&quot;:{&quot;ssh_config_file&quot;: true}}}&#39; \
+filter --hosts -s &#39;name=dev_1&#39; send_command &#39;{&quot;command&quot;:&quot;display clock&quot;}&#39; \
+send_interactive &#39;{&quot;interact_events&quot;:[[&quot;save&quot;, &quot;Are you sure to continue?[Y/N]&quot;, \
+false], [&quot;Y&quot;, &quot;Save the configuration successfully.&quot;, true]]}&#39;
+[
+    &quot;dev_1&quot;
+]
+
+send_command********************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+2021-03-19 14:12:38+03:00
+Friday
+Time Zone(Moscow) : UTC+03:00
+^^^^ END send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+
+send_interactive****************************************************************
+* dev_1 ** changed : True ******************************************************
+vvvv send_interactive ** changed : True vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+^^^^ END send_interactive ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=1               failed=0
+
+OK      : 1
+CHANGED : 1
+FAILED  : 0
+</code></pre></div>
+<h4 id="custom-nornir-runbooks">Custom Nornir runbooks<a class="headerlink" href="#custom-nornir-runbooks" title="Permanent link">#</a></h4>
+<p><a href="http://timeforplanb123.github.io/nornir_cli/useful/#how-to-add-custom-nornir-runbook">How to add a previously written Nornir runbook in <code>nornir_cli</code></a></p>
+<p><a href="https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections">How to run custom
+runbook</a></p>
+<p>And here is an example of this runbook(btw, all examples are <a href="https://github.com/timeforplanb123/nornir_cli/tree/master/examples/custom_runbooks" target="_blank">here</a>):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Nornir runbook example:</label><label for="__tabbed_3_2">jinja2 template:</label><label for="__tabbed_3_3">textfsm template:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># nornir_cli/custom_commands/dhcp/cmd_dhcp_snooping.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">nornir.core.plugins.connections</span> <span class="kn">import</span> <span class="n">ConnectionPluginRegister</span>
+
+<span class="kn">from</span> <span class="nn">nornir_cli.common_commands</span> <span class="kn">import</span> <span class="n">custom</span><span class="p">,</span> <span class="n">print_stat</span>
+
+<span class="kn">from</span> <span class="nn">nornir_jinja2.plugins.tasks</span> <span class="kn">import</span> <span class="n">template_file</span>
+
+<span class="kn">from</span> <span class="nn">nornir_netmiko</span> <span class="kn">import</span> <span class="n">netmiko_send_command</span><span class="p">,</span> <span class="n">netmiko_send_config</span>
+
+
+<span class="nd">@custom</span>
+<span class="k">def</span> <span class="nf">cli</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure dhcp snooping</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_get_trusted_untrusted</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+        <span class="n">ConnectionPluginRegister</span><span class="o">.</span><span class="n">auto_register</span><span class="p">()</span>
+        <span class="c1"># Get parameters in format:</span>
+        <span class="c1">#    [ { &#39;description&#39;: &#39;NNI&#39;,</span>
+        <span class="c1">#        &#39;mac_address&#39;: &#39;xxxx-yyyy-zzzz&#39;,</span>
+        <span class="c1">#        &#39;mtu&#39;: &#39;&#39;,</span>
+        <span class="c1">#        &#39;name&#39;: &#39;Ethernet0/0/1&#39;},]</span>
+        <span class="n">intfs</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">task</span><span class="o">=</span><span class="n">netmiko_send_command</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;interfaces list&quot;</span><span class="p">,</span>
+            <span class="n">command_string</span><span class="o">=</span><span class="s2">&quot;disp int&quot;</span><span class="p">,</span>
+            <span class="n">use_textfsm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">textfsm_template</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;templates/disp_int.template&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># Get trusted interfaces</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">host</span><span class="p">[</span><span class="s2">&quot;trusted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">intfs</span><span class="o">.</span><span class="n">result</span> <span class="k">if</span> <span class="s2">&quot;NNI&quot;</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="c1"># Get untrusted interfaces</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">host</span><span class="p">[</span><span class="s2">&quot;untrusted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">intfs</span><span class="o">.</span><span class="n">result</span>
+            <span class="k">if</span> <span class="s2">&quot;NNI&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;mtu&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="c1"># Render j2 template</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">task</span><span class="o">=</span><span class="n">template_file</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;templates&quot;</span>
+            <span class="p">),</span>
+            <span class="n">template</span><span class="o">=</span><span class="s2">&quot;dhcp_snooping.j2&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Configure commands from j2 template</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">host</span><span class="p">[</span><span class="s2">&quot;template&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">result</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">task</span><span class="o">=</span><span class="n">netmiko_send_config</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Configure dhcp snooping&quot;</span><span class="p">,</span>
+            <span class="n">config_commands</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+            <span class="n">cmd_verify</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">exit_config_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">nornir</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">_get_trusted_untrusted</span><span class="p">,</span> <span class="n">on_failed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># add result to ctx.result for print_result, write_result, write_results</span>
+    <span class="c1"># `netmiko_send_config` doesn&#39;t return data, so `result` will be empty</span>
+    <span class="c1"># ctx.result = result</span>
+
+    <span class="c1"># Show statistic</span>
+    <span class="n">print_stat</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">nornir</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="x"># nornir_cli/custom_commands/dhcp/templates/dhcp_snooping.j2</span>
+
+<span class="x">dhcp enable</span>
+<span class="x">dhcp snooping enable</span>
+<span class="x">#</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">intf</span> <span class="k">in</span> <span class="nv">host.untrusted</span> <span class="cp">%}</span>
+<span class="x">interface </span><span class="cp">{{</span> <span class="nv">intf</span> <span class="cp">}}</span>
+<span class="x"> dhcp snooping enable no-user-binding</span>
+<span class="x"> Y</span>
+<span class="x"> dhcp snooping check dhcp-chaddr enable</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="x">#</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">intf</span> <span class="k">in</span> <span class="nv">host.trusted</span> <span class="cp">%}</span>
+<span class="x">interface </span><span class="cp">{{</span> <span class="nv">intf</span> <span class="cp">}}</span>
+<span class="x"> dhcp snooping enable no-user-binding</span>
+<span class="x"> Y</span>
+<span class="x"> dhcp snooping trusted</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="x">#</span>
+<span class="x">q</span>
+<span class="x">q</span>
+<span class="x">save</span>
+<span class="x">Y</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code># nornir_cli/custom_commands/dhcp/templates/disp_int.template
+
+Value NAME (\S+)
+Value DESCRIPTION (.*)
+Value MAC_ADDRESS (\w+-\w+-\w+)
+Value MTU (\d+)
+
+Start
+  ^\S+ current state.* -&gt; Continue.Record
+  ^${NAME} current state.*
+  ^Description:${DESCRIPTION}
+  ^.* Maximum Transmit Unit is ${MTU}
+  ^.* Hardware address is ${MAC_ADDRESS}
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="textfsm">Textfsm<a class="headerlink" href="#textfsm" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko netmiko_send_command --command_string &quot;disp int&quot; --use_textfsm True --textfsm_template nornir_cli/custom_commands/templates/disp_int.template 
+
+netmiko_send_command************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+[ { &#39;description&#39;: &#39;NNI&#39;,
+    &#39;mac_address&#39;: &#39;f898-ef49-b5d0&#39;,
+    &#39;mtu&#39;: &#39;&#39;,
+    &#39;name&#39;: &#39;Ethernet0/0/1&#39;},
+  { &#39;description&#39;: &#39;&#39;,
+    &#39;mac_address&#39;: &#39;f898-ef49-b5d0&#39;,
+    &#39;mtu&#39;: &#39;&#39;,
+    &#39;name&#39;: &#39;Ethernet0/0/2&#39;},
+
+    ...
+
+]
+^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1            : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+<h4 id="routeros">routeros<a class="headerlink" href="#routeros" title="Permanent link">#</a></h4>
+<p><code>nornir_cli</code> is not compatible with <code>nornir-routeros</code> since <code>0.3.0</code> version. <code>nornir-routeros</code> has been removed from <code>nornir_cli 1.2.0</code>. </p>
+<p>But starting from <code>nornir_cli</code> version <code>1.3.0</code>, you can pass any additional arguments as a json string to Nornir plugin commands. This feature allows you to run any Nornir plugin command without an unique set of parameters.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">config.yaml:</label><label for="__tabbed_4_2">inventory/hosts,yaml:</label><label for="__tabbed_4_3">routeros_command:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nt">config.yaml</span><span class="p">:</span>
+<span class="c1"># Simple Nornir configuration file</span>
+<span class="nt">inventory</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SimpleInventory</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;inventory/hosts.yaml&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Single host inventory</span>
+<span class="nt">dev_1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.1.2.3</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8728</span>
+<span class="w">    </span><span class="nt">connection_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">routerosapi</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">extras</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">use_ssl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-routeros init -c &quot;/home/user/config.yaml&quot; routeros_command &#39;{&quot;path&quot;:&quot;/&quot;, &quot;command&quot;:&quot;ping&quot;, &quot;address&quot;:&quot;1.1.1.1&quot;, &quot;count&quot;:4}&#39;
+
+# or
+# $ nornir_cli nornir-routeros init -c &quot;/home/user/config.yaml&quot; routeros_command --path &quot;/&quot; --command &quot;ping&quot; &#39;{&quot;address&quot;:&quot;1.1.1.1&quot;, &quot;count&quot;:4}&#39;
+routeros_command****************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv routeros_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+[ { &#39;avg-rtt&#39;: b&#39;22ms&#39;,
+    &#39;host&#39;: b&#39;1.1.1.1&#39;,
+    &#39;max-rtt&#39;: b&#39;22ms&#39;,
+    &#39;min-rtt&#39;: b&#39;22ms&#39;,
+    &#39;packet-loss&#39;: b&#39;0&#39;,
+    &#39;received&#39;: b&#39;1&#39;,
+    &#39;sent&#39;: b&#39;1&#39;,
+    &#39;seq&#39;: b&#39;0&#39;,
+    &#39;size&#39;: b&#39;56&#39;,
+    &#39;time&#39;: b&#39;22ms&#39;,
+    &#39;ttl&#39;: b&#39;56&#39;},
+    ...
+^^^^ END routeros_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1                                             : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="nornir-paramiko">nornir-paramiko<a class="headerlink" href="#nornir-paramiko" title="Permanent link">#</a></h4>
+<p><code>nornir-paramiko</code> does not work correctly with network devices, because it uses <code>exec_command</code>(<a href="https://stackoverflow.com/questions/32697981/paramiko-issues-channel-closed-when-executing-a-command" target="_blank">see here</a>) instead of <code>send</code> and <code>recv</code>. It works correctly with <code>linux/unix</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">config.yaml:</label><label for="__tabbed_5_2">inventory/hosts.yaml:</label><label for="__tabbed_5_3">paramiko_command:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple Nornir configuration file</span>
+<span class="nt">inventory</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SimpleInventory</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;inventory/hosts.yaml&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Single host inventory</span>
+<span class="nt">host_1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.3.2.1</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+<span class="w">    </span><span class="nt">connection_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">paramiko</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">extras</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">allow_agent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">          </span><span class="nt">look_for_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-paramiko init paramiko_command --command &quot;pwd&quot;
+paramiko_command****************************************************************
+* host_1 ** changed : False ****************************************************
+vvvv paramiko_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+/home/user
+
+^^^^ END paramiko_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+host_1                                     : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="nornir-pyxl">nornir-pyxl<a class="headerlink" href="#nornir-pyxl" title="Permanent link">#</a></h4>
+<p>As instance, <code>Untitled.xlsx</code> file has single sheet - <code>Sheet1</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:4"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><input id="__tabbed_6_4" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">config.yaml:</label><label for="__tabbed_6_2">inventory/hosts.yaml:</label><label for="__tabbed_6_3">Untitled.xlsx:</label><label for="__tabbed_6_4">pyxl_ez_data:</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple Nornir configuration file</span>
+<span class="nt">inventory</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SimpleInventory</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;inventory/hosts.yaml&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Single host inventory</span>
+<span class="nt">dev_1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.1.2.3</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>SITE_ID CLLI    SYSTEM NAME NTP SERVER 1IP  NTP SERVER 2IP  NTP SERVER 3IP  NTP SERVER 4IP
+Q345501 PHNZAZ  PHNZAZ-63569    192.168.1.100   192.168.1.102/32    192.168.100.3   time.ntp.com
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>nornir_cli nornir-pyxl init pyxl_ez_data --workbook Untitled.xlsx --sheetname Sheet1
+pyxl_ez_data********************************************************************
+* dev_1 ** changed : False *****************************************************
+vvvv pyxl_ez_data ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+[ { &#39;clli&#39;: &#39;PHNZAZ&#39;,
+    &#39;ntp_server_1ip&#39;: &#39;192.168.1.100&#39;,
+    &#39;ntp_server_2ip&#39;: &#39;192.168.1.102/32&#39;,
+    &#39;ntp_server_3ip&#39;: &#39;192.168.100.3&#39;,
+    &#39;ntp_server_4ip&#39;: &#39;time.ntp.com&#39;,
+    &#39;site_id&#39;: &#39;Q345501&#39;,
+    &#39;system_name&#39;: &#39;PHNZAZ-63569&#39;}]
+^^^^ END pyxl_ez_data ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+dev_1                                     : ok=1               changed=0               failed=0
+
+OK      : 1
+CHANGED : 0
+FAILED  : 0
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>nornir-pyxl</code> includes <a href="https://github.com/h4ndzdatm0ld/nornir_pyxl#example---map-data-with-nested-dict-magic-key" target="_blank"><code>pyxl_map_data</code></a> command, but it does not work int <code>nornir_cli</code> and was added to command exceptions</p>
+<h2 id="-help">--help<a class="headerlink" href="#-help" title="Permanent link">#</a></h2>
+<p>The help option can be used anywhere, for example:</p>
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko init -u username -p password filter \
+--hosts -a -s &#39;name__contains=dev_1 device_role__name__contains=leaf&#39; \
+netmiko_save_config --help
+Usage: nornir_cli nornir-netmiko netmiko_save_config [OPTIONS] [ARGUMENTS]
+
+  Execute Netmiko save_config method
+
+      Arguments: cmd(str, optional): Command used to save the configuration.
+      confirm(bool, optional): Does device prompt for confirmation before
+      executing save operation confirm_response(str, optional): Response send
+      to device when it prompts for confirmation
+
+      Returns: nornir Result attributes(optional), statistic, progress
+      bar(optional)
+
+Options:
+  --pg_bar                        Progress bar flag
+  --print_result / --no_print_result
+                                  print_result from nornir_utils  [default:
+                                  print_result]
+  --print_stat / --no_print_stat  Print Result statistic for Nornir object
+                                  [default: print_stat]
+  --cmd TEXT                      [default: ]
+  --confirm BOOLEAN               [default: False]
+  --confirm_response TEXT         [default: ]
+  --help                          Show this message and exit.
+
+
+$ nornir_cli nornir-netmiko init --help -u username -p password \
+filter --hosts -a -s &#39;name__contains=dev_1 device_role__name__contains=leaf&#39; \
+netmiko_save_config
+Usage: nornir_cli nornir-netmiko init [OPTIONS]
+
+  Initialize nornir with a configuration file, with code or with a combination
+  of both.
+
+Options:
+  -c, --config_file PATH          Path to configuration file  [default:
+                                  config.yaml]
+  -f, --from_dict TEXT            InitNornir dictionary arguments (json
+                                  string)
+  -co, --connection_options TEXT  Specify any connection parameters (json
+                                  string)
+  -d, --dry_run BOOLEAN           Whether to simulate changes or not
+                                  [default: False]
+  -u, --username TEXT             Default username
+  -p, --password TEXT             Default password
+  -cou, --count INTEGER           Number of elements you want to show
+  -g, --groups                    Show groups list
+  -h, --hosts                     Show hosts list
+  -i, --inventory [hosts|groups|defaults|all]
+                                  Show hosts, groups or defaults inventory
+  --help                          Show this message and exit.
+
+
+$ nornir_cli nornir-netmiko init -u username -p password filter --help \
+--hosts -a -s &#39;name__contains=dev_1 device_role__name__contains=leaf&#39; \
+netmiko_save_config
+Usage: nornir_cli nornir-netmiko filter [OPTIONS] [F]
+
+  Do simple or advanced filtering that will enable us to operate on groups of
+  hosts based on their properties.
+
+Options:
+  -a, --advanced_filter           Use an advanced filtering (string)
+  -cou, --count INTEGER           Number of elements you want to show
+  -g, --groups                    Show groups list
+  -h, --hosts                     Show hosts list
+  -i, --inventory [hosts|groups|defaults|all]
+                                  Show hosts, groups or defaults inventory
+  -s, --save                      Save filtered Nornir object to pickle file
+                                  for later use
+  --help                          Show this message and exit.
+</code></pre></div>
+<h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">#</a></h2>
+<p>By default, Nornir logs to a <code>nornir.log</code> file. 
+For logging to console configure <code>logging</code> parameter in <code>config.yaml</code> or do <code>init</code> from dictionary, as instance:
+<div class="highlight"><pre><span></span><code>$ nornir_cli nornir-netmiko init -c &quot;&quot; -f &#39;inventory={&quot;plugin&quot;:&quot;NetBoxInventory2&quot;, \
+&quot;options&quot;: {&quot;nb_url&quot;: &quot;http://your_netbox_domain&quot;, &quot;nb_token&quot;: &quot;your_netbox_token&quot;, \
+&quot;ssl_verify&quot;: false}} runner={&quot;plugin&quot;: &quot;threaded&quot;, &quot;options&quot;: {&quot;num_workers&quot;: 50}} \
+logging={&quot;enabled&quot;:true, &quot;level&quot;: &quot;DEBUG&quot;, &quot;to_console&quot;: true}&#39;
+</code></pre></div></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/timeforplanb123" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/timeforplanb1" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.instant"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
