@@ -24,7 +24,7 @@ $ nornir_cli nornir-netmiko init -c ~/config.yaml
 ```
 Why is `nornir-netmiko` here? `nornir_cli` runs Tasks based on Nornir plugins or your custom Nornir runbooks, so the first step is to select an available plugin or custom group (see [Runbook collections](https://timeforplanb123.github.io/nornir_cli/workflow/#runbook-collections)).
 
-For version `1.2.0`, the following Nornir plugins are available:
+For version `1.3.0`, the following Nornir plugins are available:
 ```text
 $ nornir_cli --help
 Usage: nornir_cli [OPTIONS] COMMAND [ARGS]...
@@ -56,19 +56,40 @@ You can initialize nornir programmatically without a configuration file.
 `-f` or `--from_dict` option waits json string:
 
 `-c` or `--config_file` can be `""`, `None`, `null`
-```text
-$ nornir_cli nornir-netmiko init -c "" -f 'inventory={"plugin":"NetBoxInventory2", \
-"options": {"nb_url": "http://your_netbox_domain", "nb_token": "your_netbox_token", \
-"ssl_verify": false}} runner={"plugin": "threaded", "options": {"num_workers": 50}} \
-logging={"enabled":true, "level": "DEBUG", "to_console": true}'
-```
 
-Or with a combination of both methods:
+
+Here you can pass parameters as json strings using "=" or without it. In the case of "=", the `nornir_cli` completely repeats the syntax from Nornir runbooks, and you can use the Nornir configuration patterns that are already familiar to you (or see the [Nornir docs](https://nornir.readthedocs.io/en/latest/tutorial/initializing_nornir.html){target="_blank"}). In the case without using "=", you can pass all parameters as a json string. This can be useful in scripts or automation pipelines, when using `nornir_cli` with json utilities such as `jq`, `jc`. 
+This way(json string using "=" or json string without "=") you can pass parameters to initializing, filtering and Nornir plugins/tasks running processes.
+
+Examples:
+
+=== "json string using '=':"
+    ```text
+    $ nornir_cli nornir-netmiko init -c "" -f 'inventory={"plugin":"NetBoxInventory2", \
+    "options": {"nb_url": "http://your_netbox_domain", "nb_token": "your_netbox_token", \
+    "ssl_verify": false}} runner={"plugin": "threaded", "options": {"num_workers": 50}} \
+    logging={"enabled":true, "level": "DEBUG", "to_console": true}'
+    ```
+=== "json string:"
+    ```text
+    $ nornir_cli nornir-netmiko init -c "" -f '{"inventory":{"plugin":"NetBoxInventory2", \
+    "options": {"nb_url": "http://your_netbox_domain", "nb_token": "your_netbox_token", \
+    "ssl_verify": false}}, "runner":{"plugin": "threaded", "options": {"num_workers": 50}}, \
+    "logging":{"enabled":true, "level": "DEBUG", "to_console": true}}'
+    ```
+
+Or you can initialize nornir with a combination of both methods:
 
 #### Both ways
-```text
-$ nornir_cli nornir-netmiko init -f 'runner={"plugin": "threaded", "options": {"num_workers": 50}}'
-```
+
+=== "json string using '=':"
+    ```text
+    $ nornir_cli nornir-netmiko init -f 'runner={"plugin": "threaded", "options": {"num_workers": 50}}'
+    ```
+=== "the same thing, but without '=':"
+    ```text
+    $ nornir_cli nornir-netmiko init -f '{"runner":{"plugin": "threaded", "options": {"num_workers": 50}}}'
+    ```
 
 `-c` or `--config_file` uses `config.yaml` in your current working directory, by default, so there is no `-c` option and only `-f` option here
 
@@ -118,6 +139,9 @@ And now let's filter [NetBox](https://github.com/netbox-community/netbox){target
     # --hosts shows filtered hosts list
     # huawei is here just as an example
     $ nornir_cli nornir-scrapli filter --inventory=hosts --hosts 'primary_ip={"address": "10.1.0.1/32", "family": 4, "id": 13, "url": "http://your_netbox_domain/api/ipam/ip-addresses/13/"} name=dev_1'
+
+    # or an alternative way(json string without "=")
+    # $ nornir_cli nornir-scrapli filter --inventory=hosts --hosts '{"primary_ip":{"address": "10.1.0.1/32", "family": 4, "id": 13, "url": "http://your_netbox_domain/api/ipam/ip-addresses/13/"}, "name":"dev_1"}'
     {
         "hosts": {
             "dev_1": {
@@ -581,6 +605,9 @@ Ok, now we have filtered inventory for `dev_1`:
     # let's filter current inventory, get dev_1 inventory object and save it
     # --hosts shows filtered hosts list
     $ nornir_cli nornir-scrapli filter --hosts -s name=dev_1
+
+    # or an alternative way(json string)
+    # $ nornir_cli nornir-scrapli filter --hosts -s '{"name":"dev_1"}'
     [
         "dev_1"
     ]
@@ -906,6 +933,9 @@ And start `netmiko_send_command`, for example:
 
 ```text
 $ nornir_cli nornir-netmiko netmiko_send_command --command_string "display clock"
+
+# or using json string as command argument
+# $ nornir_cli nornir-netmiko netmiko_send_command '{"command_string":"display clock"}'
 netmiko_send_command************************************************************
 * dev_1 ** changed : False *****************************************************
 vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
@@ -926,6 +956,9 @@ Let's check out some `nornir-scrapli` command:
 
 ```text
 $ nornir_cli nornir-scrapli send_command --command "display clock"
+
+# or using json string as command argument
+# $ nornir_cli nornir-scrapli send_command '{"command":"display clock"}'
 send_command********************************************************************
 * dev_1 ** changed : False *****************************************************
 vvvv send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
@@ -946,7 +979,7 @@ As you may have noticed, there is a result and statistic in the output above. Th
 `nornir-scrapli send_command` options, as instance:
 ```text
 $ nornir_cli nornir-scrapli send_command --help
-Usage: nornir_cli nornir-scrapli send_command [OPTIONS]
+Usage: nornir_cli nornir-scrapli send_command [OPTIONS] [ARGUMENTS]
 
   Send a single command to device using scrapli
 
@@ -979,6 +1012,20 @@ Options:
   --timeout_ops TEXT              [default: None]
   --help                          Show this message and exit.
 ```
+
+The examples above show 2 ways to pass parameters to the command:
+- using the command option:
+```text
+$ nornir_cli nornir-netmiko netmiko_send_command --command_string "display clock"
+```
+- using a json string argument:
+```text
+$ nornir_cli nornir-netmiko netmiko_send_command '{"command_string":"display clock"}'
+# or
+$ nornir_cli nornir-netmiko netmiko_send_command 'command_string="display clock"'
+```
+
+When using options and arguments at the same time, the priority of options will be higher. For example, `nornir_cli nornir-netmiko netmiko_send_command --command_string "disp ver" '{"command_string":"disp clock"}'` will send `disp ver` command to device.
 
 #### Result processing
 
@@ -1013,6 +1060,10 @@ Let's see `print_result` options and run it:
 === "run print_result:"
     ```text
     $ nornir_cli nornir-scrapli send_command --command "disp clock" --no_print_result --no_print_stat print_result -attrs '["result", "diff"]' -ps
+
+    # or using json string as command argument
+    # please note that the arguments must be specified after the options
+    # $ nornir_cli nornir-scrapli send_command --no_print_result --no_print_stat '{"command":"disp clock"}' print_result -attrs '["result", "diff"]' -ps
     send_command********************************************************************
     * dev_1 ** changed : False *****************************************************
     vvvv send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
@@ -1074,6 +1125,10 @@ If you want to see which hosts have completed the task with an error, but do not
 === "run write_result and print_stat:"
     ```text
     $ nornir_cli nornir-scrapli send_command --command "disp clock" --no_print_result --no_print_stat write_result -f test.txt -ne -ps -attrs '["result", "diff"]'
+
+    # or using json string as command argument
+    # please note that the arguments must be specified after the options
+    # $ nornir_cli nornir-scrapli send_command --no_print_result --no_print_stat '{"command":"disp clock"}' write_result -f test.txt -ne -ps -attrs '["result", "diff"]'
     dev_1         : ok=1               changed=0               failed=0              
 
     OK      : 1
@@ -1135,6 +1190,10 @@ If you want to see which hosts have completed the task with an error, but do not
 === "run write_results and print_stat:"
     ```text
     $ nornir_cli nornir-scrapli send_command --command "disp clock" --no_print_result --no_print_stat write_results -d test -ne -ps -attrs '["result", "diff"]'
+
+    # or using json string as command argument
+    # please note that the arguments must be specified after the options
+    # $ nornir_cli nornir-scrapli send_command --no_print_result --no_print_stat '{"command":"disp clock"}' write_results -d test -ne -ps -attrs '["result", "diff"]'
     dev_1         : ok=1               changed=0               failed=0
 
     OK      : 1
@@ -1207,6 +1266,9 @@ As instance,`dev_3` understands netconf XML. Let's get `nornir.core.Nornir` obje
 === "nornir-scrapli:"
     ```text
     $ nornir_cli nornir-scrapli netconf_get --filter_='<ifm xmlns="http://www.huawei.com/netconf/vrp/huawei-ifm"><interfaces><interface><ifName/></interface></interfaces></ifm>' --filter_type subtree
+
+    # or
+    # $ nornir_cli nornir-scrapli netconf_get --filter_ '<ifm xmlns="http://www.huawei.com/netconf/vrp/huawei-ifm"><interfaces><interface><ifName/></interface></interfaces></ifm>' --filter_type subtree
 
     ...
     netconf_get*********************************************************************
@@ -1290,7 +1352,7 @@ See [examples](https://timeforplanb123.github.io/nornir_cli/examples/)
 
 #### Command chains
 
-And, of course, you can run any command chains, even those scary ones:
+And, of course, you can run any command chains, even very scary ones. For `nornir_cli` version `<= 1.2.0`, you can use the following syntax:
 
 ```text
 $ nornir_cli nornir-scrapli init -u username -p password \
@@ -1298,6 +1360,16 @@ $ nornir_cli nornir-scrapli init -u username -p password \
 filter --hosts -s 'name=dev_1' send_command --command "display clock" \
 send_interactive --interact_events '[["save", "Are you sure to continue?[Y/N]", false], \
 ["Y", "Save the configuration successfully.", true]]'
+```
+
+For `nornir_cli` version ` >= 1.3.0`, you can use only json strings as an argument:
+
+```text
+# $ nornir_cli nornir-scrapli init -u username -p password \
+-co '{"scrapli": {"platform": "huawei_vrp", "extras":{"ssh_config_file": true}}}' \
+filter --hosts -s '{"name":"dev_1"}' send_command '{"command":"display clock"}' \
+send_interactive '{"interact_events":[["save", "Are you sure to continue?[Y/N]", false], \
+["Y", "Save the configuration successfully.", true]]}'
 [
     "dev_1"
 ]
@@ -1328,7 +1400,7 @@ CHANGED : 1
 FAILED  : 0
 ```
 
-**Again, i repeat that each argument can be passed to the Task as a json string. This can be seen from the example above.**
+**Again, i repeat that each argument can be passed to the Task as a json string.**
 
 #### Runbook collections
 

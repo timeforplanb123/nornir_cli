@@ -84,6 +84,90 @@
     # of course, the same thing can be done without a configuration file
     ```
 
+Or the same, but with json string arguments:
+
+=== "one:"
+    ```text
+    # as one comand with config.yaml
+
+    $ nornir_cli nornir-netmiko init -u username -p password \
+    filter --hosts -a 'name__contains=dev_1 device_role__name__contains=leaf' \
+    netmiko_send_command '{"command_string":"display clock"}'
+    [
+        "dev_1"
+    ]
+    netmiko_send_command************************************************************
+    * dev_1 ** changed : False *****************************************************
+    vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+    2021-03-21 23:15:23+03:00
+    Sunday
+    Time Zone(Moscow) : UTC+03:00
+    ^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    dev_1            : ok=1               changed=0               failed=0
+
+    OK      : 1
+    CHANGED : 0
+    FAILED  : 0
+    ```
+=== "two:"
+    ```text
+    # as one comand without config.yaml
+
+    $ nornir_cli nornir-netmiko init -u username -p password -c "" -f \
+    '{"inventory":{"plugin":"NetBoxInventory2", "options": {"nb_url": "your_netbox_domain", \
+    "nb_token": "your_netbox_token", "ssl_verify": false}}, \
+    "runner":{"plugin": "threaded", "options": {"num_workers": 50}} \
+    "logging":{"enabled":true, "level": "DEBUG", "to_console": true}}' \
+    filter --hosts -a 'name__contains=dev_1 \
+    device_role__name__contains=leaf' netmiko_send_command '{"command_string":"display clock"}'
+
+    netmiko_send_command************************************************************
+    * dev_1 ** changed : False *****************************************************
+    vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+    2021-03-21 23:20:53+03:00
+    Sunday
+    Time Zone(Moscow) : UTC+03:00
+    ^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    dev_1            : ok=1               changed=0               failed=0
+
+    OK      : 1
+    CHANGED : 0
+    FAILED  : 0
+    ```
+=== "three:"
+    ```text
+    # as many commands with config.yaml
+
+    $ nornir_cli nornir-netmiko init -u username -p password
+
+    $ nornir_cli nornir-netmiko filter --hosts -a -s 'name__contains=dev_1 device_role__name__contains=leaf'
+    [
+        "dev_1"
+    ]
+
+    $ nornir_cli nornir-netmiko netmiko_send_command '{"command_string":"display clock"}'
+
+    netmiko_send_command************************************************************
+    * dev_1 ** changed : False *****************************************************
+    vvvv netmiko_send_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO
+    2021-03-21 23:30:13+03:00
+    Sunday
+    Time Zone(Moscow) : UTC+03:00
+    ^^^^ END netmiko_send_command ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    dev_1            : ok=1               changed=0               failed=0
+
+    OK      : 1
+    CHANGED : 0
+    FAILED  : 0
+    ```
+=== "four:"
+    ```text
+    # of course, the same thing can be done without a configuration file
+    ```
+
 #### Task chains
 
 ```text
@@ -91,9 +175,9 @@
 
 $ nornir_cli nornir-scrapli init -u username -p password \
 -co '{"scrapli": {"platform": "huawei_vrp", "extras":{"ssh_config_file": true}}}' \
-filter --hosts -s 'name=dev_1' send_command --command "display clock" \
-send_interactive --interact_events '[["save", "Are you sure to continue?[Y/N]", \
-false], ["Y", "Save the configuration successfully.", true]]'
+filter --hosts -s 'name=dev_1' send_command '{"command":"display clock"}' \
+send_interactive '{"interact_events":[["save", "Are you sure to continue?[Y/N]", \
+false], ["Y", "Save the configuration successfully.", true]]}'
 [
     "dev_1"
 ]
@@ -276,7 +360,9 @@ FAILED  : 0
 
 #### routeros 
 
-!!! `nornir_cli` is not compatible with `nornir-routeros` since `0.3.0` version. `nornir-routeros` has been removed from `nornir_cli 1.2.0`.
+`nornir_cli` is not compatible with `nornir-routeros` since `0.3.0` version. `nornir-routeros` has been removed from `nornir_cli 1.2.0`. 
+
+But starting from `nornir_cli` version `1.3.0`, you can pass any additional arguments as a json string to Nornir plugin commands. This feature allows you to run any Nornir plugin command without an unique set of parameters.
 
 === "config.yaml:"
     ```yaml
@@ -302,7 +388,7 @@ FAILED  : 0
     ```
 === "routeros_command:"
     ```text
-    $ nornir_cli nornir-routeros init -c "/home/user/config.yaml" routeros_command --path / --command  ping --command_args '{"address": "1.1.1.1", "count": "4"}'
+    $ nornir_cli nornir-routeros init -c "/home/user/config.yaml" routeros_command '{"path":"/", "command":"ping", "address": "1.1.1.1", "count":4}'
 
     routeros_command****************************************************************
     * dev_1 ** changed : False *****************************************************
@@ -426,7 +512,7 @@ The help option can be used anywhere, for example:
 $ nornir_cli nornir-netmiko init -u username -p password filter \
 --hosts -a -s 'name__contains=dev_1 device_role__name__contains=leaf' \
 netmiko_save_config --help
-Usage: nornir_cli nornir-netmiko netmiko_save_config [OPTIONS]
+Usage: nornir_cli nornir-netmiko netmiko_save_config [OPTIONS] [ARGUMENTS]
 
   Execute Netmiko save_config method
 

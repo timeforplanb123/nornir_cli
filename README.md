@@ -51,7 +51,7 @@ nornir_cli
 
 * **Json input. Json output**
 
-    Json strings are everywhere! Ok, only in command options and arguments
+    Json strings are everywhere! Command options and arguments accept json strings. Use this feature in your scripts with the `jq`, `jc` utilities
 
 * **Custom Multi Commands with click**
 
