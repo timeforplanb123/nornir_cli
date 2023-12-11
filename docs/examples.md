@@ -390,6 +390,8 @@ But starting from `nornir_cli` version `1.3.0`, you can pass any additional argu
     ```text
     $ nornir_cli nornir-routeros init -c "/home/user/config.yaml" routeros_command '{"path":"/", "command":"ping", "address": "1.1.1.1", "count":4}'
 
+    # or
+    # $ nornir_cli nornir-routeros init -c "/home/user/config.yaml" routeros_command --path "/" --command "ping" '{"address": "1.1.1.1", "count":4}'
     routeros_command****************************************************************
     * dev_1 ** changed : False *****************************************************
     vvvv routeros_command ** changed : False vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv INFO

@@ -928,6 +928,29 @@ At first, let's check all available Tasks/commands for current list of Nornir pl
       write_result          Write `Result` object to file
       write_results         Write `Result` object to files
     ```
+=== "nornir-routeros"
+    ```text
+    Usage: nornir_cli nornir-routeros [OPTIONS] COMMAND1 [ARGS]... [COMMAND2
+                                      [ARGS]...]...
+
+      nornir_routeros plugin
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      change_credentials    Change username and password
+      filter                Do simple or advanced filtering
+      init                  Initialize a Nornir
+      print_result          print_result from nornir_utils
+      routeros_command      Runs a RouterOS command such as ping or fetch
+      routeros_config_item  Configures an item
+      routeros_get          Returns a RouterOS resource
+      show_inventory        Show current inventory
+      write_file            Write_file, but not from nornir_utils
+      write_result          Write `Result` object to file
+      write_results         Write `Result` object to files
+    ```
 
 And start `netmiko_send_command`, for example:
 
@@ -1022,7 +1045,9 @@ $ nornir_cli nornir-netmiko netmiko_send_command --command_string "display clock
 ```text
 $ nornir_cli nornir-netmiko netmiko_send_command '{"command_string":"display clock"}'
 # or
-$ nornir_cli nornir-netmiko netmiko_send_command 'command_string="display clock"'
+$ nornir_cli nornir-netmiko netmiko_send_command 'command_string=display clock'
+# or
+$ nornir_cli nornir-netmiko netmiko_send_command '"command_string"="display clock"'
 ```
 
 When using options and arguments at the same time, the priority of options will be higher. For example, `nornir_cli nornir-netmiko netmiko_send_command --command_string "disp ver" '{"command_string":"disp clock"}'` will send `disp ver` command to device.
